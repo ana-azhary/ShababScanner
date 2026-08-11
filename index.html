@@ -9,7 +9,7 @@
     </script>
     <style>
         /* ============================================================
-           ROOT & RESET — พรีเมียมยิ่งกว่าเดิม
+           ROOT & RESET
            ============================================================ */
         *,
         *::before,
@@ -98,7 +98,7 @@
         }
 
         /* ============================================================
-           SIDEBAR — พรีเมียม
+           SIDEBAR
            ============================================================ */
         .app-sidebar {
             position: fixed;
@@ -443,6 +443,7 @@
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
         .stat-card::before {
             content: '';
@@ -517,12 +518,6 @@
         }
         .stat-card:nth-child(4)::before {
             background: #8b5cf6;
-        }
-        .stat-card:nth-child(5)::before {
-            background: #ec4899;
-        }
-        .stat-card:nth-child(6)::before {
-            background: #14b8a6;
         }
 
         /* ============================================================
@@ -719,10 +714,6 @@
             background: rgba(16, 185, 129, 0.12);
             color: #10b981;
         }
-        .badge-status.expired {
-            background: rgba(239, 68, 68, 0.12);
-            color: #ef4444;
-        }
         .badge-status.upcoming {
             background: rgba(59, 130, 246, 0.12);
             color: #3b82f6;
@@ -770,7 +761,7 @@
         }
 
         /* ============================================================
-           PROFILE
+           PROFILE / MEMBER SETTINGS
            ============================================================ */
         .profile-info {
             display: flex;
@@ -808,6 +799,71 @@
         }
         .hidden {
             display: none !important;
+        }
+
+        /* ============================================================
+           TOP 7
+           ============================================================ */
+        .top7-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .top7-item {
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 10px 8px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        .top7-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .top7-item .rank-medal {
+            font-size: 24px;
+            display: block;
+        }
+        .top7-item .top7-name {
+            font-weight: 700;
+            font-size: 13px;
+            margin-top: 2px;
+        }
+        .top7-item .top7-count {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .top7-item .top7-title {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+        .top7-item.gold {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+        .top7-item.silver {
+            background: rgba(148, 163, 184, 0.08);
+            border-color: rgba(148, 163, 184, 0.2);
+        }
+        .top7-item.bronze {
+            background: rgba(205, 127, 50, 0.08);
+            border-color: rgba(205, 127, 50, 0.2);
+        }
+        .top7-encouragement {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            margin: 8px 0;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            border-right: 4px solid var(--accent);
+            background: rgba(245, 158, 11, 0.06);
+            color: var(--text-secondary);
         }
 
         /* ============================================================
@@ -854,7 +910,7 @@
         .modal-box {
             background: var(--bg-surface);
             border-radius: var(--radius-lg);
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
             max-height: 95vh;
             overflow-y: auto;
@@ -959,9 +1015,34 @@
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
+        .modal-box .modal-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .modal-box .modal-stat-item {
+            background: var(--bg-body);
+            border-radius: var(--radius-sm);
+            padding: 10px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .modal-box .modal-stat-item .num {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        .modal-box .modal-stat-item .label {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
         @media (max-width: 480px) {
             .modal-box .form-row {
                 grid-template-columns: 1fr;
+            }
+            .modal-box .modal-stats {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -1222,6 +1303,9 @@
             .grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .top7-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
         @media (max-width: 768px) {
             .stats-grid {
@@ -1260,6 +1344,12 @@
             .table-wrap table th,
             .table-wrap table td {
                 padding: 4px 8px;
+            }
+            .top7-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .top7-item .top7-name {
+                font-size: 12px;
             }
         }
         @media (max-width: 480px) {
@@ -1317,6 +1407,22 @@
             .btn-sm {
                 padding: 2px 6px;
                 font-size: 8px;
+            }
+            .top7-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            .top7-item {
+                padding: 6px 4px;
+            }
+            .top7-item .rank-medal {
+                font-size: 18px;
+            }
+            .top7-item .top7-name {
+                font-size: 11px;
+            }
+            .top7-item .top7-count {
+                font-size: 10px;
             }
         }
     </style>
@@ -1430,23 +1536,23 @@
 
         <!-- PAGE: DASHBOARD -->
         <div id="page-dashboard" class="page-section active">
-            <div class="stats-grid">
-                <div class="stat-card">
+            <div class="stats-grid" id="dashStats">
+                <div class="stat-card" onclick="openStatModal('students')">
                     <div class="stat-top"><div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div></div>
                     <div class="num" id="dashStudents">-</div>
                     <div class="label">นักศึกษาทั้งหมด</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="openStatModal('activities')">
                     <div class="stat-top"><div class="stat-icon green"><i class="fas fa-calendar-check"></i></div></div>
                     <div class="num" id="dashActivities">-</div>
                     <div class="label">กิจกรรมทั้งหมด</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="openStatModal('registrations')">
                     <div class="stat-top"><div class="stat-icon amber"><i class="fas fa-clipboard-list"></i></div></div>
                     <div class="num" id="dashRegistrations">-</div>
                     <div class="label">การลงทะเบียน</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="openStatModal('upcoming')">
                     <div class="stat-top"><div class="stat-icon purple"><i class="fas fa-hourglass-half"></i></div></div>
                     <div class="num" id="dashUpcoming">-</div>
                     <div class="label">กิจกรรมที่กำลังจะมา</div>
@@ -1455,19 +1561,24 @@
 
             <!-- Admin Extra Stats -->
             <div class="stats-grid" id="adminStats" style="display:none;">
-                <div class="stat-card">
+                <div class="stat-card" onclick="openStatModal('checkedin')">
                     <div class="stat-top"><div class="stat-icon pink"><i class="fas fa-user-check"></i></div></div>
                     <div class="num" id="dashCheckedIn">-</div>
-                    <div class="label">เข้าร่วมแล้ว (Checked-in)</div>
+                    <div class="label">เข้าร่วมแล้ว</div>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card" onclick="openStatModal('waiting')">
                     <div class="stat-top"><div class="stat-icon teal"><i class="fas fa-user-clock"></i></div></div>
                     <div class="num" id="dashWaiting">-</div>
                     <div class="label">รอเข้าร่วม</div>
                 </div>
+                <div class="stat-card" onclick="openStatModal('noeval')">
+                    <div class="stat-top"><div class="stat-icon purple"><i class="fas fa-clipboard-question"></i></div></div>
+                    <div class="num" id="dashNoEval">-</div>
+                    <div class="label">ยังไม่ประเมิน</div>
+                </div>
             </div>
 
-            <!-- Admin Only: Chart -->
+            <!-- Admin Chart -->
             <div class="card-panel" id="adminChartPanel" style="display:none;">
                 <div class="card-header">
                     <h3><i class="fas fa-chart-bar"></i> กิจกรรมยอดนิยม</h3>
@@ -1475,6 +1586,17 @@
                 <div style="height:200px;max-width:100%;">
                     <canvas id="activityChart"></canvas>
                 </div>
+            </div>
+
+            <!-- TOP 7 + Encouragement -->
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-trophy" style="color:var(--accent);"></i> Top 7 นักสู้ประจำเดือน</h3>
+                </div>
+                <div id="top7Container">
+                    <div style="text-align:center;padding:20px 0;color:var(--text-muted);">กำลังโหลด...</div>
+                </div>
+                <div id="top7Encouragement" class="top7-encouragement">💪 ทุกกิจกรรมคือโอกาสใหม่ อย่าพลาดที่จะเติบโต!</div>
             </div>
 
             <!-- Recent Activities -->
@@ -1486,7 +1608,7 @@
             </div>
         </div>
 
-        <!-- PAGE: ACTIVITIES (Student View) -->
+        <!-- PAGE: ACTIVITIES -->
         <div id="page-activities" class="page-section">
             <div class="card-panel">
                 <div class="card-header">
@@ -1512,6 +1634,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Member Settings (ยกเว้นชื่อและรหัสผ่าน) -->
+            <div class="card-panel" id="memberSettingsPanel">
+                <div class="card-header"><h3><i class="fas fa-user-cog"></i> แก้ไขข้อมูลส่วนตัว</h3></div>
+                <div class="form-group"><label>ที่อยู่</label><input type="text" id="memAddress" placeholder="ที่อยู่" /></div>
+                <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="text" id="memPhone" placeholder="เบอร์โทร" /></div>
+                <div class="form-group"><label>Facebook</label><input type="text" id="memFacebook" placeholder="Facebook" /></div>
+                <div class="form-group"><label>ชื่อวงฮาลาเกาะห์</label><input type="text" id="memHalaqah" placeholder="ชื่อวงฮาลาเกาะห์" /></div>
+                <button class="btn btn-primary" onclick="updateMemberProfile()"><i class="fas fa-save"></i> บันทึกข้อมูล</button>
+                <div id="memUpdateResult" style="margin-top:8px;text-align:center;font-weight:600;"></div>
+            </div>
+
             <div class="card-panel">
                 <div class="tab-bar">
                     <button class="active" onclick="showProfileTab('registrations')">กิจกรรมที่สมัคร</button>
@@ -1556,13 +1690,14 @@
                             <tr>
                                 <th>รหัส</th>
                                 <th>ชื่อ</th>
+                                <th>ที่อยู่</th>
                                 <th>เบอร์</th>
                                 <th>สาขา</th>
                                 <th>เข้าร่วม</th>
                                 <th>การจัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="adminStudentTable"><tr><td colspan="6" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                        <tbody id="adminStudentTable"><tr><td colspan="7" class="empty-row">กำลังโหลด...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -1627,6 +1762,42 @@
         </div>
     </main>
 
+    <!-- MODAL: สรุปข้อมูลจากการ์ด Dashboard -->
+    <div class="modal-overlay" id="statModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="statModalTitle">📊 สรุปข้อมูล</h3>
+                <button class="close" onclick="closeModal('statModal')">&times;</button>
+            </div>
+            <div id="statModalBody"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: แก้ไขนักศึกษา (Admin) -->
+    <div class="modal-overlay" id="editStudentModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> แก้ไขข้อมูลนักศึกษา</h3>
+                <button class="close" onclick="closeModal('editStudentModal')">&times;</button>
+            </div>
+            <div class="form-group"><label>รหัสนักศึกษา</label><input type="text" id="editStudentId" readonly style="background:rgba(15,59,94,0.04);" /></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="editFullName" /></div>
+            <div class="form-group"><label>ที่อยู่</label><input type="text" id="editAddress" /></div>
+            <div class="form-group"><label>ชื่อวงฮาลาเกาะห์</label><input type="text" id="editHalaqah" /></div>
+            <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="text" id="editPhone" /></div>
+            <div class="form-group"><label>Facebook</label><input type="text" id="editFacebook" /></div>
+            <div class="form-group"><label>สถานะ</label>
+                <select id="editStatus">
+                    <option value="นักเรียน">นักเรียน</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-group"><label>ระดับการศึกษา</label><input type="text" id="editMajor" /></div>
+            <button class="btn btn-success btn-submit" onclick="saveEditStudent()"><i class="fas fa-save"></i> บันทึก</button>
+            <div id="editStudentResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
+        </div>
+    </div>
+
     <!-- MODAL: Register Student -->
     <div class="modal-overlay" id="registerModal">
         <div class="modal-box">
@@ -1634,28 +1805,13 @@
                 <h3><i class="fas fa-user-plus"></i> ลงทะเบียนนักศึกษาใหม่</h3>
                 <button class="close" onclick="closeModal('registerModal')">&times;</button>
             </div>
-            <div class="form-group">
-                <label>รหัสนักศึกษา <span style="color:var(--danger);">*</span></label>
-                <input type="text" id="regStudentId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" />
-            </div>
-            <div class="form-group">
-                <label>ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label>
-                <input type="text" id="regFullName" placeholder="เช่น สมชาย ใจดี" />
-            </div>
+            <div class="form-group"><label>รหัสนักศึกษา <span style="color:var(--danger);">*</span></label><input type="text" id="regStudentId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" /></div>
+            <div class="form-group"><label>ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label><input type="text" id="regFullName" placeholder="เช่น สมชาย ใจดี" /></div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>เบอร์โทร</label>
-                    <input type="text" id="regPhone" placeholder="0812345678" />
-                </div>
-                <div class="form-group">
-                    <label>สาขาวิชา</label>
-                    <input type="text" id="regMajor" placeholder="เช่น วิศวกรรมศาสตร์" />
-                </div>
+                <div class="form-group"><label>เบอร์โทร</label><input type="text" id="regPhone" placeholder="0812345678" /></div>
+                <div class="form-group"><label>สาขาวิชา</label><input type="text" id="regMajor" placeholder="เช่น วิศวกรรมศาสตร์" /></div>
             </div>
-            <div class="form-group">
-                <label>รหัสผ่าน <span style="color:var(--danger);">*</span></label>
-                <input type="text" id="regPassword" placeholder="อย่างน้อย 4 ตัว" />
-            </div>
+            <div class="form-group"><label>รหัสผ่าน <span style="color:var(--danger);">*</span></label><input type="text" id="regPassword" placeholder="อย่างน้อย 4 ตัว" /></div>
             <button class="btn btn-success btn-submit" onclick="registerStudent()"><i class="fas fa-save"></i> ลงทะเบียน</button>
             <div id="regResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
         </div>
@@ -1668,35 +1824,16 @@
                 <h3 id="activityModalTitle"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</h3>
                 <button class="close" onclick="closeModal('activityModal')">&times;</button>
             </div>
-            <div class="form-group">
-                <label>รหัสกิจกรรม</label>
-                <input type="text" id="actId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" />
-            </div>
-            <div class="form-group">
-                <label>ชื่อกิจกรรม <span style="color:var(--danger);">*</span></label>
-                <input type="text" id="actTitle" placeholder="ชื่อกิจกรรม" />
-            </div>
-            <div class="form-group">
-                <label>รายละเอียด</label>
-                <textarea id="actDesc" placeholder="รายละเอียดกิจกรรม"></textarea>
+            <div class="form-group"><label>รหัสกิจกรรม</label><input type="text" id="actId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" /></div>
+            <div class="form-group"><label>ชื่อกิจกรรม <span style="color:var(--danger);">*</span></label><input type="text" id="actTitle" placeholder="ชื่อกิจกรรม" /></div>
+            <div class="form-group"><label>รายละเอียด</label><textarea id="actDesc" placeholder="รายละเอียดกิจกรรม"></textarea></div>
+            <div class="form-row">
+                <div class="form-group"><label>วันที่จัด <span style="color:var(--danger);">*</span></label><input type="date" id="actDate" /></div>
+                <div class="form-group"><label>สถานที่</label><input type="text" id="actLocation" placeholder="สถานที่" /></div>
             </div>
             <div class="form-row">
-                <div class="form-group">
-                    <label>วันที่จัด <span style="color:var(--danger);">*</span></label>
-                    <input type="date" id="actDate" />
-                </div>
-                <div class="form-group">
-                    <label>สถานที่</label>
-                    <input type="text" id="actLocation" placeholder="สถานที่" />
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>จำนวนที่รับ</label>
-                    <input type="number" id="actSlots" placeholder="50" value="50" />
-                </div>
-                <div class="form-group">
-                    <label>สถานะ</label>
+                <div class="form-group"><label>จำนวนที่รับ</label><input type="number" id="actSlots" placeholder="50" value="50" /></div>
+                <div class="form-group"><label>สถานะ</label>
                     <select id="actStatus">
                         <option value="upcoming">กำลังจะมา</option>
                         <option value="ongoing">กำลังจัด</option>
@@ -1704,8 +1841,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label>ประเภท</label>
+            <div class="form-group"><label>ประเภท</label>
                 <select id="actType">
                     <option value="public">สาธารณะ (Public)</option>
                     <option value="private">ส่วนตัว (Private)</option>
@@ -1735,6 +1871,7 @@
         let currentUser = null;
         let isAdmin = false;
         let isDark = localStorage.getItem('theme') === 'dark';
+        let chartInstance = null;
 
         // ============================================================
         // HELPERS
@@ -1808,7 +1945,6 @@
                 return;
             }
 
-            // Admin Login
             if (user === 'admin' && pass === 'admin123') {
                 isAdmin = true;
                 currentUser = { full_name: 'Admin', student_id: 'admin', status: 'Admin' };
@@ -1817,7 +1953,6 @@
                 return;
             }
 
-            // Student Login
             try {
                 const data = await apiCall('/api/login', {
                     method: 'POST',
@@ -1893,7 +2028,6 @@
                         setupUI();
                         loadAllData();
                     } else {
-                        // Student session
                         document.getElementById('loginPage').style.display = 'none';
                         document.getElementById('appMain').style.display = 'block';
                         setupUI();
@@ -1906,8 +2040,6 @@
         // ============================================================
         // LOAD DATA
         // ============================================================
-        let chartInstance = null;
-
         async function loadAllData() {
             try {
                 const [students, activities] = await Promise.all([
@@ -1920,10 +2052,10 @@
                 if (currentUser && !isAdmin) {
                     const profile = await apiCall(`/api/profile/${currentUser.student_id}`);
                     allRegistrations = profile.data?.registrations || [];
+                    loadMemberSettings(profile.data?.student);
                 }
 
                 if (isAdmin) {
-                    // Admin: load all registrations
                     const regs = await apiCall('/api/registrations');
                     allRegistrations = regs.data || [];
                 }
@@ -1932,6 +2064,7 @@
                 renderActivities(allActivities);
                 renderProfile();
                 renderLeaderboards();
+                renderTop7();
                 if (isAdmin) {
                     loadAdminStudents();
                     loadAdminActivities();
@@ -1964,11 +2097,13 @@
             if (isAdmin) {
                 const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
                 const waiting = allRegistrations.filter(r => r.attendance_status === 'registered').length;
+                const noEval = allRegistrations.filter(r => r.attendance_status === 'checked-in' && (!r
+                    .evaluation_score || r.evaluation_score === 0)).length;
                 $('dashCheckedIn').textContent = checkedIn;
                 $('dashWaiting').textContent = waiting;
+                $('dashNoEval').textContent = noEval;
             }
 
-            // Recent activities
             const recent = allActivities.slice(0, 4);
             $('recentBadge').textContent = recent.length;
             $('recentActivities').innerHTML = recent.map(a => `
@@ -1979,6 +2114,87 @@
                     <span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span>
                 </div>
             `).join('');
+        }
+
+        // ============================================================
+        // RENDER TOP 7
+        // ============================================================
+        function renderTop7() {
+            const container = $('top7Container');
+            if (!container) return;
+
+            // คำนวณเฉพาะเดือนนี้
+            const today = getTodayStr();
+            const thisMonth = today.slice(0, 7);
+            const monthRegs = allRegistrations.filter(r => {
+                if (!r.registered_at) return false;
+                const d = r.registered_at.slice(0, 7);
+                return d === thisMonth && r.attendance_status === 'checked-in';
+            });
+
+            const countMap = {};
+            monthRegs.forEach(r => {
+                countMap[r.student_id] = (countMap[r.student_id] || 0) + 1;
+            });
+
+            const sorted = Object.entries(countMap)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 7);
+
+            if (sorted.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center;padding:16px 0;color:var(--text-muted);">
+                        <i class="fas fa-inbox" style="font-size:24px;display:block;margin-bottom:8px;"></i>
+                        ยังไม่มีข้อมูลการเข้าร่วมเดือนนี้
+                    </div>
+                `;
+                $('top7Encouragement').textContent = '💪 เริ่มต้นเดือนใหม่ด้วยการเข้าร่วมกิจกรรม! ทุกคนคือผู้ชนะ!';
+                return;
+            }
+
+            const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣'];
+            const rankClasses = ['gold', 'silver', 'bronze', '', '', '', ''];
+
+            let html = '<div class="top7-grid">';
+            sorted.forEach(([studentId, count], idx) => {
+                const student = allStudents.find(s => s.student_id === studentId);
+                const name = student ? student.full_name : studentId;
+                const rank = getMonthlyRank(count);
+                html += `
+                    <div class="top7-item ${rankClasses[idx] || ''}">
+                        <span class="rank-medal">${medals[idx] || '🏅'}</span>
+                        <div class="top7-name">${name}</div>
+                        <div class="top7-count">${count} ครั้ง</div>
+                        <div class="top7-title">${rank.emoji} ${rank.title}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            container.innerHTML = html;
+
+            // ข้อความให้กำลังใจ
+            const top1 = sorted[0];
+            const top1Student = allStudents.find(s => s.student_id === top1[0]);
+            const encouragement = $('top7Encouragement');
+            if (top1Student && top1[1] >= 20) {
+                encouragement.textContent =
+                    `👑 ${top1Student.full_name} คือสุดยอดนักสู้แห่งเดือน! เข้าร่วม ${top1[1]} ครั้ง! ทุกคนเก่งมาก! 💪`;
+            } else if (top1Student && top1[1] >= 10) {
+                encouragement.textContent =
+                    `🔥 ${top1Student.full_name} นำโด่งด้วย ${top1[1]} ครั้ง! กิจกรรมคือความรู้ อย่าพลาดที่จะเติบโต! 🚀`;
+            } else {
+                encouragement.textContent = `💪 ทุกกิจกรรมคือโอกาสใหม่ อย่าพลาดที่จะเติบโต! มาเข้าร่วมกันทุกคน! 🌟`;
+            }
+        }
+
+        function getMonthlyRank(count) {
+            if (count >= 25) return { emoji: '👑', title: 'ราชาแห่งกิจกรรม' };
+            if (count >= 20) return { emoji: '💪', title: 'ยอดนักสู้' };
+            if (count >= 15) return { emoji: '🏃', title: 'ตัวจริง' };
+            if (count >= 10) return { emoji: '👍', title: 'ขยัน' };
+            if (count >= 5) return { emoji: '🌱', title: 'เริ่มต้น' };
+            return { emoji: '🌟', title: 'นักสู้หน้าใหม่' };
         }
 
         // ============================================================
@@ -2020,9 +2236,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -2105,11 +2319,42 @@
                     $('profileAttendance').textContent = student.total_attendance || 0;
                     $('profileImg').src = student.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.full_name)}&background=2b6cb0&color=fff`;
 
+                    loadMemberSettings(student);
                     const regs = data.registrations || [];
                     renderRegistrations(regs);
                 }
             } catch (e) {
                 showToast('❌ โหลดโปรไฟล์ไม่สำเร็จ: ' + e.message, 'error');
+            }
+        }
+
+        function loadMemberSettings(student) {
+            if (!student) return;
+            $('memAddress').value = student.address || '';
+            $('memPhone').value = student.phone || '';
+            $('memFacebook').value = student.facebook || '';
+            $('memHalaqah').value = student.halaqah || '';
+        }
+
+        async function updateMemberProfile() {
+            if (!currentUser || isAdmin) return;
+            const student_id = currentUser.student_id;
+            const address = $('memAddress').value.trim();
+            const phone = $('memPhone').value.trim();
+            const facebook = $('memFacebook').value.trim();
+            const halaqah = $('memHalaqah').value.trim();
+
+            try {
+                await apiCall(`/api/students/${student_id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ address, phone, facebook, halaqah })
+                });
+                $('memUpdateResult').innerHTML = '<span style="color:var(--success);">✅ อัปเดตข้อมูลสำเร็จ!</span>';
+                showToast('✅ อัปเดตข้อมูลส่วนตัวสำเร็จ', 'success');
+                loadAllData();
+            } catch (e) {
+                $('memUpdateResult').innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
+                showToast('❌ ' + e.message, 'error');
             }
         }
 
@@ -2130,7 +2375,7 @@
                 `;
             }).join('');
 
-            // Evaluation list
+            // Evaluation list - ใช้ Select แทน Input
             const evalContainer = $('evaluationList');
             const pastRegs = registrations.filter(r => r.attendance_status === 'checked-in' && !r.evaluation_score);
             if (pastRegs.length === 0) {
@@ -2140,7 +2385,13 @@
                     <div style="background:var(--bg-body);border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid rgba(0,0,0,0.04);">
                         <div><strong>${r.activity_title}</strong> (${r.activity_datetime})</div>
                         <div class="evaluation-form" data-regid="${r.reg_id}" style="margin-top:8px;">
-                            <label>คะแนน (0-5): <input type="number" min="0" max="5" value="5" class="eval-score" style="width:60px;padding:4px;border:1px solid rgba(0,0,0,0.06);border-radius:4px;"></label>
+                            <label>เลือกคะแนนประเมิน:</label>
+                            <select class="eval-score" style="width:100%;padding:6px;border-radius:4px;border:1px solid rgba(0,0,0,0.06);margin:4px 0;">
+                                <option value="1">🟡 ปรับปรุง</option>
+                                <option value="2">🟢 พอใช้</option>
+                                <option value="3">🔵 ดี</option>
+                                <option value="4">🟣 ดีมาก</option>
+                            </select>
                             <textarea placeholder="ความคิดเห็น (ไม่บังคับ)" class="eval-comment" style="width:100%;margin:4px 0;padding:6px;border:1px solid rgba(0,0,0,0.06);border-radius:4px;"></textarea>
                             <button class="btn btn-primary btn-sm" onclick="submitEvaluation(this)"><i class="fas fa-paper-plane"></i> ส่งประเมิน</button>
                         </div>
@@ -2154,7 +2405,7 @@
             const reg_id = form.dataset.regid;
             const score = form.querySelector('.eval-score').value;
             const comment = form.querySelector('.eval-comment').value;
-            if (!reg_id || score === '') return alert('กรุณากรอกคะแนน');
+            if (!reg_id || !score) return alert('กรุณาเลือกคะแนน');
             try {
                 const res = await apiCall('/api/evaluate', {
                     method: 'POST',
@@ -2215,7 +2466,233 @@
         }
 
         // ============================================================
-        // ADMIN: STUDENTS
+        // STAT MODAL
+        // ============================================================
+        function openStatModal(type) {
+            const title = $('statModalTitle');
+            const body = $('statModalBody');
+
+            let html = '';
+
+            if (type === 'students') {
+                title.textContent = '👥 รายชื่อนักศึกษาทั้งหมด';
+                html = `
+                    <div class="table-wrap" style="max-height:400px;">
+                        <table>
+                            <thead><tr><th>#</th><th>รหัส</th><th>ชื่อ</th><th>สาขา</th><th>เข้าร่วม</th></tr></thead>
+                            <tbody>
+                                ${allStudents.map((s, i) => `
+                                    <tr>
+                                        <td>${i+1}</td>
+                                        <td><strong>${s.student_id}</strong></td>
+                                        <td>${s.full_name}</td>
+                                        <td>${s.major || '-'}</td>
+                                        <td>${s.total_attendance || 0}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="text-align:center;margin-top:8px;font-size:13px;color:var(--text-muted);">รวม ${allStudents.length} คน</div>
+                `;
+            } else if (type === 'activities') {
+                title.textContent = '📅 รายการกิจกรรมทั้งหมด';
+                html = `
+                    <div class="table-wrap" style="max-height:400px;">
+                        <table>
+                            <thead><tr><th>#</th><th>ชื่อกิจกรรม</th><th>วันที่</th><th>สถานะ</th></tr></thead>
+                            <tbody>
+                                ${allActivities.map((a, i) => `
+                                    <tr>
+                                        <td>${i+1}</td>
+                                        <td><strong>${a.title}</strong></td>
+                                        <td>${a.datetime || '-'}</td>
+                                        <td><span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span></td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="text-align:center;margin-top:8px;font-size:13px;color:var(--text-muted);">รวม ${allActivities.length} กิจกรรม</div>
+                `;
+            } else if (type === 'registrations') {
+                title.textContent = '📋 การลงทะเบียนทั้งหมด';
+                const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
+                const waiting = allRegistrations.filter(r => r.attendance_status === 'registered').length;
+                html = `
+                    <div class="modal-stats">
+                        <div class="modal-stat-item"><div class="num">${allRegistrations.length}</div><div class="label">ทั้งหมด</div></div>
+                        <div class="modal-stat-item" style="border-color:var(--success);"><div class="num" style="color:var(--success);">${checkedIn}</div><div class="label">เข้าร่วมแล้ว</div></div>
+                        <div class="modal-stat-item" style="border-color:var(--warning);"><div class="num" style="color:var(--warning);">${waiting}</div><div class="label">รอเข้าร่วม</div></div>
+                    </div>
+                    <div class="table-wrap" style="max-height:300px;">
+                        <table>
+                            <thead><tr><th>ID</th><th>นักศึกษา</th><th>กิจกรรม</th><th>สถานะ</th></tr></thead>
+                            <tbody>
+                                ${allRegistrations.slice(0, 20).map(r => {
+                                    const s = allStudents.find(st => st.student_id === r.student_id);
+                                    const a = allActivities.find(ac => ac.act_id === r.act_id);
+                                    const statusMap = {'registered':'🟡 รอ','checked-in':'🟢 เข้าแล้ว','absent':'🔴 ขาด'};
+                                    return `<tr>
+                                        <td>${r.reg_id}</td>
+                                        <td>${s ? s.full_name : r.student_id}</td>
+                                        <td>${a ? a.title : r.act_id}</td>
+                                        <td>${statusMap[r.attendance_status] || r.attendance_status}</td>
+                                    </tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (type === 'upcoming') {
+                title.textContent = '⏳ กิจกรรมที่กำลังจะมา';
+                const upcoming = allActivities.filter(a => a.status === 'upcoming');
+                html = `
+                    ${upcoming.length === 0 ? '<p style="text-align:center;color:var(--text-muted);padding:20px 0;">ไม่มีกิจกรรมที่กำลังจะมา</p>' : `
+                    <div class="grid" style="grid-template-columns:1fr 1fr;">
+                        ${upcoming.map(a => `
+                            <div class="activity-card">
+                                <div class="title">${a.title}</div>
+                                <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
+                                <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || '-'}</div>
+                                <span class="badge-status upcoming">กำลังจะมา</span>
+                            </div>
+                        `).join('')}
+                    </div>`}
+                `;
+            } else if (type === 'checkedin' && isAdmin) {
+                title.textContent = '✅ นักศึกษาที่เข้าร่วมแล้ว';
+                const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in');
+                html = `
+                    <div style="text-align:center;padding:8px;background:rgba(16,185,129,0.06);border-radius:8px;margin-bottom:12px;">
+                        <span style="font-size:16px;font-weight:700;color:var(--success);">${checkedIn.length} คน</span> เข้าร่วมแล้ว
+                    </div>
+                    <div class="table-wrap" style="max-height:350px;">
+                        <table>
+                            <thead><tr><th>#</th><th>นักศึกษา</th><th>กิจกรรม</th><th>วันที่</th></tr></thead>
+                            <tbody>
+                                ${checkedIn.slice(0, 30).map((r, i) => {
+                                    const s = allStudents.find(st => st.student_id === r.student_id);
+                                    const a = allActivities.find(ac => ac.act_id === r.act_id);
+                                    return `<tr>
+                                        <td>${i+1}</td>
+                                        <td>${s ? s.full_name : r.student_id}</td>
+                                        <td>${a ? a.title : r.act_id}</td>
+                                        <td>${r.registered_at || '-'}</td>
+                                    </tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (type === 'waiting' && isAdmin) {
+                title.textContent = '⏳ นักศึกษาที่รอเข้าร่วม';
+                const waiting = allRegistrations.filter(r => r.attendance_status === 'registered');
+                html = `
+                    <div style="text-align:center;padding:8px;background:rgba(245,158,11,0.06);border-radius:8px;margin-bottom:12px;">
+                        <span style="font-size:16px;font-weight:700;color:var(--warning);">${waiting.length} คน</span> ยังไม่ได้เช็คอิน
+                    </div>
+                    <div class="table-wrap" style="max-height:350px;">
+                        <table>
+                            <thead><tr><th>#</th><th>นักศึกษา</th><th>กิจกรรม</th><th>วันที่</th></tr></thead>
+                            <tbody>
+                                ${waiting.slice(0, 30).map((r, i) => {
+                                    const s = allStudents.find(st => st.student_id === r.student_id);
+                                    const a = allActivities.find(ac => ac.act_id === r.act_id);
+                                    return `<tr>
+                                        <td>${i+1}</td>
+                                        <td>${s ? s.full_name : r.student_id}</td>
+                                        <td>${a ? a.title : r.act_id}</td>
+                                        <td>${r.registered_at || '-'}</td>
+                                    </tr>`;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else if (type === 'noeval' && isAdmin) {
+                title.textContent = '📝 นักศึกษาที่ยังไม่ประเมิน';
+                const noEval = allRegistrations.filter(r => r.attendance_status === 'checked-in' && (!r.evaluation_score || r
+                    .evaluation_score === 0));
+                // กลุ่มตามบ้าน (halaqah)
+                const byHalaqah = {};
+                noEval.forEach(r => {
+                    const s = allStudents.find(st => st.student_id === r.student_id);
+                    const h = s?.halaqah || 'ไม่ระบุ';
+                    if (!byHalaqah[h]) byHalaqah[h] = [];
+                    byHalaqah[h].push({ name: s?.full_name || r.student_id, student_id: r.student_id });
+                });
+
+                let halaqahHtml = Object.entries(byHalaqah).map(([h, list]) => `
+                    <div style="background:var(--bg-body);border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid rgba(0,0,0,0.04);">
+                        <div style="font-weight:700;color:var(--primary);">🏠 ${h} (${list.length} คน)</div>
+                        <div style="font-size:13px;margin-top:4px;">${list.map(s => s.name).join(' • ')}</div>
+                        <button class="btn btn-warning btn-sm" style="margin-top:4px;" onclick="notifyHeadOfHouse('${h}')">
+                            <i class="fas fa-bell"></i> แจ้งหัวหน้าบ้าน
+                        </button>
+                    </div>
+                `).join('');
+
+                html = `
+                    <div style="text-align:center;padding:8px;background:rgba(139,92,246,0.06);border-radius:8px;margin-bottom:12px;">
+                        <span style="font-size:16px;font-weight:700;color:var(--purple);">${noEval.length} คน</span> ยังไม่ประเมิน
+                    </div>
+                    ${halaqahHtml || '<p style="text-align:center;color:var(--text-muted);">ทุกคนประเมินครบแล้ว 🎉</p>'}
+                `;
+            }
+
+            $('statModalBody').innerHTML = html;
+            $('statModal').classList.add('show');
+            $('statModal').style.display = 'flex';
+        }
+
+        function notifyHeadOfHouse(halaqah) {
+            const members = allStudents.filter(s => s.halaqah === halaqah);
+            const notEval = allRegistrations.filter(r => {
+                const s = allStudents.find(st => st.student_id === r.student_id);
+                return s?.halaqah === halaqah && r.attendance_status === 'checked-in' && (!r.evaluation_score || r
+                    .evaluation_score === 0);
+            });
+            const names = notEval.map(r => {
+                const s = allStudents.find(st => st.student_id === r.student_id);
+                return s?.full_name || r.student_id;
+            }).join(', ');
+            const msg =
+                `📢 แจ้งหัวหน้าบ้าน ${halaqah}\n\nสมาชิกที่ยังไม่ประเมินกิจกรรม: ${notEval.length} คน\n${names}\n\nกรุณาติดตามให้ประเมินด้วยครับ`;
+            showToast(`📢 แจ้งหัวหน้าบ้าน ${halaqah} เรียบร้อย`, 'success');
+            // จำลองการแจ้งเตือน (ในระบบจริงอาจส่ง Line/WhatsApp)
+            openModal('📢 แจ้งหัวหน้าบ้าน', `
+                <div style="text-align:center;padding:12px;">
+                    <div style="font-size:48px;margin-bottom:12px;">📢</div>
+                    <div style="font-size:16px;font-weight:600;">แจ้งหัวหน้าบ้าน ${halaqah}</div>
+                    <div style="margin:12px 0;padding:12px;background:var(--bg-body);border-radius:8px;text-align:left;">
+                        <div style="font-size:13px;">${msg}</div>
+                    </div>
+                    <button class="btn btn-success" onclick="closeModal('tempModal')">✅ ตกลง</button>
+                </div>
+            `);
+        }
+
+        function openModal(title, html) {
+            const old = document.getElementById('tempModal');
+            if (old) old.remove();
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay show';
+            overlay.id = 'tempModal';
+            overlay.innerHTML = `
+                <div class="modal-box">
+                    <div class="modal-header">
+                        <h3>${title}</h3>
+                        <button class="close" onclick="closeModal('tempModal')">&times;</button>
+                    </div>
+                    <div>${html}</div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // ============================================================
+        // ADMIN: STUDENTS (Edit Full Profile)
         // ============================================================
         async function loadAdminStudents() {
             try {
@@ -2226,16 +2703,68 @@
                     <tr>
                         <td><strong>${s.student_id}</strong></td>
                         <td>${s.full_name}</td>
+                        <td>${s.address || '-'}</td>
                         <td>${s.phone || '-'}</td>
                         <td>${s.major || '-'}</td>
                         <td>${s.total_attendance || 0}</td>
                         <td>
+                            <button class="btn btn-primary btn-sm" onclick="openEditStudent('${s.student_id}')"><i class="fas fa-edit"></i></button>
                             <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.student_id}')"><i class="fas fa-trash"></i></button>
                             <button class="btn btn-amber btn-sm" onclick="resetStudentPass('${s.student_id}')"><i class="fas fa-key"></i></button>
                         </td>
                     </tr>
-                `).join('') || `<tr><td colspan="6" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+                `).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
             } catch (e) {
+                showToast('❌ ' + e.message, 'error');
+            }
+        }
+
+        function openEditStudent(id) {
+            const student = allStudents.find(s => s.student_id === id);
+            if (!student) return showToast('❌ ไม่พบนักศึกษา', 'error');
+            $('editStudentId').value = student.student_id;
+            $('editFullName').value = student.full_name || '';
+            $('editAddress').value = student.address || '';
+            $('editHalaqah').value = student.halaqah || '';
+            $('editPhone').value = student.phone || '';
+            $('editFacebook').value = student.facebook || '';
+            $('editStatus').value = student.status || 'นักเรียน';
+            $('editMajor').value = student.major || '';
+            $('editStudentResult').textContent = '';
+            $('editStudentModal').classList.add('show');
+            $('editStudentModal').style.display = 'flex';
+        }
+
+        async function saveEditStudent() {
+            const student_id = $('editStudentId').value.trim();
+            const full_name = $('editFullName').value.trim();
+            const address = $('editAddress').value.trim();
+            const halaqah = $('editHalaqah').value.trim();
+            const phone = $('editPhone').value.trim();
+            const facebook = $('editFacebook').value.trim();
+            const status = $('editStatus').value;
+            const major = $('editMajor').value.trim();
+            const resultDiv = $('editStudentResult');
+
+            if (!student_id || !full_name) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกชื่อและรหัส</span>';
+                return;
+            }
+
+            try {
+                await apiCall(`/api/students/${student_id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ full_name, address, halaqah, phone, facebook, status, major })
+                });
+                resultDiv.innerHTML = '<span style="color:var(--success);">✅ อัปเดตข้อมูลสำเร็จ!</span>';
+                showToast(`✅ อัปเดต ${student_id} สำเร็จ`, 'success');
+                setTimeout(() => {
+                    closeModal('editStudentModal');
+                    loadAdminStudents();
+                    loadAllData();
+                }, 1000);
+            } catch (e) {
+                resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
                 showToast('❌ ' + e.message, 'error');
             }
         }
@@ -2432,6 +2961,9 @@
             const modal = $(id);
             if (modal) { modal.classList.remove('show');
                 modal.style.display = 'none'; }
+            // Also close tempModal
+            const temp = document.getElementById('tempModal');
+            if (temp) temp.remove();
         }
 
         function openRegisterMember() {
@@ -2443,7 +2975,6 @@
             $('regMajor').value = '';
             $('regPassword').value = '';
             $('regResult').textContent = '';
-            // Try to get real ID
             try {
                 apiCall('/api/students').then(res => {
                     const students = res.data || [];
@@ -2562,13 +3093,16 @@
                     el.classList.remove('show');
                     el.style.display = 'none';
                 });
+                const temp = document.getElementById('tempModal');
+                if (temp) temp.remove();
             }
         });
 
-        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — ฉบับสมบูรณ์');
+        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — ฉบับสมบูรณ์ 2026');
         console.log('👑 Admin: admin / admin123');
         console.log('👤 Student: sh01 / 1234');
         console.log('⌨️ Ctrl+R = รีเฟรช, ESC = ปิด Modal');
+        console.log('📝 การประเมิน: เลือกจากดรอปดาวน์ (ปรับปรุง/พอใช้/ดี/ดีมาก)');
     </script>
 </body>
 </html>
