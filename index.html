@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
     <title>🎓 ระบบจัดการกิจกรรมนักศึกษา</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
     <style>
         /* ============================================================
-           ROOT & RESET — คงดีไซน์พรีเมียมจากระบบ Gym เดิม
+           ROOT & RESET — พรีเมียมยิ่งกว่าเดิม
            ============================================================ */
         *,
         *::before,
@@ -17,20 +19,22 @@
             box-sizing: border-box;
         }
         :root {
-            --primary: #0f3b5e;
-            --primary-light: #1a5a8a;
-            --primary-dark: #09263a;
+            --primary: #0f2b4a;
+            --primary-light: #1a4a7a;
+            --primary-dark: #081d33;
             --secondary: #38bdf8;
             --accent: #f59e0b;
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
             --info: #3b82f6;
-            --bg-body: #f8fafc;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --bg-body: #f0f4f8;
             --bg-surface: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.75);
+            --bg-card: rgba(255, 255, 255, 0.80);
             --bg-card-hover: rgba(255, 255, 255, 0.95);
-            --bg-glass: rgba(255, 255, 255, 0.30);
+            --bg-glass: rgba(255, 255, 255, 0.25);
             --text-primary: #0f172a;
             --text-secondary: #334155;
             --text-muted: #94a3b8;
@@ -46,19 +50,14 @@
             --radius-xl: 28px;
             --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            --sidebar-width: 250px;
+            --sidebar-width: 260px;
             --glass-blur: blur(16px);
-            --stat-blue: #0ea5e9;
-            --stat-green: #10b981;
-            --stat-amber: #f59e0b;
-            --stat-red: #ef4444;
-            --stat-purple: #8b5cf6;
         }
         [data-theme="dark"] {
             --bg-body: #0b1120;
             --bg-surface: #1e293b;
-            --bg-card: rgba(30, 41, 59, 0.70);
-            --bg-card-hover: rgba(30, 41, 59, 0.90);
+            --bg-card: rgba(30, 41, 59, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.92);
             --bg-glass: rgba(15, 23, 42, 0.50);
             --text-primary: #e2e8f0;
             --text-secondary: #cbd5e1;
@@ -99,7 +98,7 @@
         }
 
         /* ============================================================
-           SIDEBAR
+           SIDEBAR — พรีเมียม
            ============================================================ */
         .app-sidebar {
             position: fixed;
@@ -109,7 +108,7 @@
             width: var(--sidebar-width);
             background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
             color: var(--text-inverse);
-            padding: 28px 16px 24px;
+            padding: 24px 16px 20px;
             display: flex;
             flex-direction: column;
             z-index: 1000;
@@ -122,9 +121,9 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 0 6px 24px 6px;
+            padding: 0 6px 20px 6px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .app-sidebar .brand .brand-icon {
             width: 44px;
@@ -151,7 +150,6 @@
             font-size: 11px;
             opacity: 0.5;
             font-weight: 400;
-            letter-spacing: 0.5px;
             -webkit-text-fill-color: rgba(255, 255, 255, 0.5);
         }
         .app-sidebar .nav-section {
@@ -166,13 +164,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.25);
-            padding: 16px 12px 6px;
+            padding: 12px 12px 6px;
         }
         .app-sidebar .nav-item {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 11px 16px;
+            padding: 10px 16px;
             border-radius: var(--radius-sm);
             cursor: pointer;
             font-size: 14px;
@@ -201,7 +199,6 @@
             font-weight: 700;
             line-height: 22px;
             color: rgba(255, 255, 255, 0.6);
-            transition: all var(--transition);
         }
         .app-sidebar .nav-item:hover {
             background: rgba(255, 255, 255, 0.06);
@@ -218,14 +215,10 @@
         .app-sidebar .nav-item.active i {
             color: var(--secondary);
         }
-        .app-sidebar .nav-item.active .badge-nav {
-            background: rgba(56, 189, 248, 0.2);
-            color: #fff;
-        }
         .app-sidebar .sidebar-footer {
             border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 16px;
-            margin-top: 8px;
+            padding-top: 14px;
+            margin-top: 6px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -288,7 +281,7 @@
             margin-right: var(--sidebar-width);
             flex: 1;
             min-height: 100vh;
-            padding: 24px 32px 48px;
+            padding: 20px 28px 40px;
             transition: margin var(--transition);
             background: var(--bg-body);
             max-width: 100%;
@@ -301,8 +294,8 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            padding-bottom: 20px;
-            margin-bottom: 28px;
+            padding-bottom: 16px;
+            margin-bottom: 24px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
         .topbar .topbar-left {
@@ -409,31 +402,6 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(15, 59, 94, 0.3);
         }
-        .topbar .topbar-right .btn-refresh:active {
-            transform: scale(0.96);
-        }
-        .topbar .topbar-right .btn-debug {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            font-weight: 600;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-        }
-        .topbar .topbar-right .btn-debug:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
-        }
-        .topbar .topbar-right .btn-debug.active {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
 
         .page-section {
             display: none;
@@ -462,8 +430,8 @@
             gap: 12px;
             margin-bottom: 20px;
         }
-        .stat-card-click {
-            padding: 12px 14px;
+        .stat-card {
+            padding: 14px 16px;
             border-radius: var(--radius-md);
             background: var(--bg-card);
             backdrop-filter: var(--glass-blur);
@@ -471,13 +439,12 @@
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: var(--shadow);
             transition: all var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
-        .stat-card-click::before {
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -485,66 +452,77 @@
             width: 4px;
             height: 100%;
             border-radius: 0 4px 4px 0;
-            transition: all var(--transition);
         }
-        .stat-card-click:hover {
-            transform: translateY(-6px);
+        .stat-card:hover {
+            transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
             background: var(--bg-card-hover);
         }
-        .stat-card-click .stat-top {
+        .stat-card .stat-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 4px;
         }
-        .stat-card-click .stat-icon {
-            width: 36px;
-            height: 36px;
+        .stat-card .stat-icon {
+            width: 38px;
+            height: 38px;
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             color: #fff;
             flex-shrink: 0;
         }
-        .stat-card-click .stat-icon.blue {
+        .stat-card .stat-icon.blue {
             background: linear-gradient(135deg, #0ea5e9, #3b82f6);
         }
-        .stat-card-click .stat-icon.green {
+        .stat-card .stat-icon.green {
             background: linear-gradient(135deg, #10b981, #059669);
         }
-        .stat-card-click .stat-icon.amber {
+        .stat-card .stat-icon.amber {
             background: linear-gradient(135deg, #f59e0b, #d97706);
         }
-        .stat-card-click .stat-icon.purple {
+        .stat-card .stat-icon.purple {
             background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         }
-        .stat-card-click .num {
-            font-size: 22px;
+        .stat-card .stat-icon.pink {
+            background: linear-gradient(135deg, #ec4899, #db2777);
+        }
+        .stat-card .stat-icon.teal {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+        }
+        .stat-card .num {
+            font-size: 24px;
             font-weight: 800;
             line-height: 1.2;
             color: var(--text-primary);
             margin-top: 2px;
         }
-        .stat-card-click .label {
+        .stat-card .label {
             font-size: 12px;
             color: var(--text-secondary);
             margin-top: 2px;
             font-weight: 500;
         }
-        .stat-card-click:nth-child(1)::before {
-            background: var(--stat-blue);
+        .stat-card:nth-child(1)::before {
+            background: #0ea5e9;
         }
-        .stat-card-click:nth-child(2)::before {
-            background: var(--stat-green);
+        .stat-card:nth-child(2)::before {
+            background: #10b981;
         }
-        .stat-card-click:nth-child(3)::before {
-            background: var(--stat-amber);
+        .stat-card:nth-child(3)::before {
+            background: #f59e0b;
         }
-        .stat-card-click:nth-child(4)::before {
-            background: var(--stat-purple);
+        .stat-card:nth-child(4)::before {
+            background: #8b5cf6;
+        }
+        .stat-card:nth-child(5)::before {
+            background: #ec4899;
+        }
+        .stat-card:nth-child(6)::before {
+            background: #14b8a6;
         }
 
         /* ============================================================
@@ -559,7 +537,7 @@
             padding: 16px 20px;
             margin-bottom: 16px;
             box-shadow: var(--shadow);
-            transition: background var(--transition), border var(--transition), box-shadow var(--transition);
+            transition: all var(--transition);
         }
         .card-panel:hover {
             box-shadow: var(--shadow-md);
@@ -573,7 +551,7 @@
             margin-bottom: 12px;
         }
         .card-panel .card-header h3 {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -582,7 +560,7 @@
         }
         .card-panel .card-header h3 i {
             color: var(--primary);
-            font-size: 16px;
+            font-size: 18px;
         }
         .card-panel .card-header h3 .badge {
             background: var(--primary);
@@ -592,7 +570,7 @@
             padding: 0 10px;
             border-radius: 30px;
             line-height: 20px;
-            margin-right: 4px;
+            margin-left: 6px;
         }
         .card-panel .card-header .card-actions {
             display: flex;
@@ -600,73 +578,12 @@
             flex-wrap: wrap;
             align-items: center;
         }
-        .card-actions input[type="text"] {
-            padding: 4px 12px;
-            border-radius: var(--radius-sm);
-            border: 1px solid rgba(0, 0, 0, 0.06);
-            background: var(--bg-body);
-            color: var(--text-primary);
-            font-size: 12px;
-            width: 140px;
-            box-shadow: var(--shadow-sm);
-            outline: none;
-        }
-        .card-actions input[type="text"]:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(15, 59, 94, 0.10);
-        }
 
         /* ============================================================
-           GRID & CARDS
+           BUTTONS
            ============================================================ */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
-        .activity-card {
-            border-left: 4px solid var(--primary);
-            padding: 16px;
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow);
-            transition: all var(--transition);
-        }
-        .activity-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
-        }
-        .activity-card .title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-        .activity-card .meta {
-            color: var(--text-secondary);
-            font-size: 13px;
-            margin: 4px 0;
-        }
-        .badge {
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .badge-upcoming {
-            background: #bee3f8;
-            color: #2b6cb0;
-        }
-        .badge-ongoing {
-            background: #c6f6d5;
-            color: #276749;
-        }
-        .badge-closed {
-            background: #fed7d7;
-            color: #9b2c2c;
-        }
-
         .btn {
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: var(--radius-sm);
             border: none;
             cursor: pointer;
@@ -707,10 +624,149 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
         }
+        .btn-amber {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+        }
+        .btn-amber:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: var(--text-secondary);
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background: var(--bg-body);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
         .btn-sm {
             padding: 3px 10px;
             font-size: 10px;
             border-radius: 4px;
+        }
+
+        /* ============================================================
+           TABLE
+           ============================================================ */
+        .table-wrap {
+            overflow-x: auto;
+            overflow-y: auto;
+            max-height: 420px;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .table-wrap table {
+            width: 100%;
+            min-width: 500px;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .table-wrap table thead {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+        .table-wrap table th {
+            padding: 8px 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: var(--text-muted);
+            background: var(--bg-body);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.04);
+            white-space: nowrap;
+        }
+        .table-wrap table td {
+            padding: 6px 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            vertical-align: middle;
+            white-space: nowrap;
+            text-align: center;
+        }
+        .table-wrap table tbody tr {
+            transition: background var(--transition);
+        }
+        .table-wrap table tbody tr:hover td {
+            background: rgba(15, 59, 94, 0.04);
+        }
+        .table-wrap table tbody tr:nth-child(even) td {
+            background: rgba(0, 0, 0, 0.01);
+        }
+        .table-wrap .empty-row {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .badge-status {
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-status.active {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+        }
+        .badge-status.expired {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+        }
+        .badge-status.upcoming {
+            background: rgba(59, 130, 246, 0.12);
+            color: #3b82f6;
+        }
+        .badge-status.closed {
+            background: rgba(148, 163, 184, 0.12);
+            color: #94a3b8;
+        }
+        .badge-status.ongoing {
+            background: rgba(245, 158, 11, 0.12);
+            color: #f59e0b;
+        }
+
+        /* ============================================================
+           GRID ACTIVITIES
+           ============================================================ */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .activity-card {
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow);
+            transition: all var(--transition);
+        }
+        .activity-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .activity-card .title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .activity-card .meta {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin: 4px 0;
+        }
+        .activity-card .register-btn {
+            margin-top: 10px;
         }
 
         /* ============================================================
@@ -731,7 +787,7 @@
         .tab-bar {
             display: flex;
             gap: 8px;
-            margin: 16px 0;
+            margin: 12px 0;
         }
         .tab-bar button {
             padding: 8px 16px;
@@ -741,6 +797,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all var(--transition);
+            font-size: 13px;
         }
         .tab-bar button.active {
             background: var(--primary);
@@ -766,6 +823,15 @@
             font-weight: 700;
             color: var(--primary);
         }
+        .leaderboard-item .rank.gold {
+            color: #f59e0b;
+        }
+        .leaderboard-item .rank.silver {
+            color: #94a3b8;
+        }
+        .leaderboard-item .rank.bronze {
+            color: #cd7f32;
+        }
 
         /* ============================================================
            MODAL
@@ -788,7 +854,7 @@
         .modal-box {
             background: var(--bg-surface);
             border-radius: var(--radius-lg);
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
             max-height: 95vh;
             overflow-y: auto;
@@ -848,7 +914,8 @@
             margin-bottom: 4px;
         }
         .modal-box .form-group input,
-        .modal-box .form-group select {
+        .modal-box .form-group select,
+        .modal-box .form-group textarea {
             width: 100%;
             padding: 10px 14px;
             border-radius: var(--radius-sm);
@@ -860,10 +927,15 @@
             box-shadow: var(--shadow-sm);
         }
         .modal-box .form-group input:focus,
-        .modal-box .form-group select:focus {
+        .modal-box .form-group select:focus,
+        .modal-box .form-group textarea:focus {
             border-color: var(--primary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(15, 59, 94, 0.10);
+        }
+        .modal-box .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
         }
         .modal-box .btn-submit {
             width: 100%;
@@ -882,36 +954,15 @@
         .modal-box .btn-submit:hover {
             transform: translateY(-2px);
         }
-        .copy-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
+        .modal-box .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
-        .copy-group input {
-            flex: 1;
-            padding: 10px 14px;
-            border-radius: var(--radius-sm);
-            border: 2px solid rgba(15, 59, 94, 0.15);
-            background: rgba(15, 59, 94, 0.04);
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 14px;
-        }
-        .copy-group .btn-copy {
-            flex-shrink: 0;
-            padding: 10px 20px;
-            border-radius: var(--radius-sm);
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: #fff;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 13px;
-        }
-        .copy-group .btn-copy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(15, 59, 94, 0.25);
+        @media (max-width: 480px) {
+            .modal-box .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ============================================================
@@ -934,7 +985,7 @@
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: var(--radius-xl);
             padding: 40px 36px;
-            max-width: 400px;
+            max-width: 420px;
             width: 100%;
             color: #fff;
             box-shadow: 0 32px 96px rgba(0, 0, 0, 0.4);
@@ -952,7 +1003,7 @@
             margin-bottom: 10px;
         }
         #loginPage .login-box .logo h1 {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, #fff 60%, var(--secondary));
@@ -1134,181 +1185,6 @@
         }
 
         /* ============================================================
-           DEBUG PANEL
-           ============================================================ */
-        #debugPanel {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 999999;
-            background: var(--bg-surface);
-            border-top: 3px solid var(--primary);
-            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
-            max-height: 60vh;
-            display: none;
-            flex-direction: column;
-            transition: all 0.3s ease;
-            border-radius: 16px 16px 0 0;
-        }
-        #debugPanel.open {
-            display: flex;
-        }
-        #debugPanel .debug-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            background: var(--primary-dark);
-            color: #fff;
-            border-radius: 16px 16px 0 0;
-            flex-shrink: 0;
-        }
-        #debugPanel .debug-header h3 {
-            font-size: 16px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        #debugPanel .debug-header .debug-actions {
-            display: flex;
-            gap: 8px;
-        }
-        #debugPanel .debug-header .debug-actions button {
-            padding: 4px 12px;
-            border-radius: var(--radius-sm);
-            border: none;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
-        #debugPanel .debug-header .debug-actions button:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-        #debugPanel .debug-header .debug-actions .btn-close-debug {
-            background: rgba(239, 68, 68, 0.4);
-        }
-        #debugPanel .debug-header .debug-actions .btn-close-debug:hover {
-            background: rgba(239, 68, 68, 0.6);
-        }
-        #debugPanel .debug-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px 20px;
-            background: var(--bg-body);
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-        }
-        #debugPanel .debug-body .log-entry {
-            padding: 6px 10px;
-            margin-bottom: 4px;
-            border-radius: 4px;
-            border-left: 3px solid transparent;
-            background: var(--bg-surface);
-            box-shadow: var(--shadow-sm);
-        }
-        #debugPanel .debug-body .log-entry .log-time {
-            color: var(--text-muted);
-            font-size: 10px;
-            margin-right: 8px;
-        }
-        #debugPanel .debug-body .log-entry .log-method {
-            font-weight: 700;
-            padding: 1px 6px;
-            border-radius: 3px;
-            font-size: 10px;
-            margin-right: 6px;
-        }
-        #debugPanel .debug-body .log-entry .log-method.GET {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-        #debugPanel .debug-body .log-entry .log-method.POST {
-            background: rgba(59, 130, 246, 0.2);
-            color: var(--info);
-        }
-        #debugPanel .debug-body .log-entry .log-method.PUT {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-        }
-        #debugPanel .debug-body .log-entry .log-method.DELETE {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-        }
-        #debugPanel .debug-body .log-entry .log-status {
-            font-weight: 700;
-            padding: 1px 8px;
-            border-radius: 3px;
-            font-size: 10px;
-            margin-left: 6px;
-        }
-        #debugPanel .debug-body .log-entry .log-status.success {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-        }
-        #debugPanel .debug-body .log-entry .log-status.error {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-        }
-        #debugPanel .debug-body .log-entry .log-status.pending {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-        }
-        #debugPanel .debug-body .log-entry .log-detail {
-            margin-top: 4px;
-            padding: 6px 10px;
-            background: var(--bg-body);
-            border-radius: 4px;
-            font-size: 11px;
-            white-space: pre-wrap;
-            word-break: break-all;
-            max-height: 120px;
-            overflow-y: auto;
-            border: 1px solid rgba(0, 0, 0, 0.04);
-            display: none;
-        }
-        #debugPanel .debug-body .log-entry .log-detail.open {
-            display: block;
-        }
-        #debugPanel .debug-body .log-entry .toggle-detail {
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 10px;
-            text-decoration: underline;
-            margin-left: 6px;
-        }
-        #debugPanel .debug-body .log-entry .toggle-detail:hover {
-            color: var(--primary);
-        }
-        #debugPanel .debug-body .log-entry.error {
-            border-left-color: var(--danger);
-            background: rgba(239, 68, 68, 0.04);
-        }
-        #debugPanel .debug-body .log-entry.success {
-            border-left-color: var(--success);
-        }
-        #debugPanel .debug-body .log-entry.warning {
-            border-left-color: var(--warning);
-        }
-        #debugPanel .debug-body .log-entry.info {
-            border-left-color: var(--info);
-        }
-        .debug-counter {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            line-height: 22px;
-        }
-        .debug-counter.error-count {
-            background: rgba(239, 68, 68, 0.3);
-        }
-
-        /* ============================================================
            RESPONSIVE
            ============================================================ */
         .sidebar-overlay {
@@ -1346,17 +1222,19 @@
             .grid {
                 grid-template-columns: 1fr 1fr;
             }
-            #debugPanel {
-                max-height: 50vh;
-            }
         }
         @media (max-width: 768px) {
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
             }
-            .stat-card-click .num {
+            .stat-card .num {
                 font-size: 18px;
+            }
+            .stat-card .stat-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
             .grid {
                 grid-template-columns: 1fr;
@@ -1375,12 +1253,13 @@
                 flex-direction: column;
                 text-align: center;
             }
-            #debugPanel {
-                max-height: 40vh;
+            .table-wrap table {
+                font-size: 11px;
+                min-width: 380px;
             }
-            #debugPanel .debug-body {
-                font-size: 10px;
-                padding: 8px 12px;
+            .table-wrap table th,
+            .table-wrap table td {
+                padding: 4px 8px;
             }
         }
         @media (max-width: 480px) {
@@ -1391,16 +1270,16 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 6px;
             }
-            .stat-card-click {
-                padding: 8px 10px;
+            .stat-card {
+                padding: 10px 12px;
             }
-            .stat-card-click .num {
+            .stat-card .num {
                 font-size: 15px;
             }
-            .stat-card-click .label {
+            .stat-card .label {
                 font-size: 10px;
             }
-            .stat-card-click .stat-icon {
+            .stat-card .stat-icon {
                 width: 28px;
                 height: 28px;
                 font-size: 12px;
@@ -1411,21 +1290,8 @@
             .topbar .topbar-right .btn-refresh span {
                 display: none;
             }
-            .topbar .topbar-right .btn-debug span {
-                display: none;
-            }
             .modal-box {
                 padding: 16px 14px;
-            }
-            .copy-group {
-                flex-wrap: wrap;
-            }
-            .copy-group input {
-                flex: 1 1 100%;
-            }
-            .copy-group .btn-copy {
-                flex: 1 1 100%;
-                text-align: center;
             }
             #loginPage .login-box {
                 padding: 24px 18px;
@@ -1436,26 +1302,26 @@
                 max-width: none;
                 bottom: 16px;
             }
-            #debugPanel {
-                max-height: 35vh;
+            .table-wrap table {
+                font-size: 10px;
+                min-width: 300px;
             }
-            #debugPanel .debug-body .log-entry {
-                font-size: 9px;
-                padding: 4px 6px;
+            .table-wrap table th,
+            .table-wrap table td {
+                padding: 3px 6px;
             }
-            #debugPanel .debug-body .log-entry .log-detail {
-                font-size: 9px;
-                max-height: 80px;
+            .btn {
+                padding: 4px 10px;
+                font-size: 10px;
+            }
+            .btn-sm {
+                padding: 2px 6px;
+                font-size: 8px;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- OFFLINE INDICATOR -->
-    <div id="offlineIndicator">
-        <i class="fas fa-wifi"></i> ไม่มีการเชื่อมต่ออินเทอร์เน็ต — กำลังแสดงข้อมูลที่แคชไว้
-    </div>
 
     <!-- LOGIN PAGE -->
     <div id="loginPage">
@@ -1463,11 +1329,11 @@
             <div class="logo">
                 <i class="fas fa-users"></i>
                 <h1>ระบบจัดการกิจกรรมนักศึกษา</h1>
-                <p>ลงชื่อเข้าใช้ด้วยรหัสนักศึกษา</p>
+                <p>ลงชื่อเข้าใช้เพื่อเริ่มต้น</p>
             </div>
             <div class="input-group">
                 <i class="fas fa-user"></i>
-                <input type="text" id="loginUser" placeholder="รหัสนักศึกษา (เช่น sh01)" />
+                <input type="text" id="loginUser" placeholder="รหัสนักศึกษา หรือ admin" />
             </div>
             <div class="input-group">
                 <i class="fas fa-lock"></i>
@@ -1489,10 +1355,8 @@
         </div>
     </div>
 
-    <!-- SIDEBAR OVERLAY -->
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
     <!-- SIDEBAR -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
     <aside class="app-sidebar" id="appSidebar">
         <div class="brand">
             <div class="brand-icon"><i class="fas fa-users"></i></div>
@@ -1503,9 +1367,12 @@
         </div>
         <nav class="nav-section">
             <div class="nav-label">หลัก</div>
-            <button class="nav-item active" data-page="activities" onclick="switchTab('activities')">
+            <button class="nav-item active" data-page="dashboard" onclick="switchTab('dashboard')">
+                <i class="fas fa-chart-pie"></i> <span>แดชบอร์ด</span>
+                <span class="badge-nav" id="navCount">0</span>
+            </button>
+            <button class="nav-item" data-page="activities" onclick="switchTab('activities')">
                 <i class="fas fa-calendar-alt"></i> <span>กิจกรรม</span>
-                <span class="badge-nav" id="navActivityCount">0</span>
             </button>
             <button class="nav-item" data-page="profile" onclick="switchTab('profile')" id="profileNav">
                 <i class="fas fa-id-card"></i> <span>โปรไฟล์</span>
@@ -1513,13 +1380,23 @@
             <button class="nav-item" data-page="leaderboard" onclick="switchTab('leaderboard')">
                 <i class="fas fa-trophy"></i> <span>ลีดเดอร์บอร์ด</span>
             </button>
+            <!-- Admin Only -->
+            <button class="nav-item" data-page="admin-students" onclick="switchTab('admin-students')" id="adminNav" style="display:none;">
+                <i class="fas fa-user-graduate"></i> <span>จัดการนักศึกษา</span>
+            </button>
+            <button class="nav-item" data-page="admin-activities" onclick="switchTab('admin-activities')" id="adminActNav" style="display:none;">
+                <i class="fas fa-edit"></i> <span>จัดการกิจกรรม</span>
+            </button>
+            <button class="nav-item" data-page="admin-registrations" onclick="switchTab('admin-registrations')" id="adminRegNav" style="display:none;">
+                <i class="fas fa-clipboard-list"></i> <span>จัดการลงทะเบียน</span>
+            </button>
         </nav>
         <div class="sidebar-footer">
             <div class="sidebar-user">
                 <div class="avatar" id="sidebarAvatar">S</div>
                 <div class="user-info">
-                    <span class="name" id="sidebarUserName">นักศึกษา</span>
-                    <span class="role" id="sidebarUserRole">ผู้ใช้</span>
+                    <span class="name" id="sidebarUserName">ผู้ใช้</span>
+                    <span class="role" id="sidebarUserRole">นักศึกษา</span>
                 </div>
             </div>
             <button class="btn-logout-side" onclick="logout()">
@@ -1535,8 +1412,8 @@
             <div class="topbar-left">
                 <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
                 <div class="page-title">
-                    <h2 id="pageTitle">กิจกรรม</h2>
-                    <p id="pageSubtitle">รายการกิจกรรมและลงทะเบียน</p>
+                    <h2 id="pageTitle">แดชบอร์ด</h2>
+                    <p id="pageSubtitle">ภาพรวมระบบ</p>
                 </div>
             </div>
             <div class="topbar-right">
@@ -1545,52 +1422,77 @@
                 <button class="btn-icon" onclick="toggleTheme()" title="สลับธีม">
                     <i id="themeIcon" class="fas fa-moon"></i>
                 </button>
-                <button class="btn-debug" id="debugToggleBtn" onclick="toggleDebugPanel()">
-                    <i class="fas fa-bug"></i> <span>ดีบัก</span>
-                </button>
-                <button class="btn-refresh" id="refreshBtn" onclick="refreshData()">
+                <button class="btn-refresh" onclick="refreshData()">
                     <i class="fas fa-sync"></i> <span>รีเฟรช</span>
                 </button>
             </div>
         </header>
 
-        <!-- PAGE: ACTIVITIES -->
-        <div id="page-activities" class="page-section active">
-            <div class="stats-grid" id="dashStats">
-                <div class="stat-card-click" onclick="showStatDetail('students')">
+        <!-- PAGE: DASHBOARD -->
+        <div id="page-dashboard" class="page-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div></div>
-                    <div class="num" id="statTotalStudents">-</div>
+                    <div class="num" id="dashStudents">-</div>
                     <div class="label">นักศึกษาทั้งหมด</div>
                 </div>
-                <div class="stat-card-click" onclick="showStatDetail('activities')">
+                <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon green"><i class="fas fa-calendar-check"></i></div></div>
-                    <div class="num" id="statTotalActivities">-</div>
+                    <div class="num" id="dashActivities">-</div>
                     <div class="label">กิจกรรมทั้งหมด</div>
                 </div>
-                <div class="stat-card-click" onclick="showStatDetail('registrations')">
+                <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon amber"><i class="fas fa-clipboard-list"></i></div></div>
-                    <div class="num" id="statTotalRegistrations">-</div>
-                    <div class="label">การลงทะเบียนทั้งหมด</div>
+                    <div class="num" id="dashRegistrations">-</div>
+                    <div class="label">การลงทะเบียน</div>
                 </div>
-                <div class="stat-card-click" onclick="showStatDetail('upcoming')">
+                <div class="stat-card">
                     <div class="stat-top"><div class="stat-icon purple"><i class="fas fa-hourglass-half"></i></div></div>
-                    <div class="num" id="statUpcoming">-</div>
+                    <div class="num" id="dashUpcoming">-</div>
                     <div class="label">กิจกรรมที่กำลังจะมา</div>
                 </div>
             </div>
 
-            <div class="card-panel">
-                <div class="card-header">
-                    <h3><i class="fas fa-calendar-plus"></i> กิจกรรมที่กำลังจะมาถึง <span class="badge" id="upcomingBadge">0</span></h3>
+            <!-- Admin Extra Stats -->
+            <div class="stats-grid" id="adminStats" style="display:none;">
+                <div class="stat-card">
+                    <div class="stat-top"><div class="stat-icon pink"><i class="fas fa-user-check"></i></div></div>
+                    <div class="num" id="dashCheckedIn">-</div>
+                    <div class="label">เข้าร่วมแล้ว (Checked-in)</div>
                 </div>
-                <div id="upcomingActivities" class="grid"></div>
+                <div class="stat-card">
+                    <div class="stat-top"><div class="stat-icon teal"><i class="fas fa-user-clock"></i></div></div>
+                    <div class="num" id="dashWaiting">-</div>
+                    <div class="label">รอเข้าร่วม</div>
+                </div>
             </div>
 
+            <!-- Admin Only: Chart -->
+            <div class="card-panel" id="adminChartPanel" style="display:none;">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-bar"></i> กิจกรรมยอดนิยม</h3>
+                </div>
+                <div style="height:200px;max-width:100%;">
+                    <canvas id="activityChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
             <div class="card-panel">
                 <div class="card-header">
-                    <h3><i class="fas fa-list"></i> กิจกรรมทั้งหมด</h3>
+                    <h3><i class="fas fa-list"></i> กิจกรรมล่าสุด <span class="badge" id="recentBadge">0</span></h3>
+                </div>
+                <div id="recentActivities" class="grid"></div>
+            </div>
+        </div>
+
+        <!-- PAGE: ACTIVITIES (Student View) -->
+        <div id="page-activities" class="page-section">
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-plus"></i> กิจกรรมทั้งหมด</h3>
                     <div class="card-actions">
-                        <input type="text" id="activitySearch" placeholder="ค้นหากิจกรรม..." oninput="filterActivities()" />
+                        <input type="text" id="activitySearch" placeholder="ค้นหากิจกรรม..." oninput="filterActivities()" style="padding:4px 12px;border-radius:var(--radius-sm);border:1px solid rgba(0,0,0,0.06);background:var(--bg-body);color:var(--text-primary);font-size:12px;width:160px;" />
                     </div>
                 </div>
                 <div id="allActivities" class="grid"></div>
@@ -1598,7 +1500,7 @@
         </div>
 
         <!-- PAGE: PROFILE -->
-        <div id="page-profile" class="page-section hidden">
+        <div id="page-profile" class="page-section">
             <div class="card-panel">
                 <div class="profile-info">
                     <img id="profileImg" src="https://ui-avatars.com/api/?name=Student&background=2b6cb0&color=fff" alt="Profile" />
@@ -1627,7 +1529,7 @@
         </div>
 
         <!-- PAGE: LEADERBOARD -->
-        <div id="page-leaderboard" class="page-section hidden">
+        <div id="page-leaderboard" class="page-section">
             <div class="card-panel">
                 <h2><i class="fas fa-user-graduate"></i> นักศึกษาที่เข้าร่วมมากที่สุด</h2>
                 <div id="studentLeaderboard"></div>
@@ -1637,186 +1539,192 @@
                 <div id="activityLeaderboard"></div>
             </div>
         </div>
+
+        <!-- PAGE: ADMIN STUDENTS -->
+        <div id="page-admin-students" class="page-section">
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-users"></i> จัดการนักศึกษา <span class="badge" id="adminStudentCount">0</span></h3>
+                    <div class="card-actions">
+                        <button class="btn btn-success btn-sm" onclick="openAddStudent()"><i class="fas fa-plus"></i> เพิ่ม</button>
+                        <button class="btn btn-outline btn-sm" onclick="loadAdminStudents()"><i class="fas fa-sync"></i> โหลด</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>รหัส</th>
+                                <th>ชื่อ</th>
+                                <th>เบอร์</th>
+                                <th>สาขา</th>
+                                <th>เข้าร่วม</th>
+                                <th>การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminStudentTable"><tr><td colspan="6" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: ADMIN ACTIVITIES -->
+        <div id="page-admin-activities" class="page-section">
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-edit"></i> จัดการกิจกรรม <span class="badge" id="adminActCount">0</span></h3>
+                    <div class="card-actions">
+                        <button class="btn btn-success btn-sm" onclick="openAddActivity()"><i class="fas fa-plus"></i> เพิ่ม</button>
+                        <button class="btn btn-outline btn-sm" onclick="loadAdminActivities()"><i class="fas fa-sync"></i> โหลด</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>รหัส</th>
+                                <th>ชื่อกิจกรรม</th>
+                                <th>วันที่</th>
+                                <th>สถานที่</th>
+                                <th>รับ</th>
+                                <th>สถานะ</th>
+                                <th>ประเภท</th>
+                                <th>การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminActTable"><tr><td colspan="8" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: ADMIN REGISTRATIONS -->
+        <div id="page-admin-registrations" class="page-section">
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-clipboard-check"></i> จัดการการลงทะเบียน <span class="badge" id="adminRegCount">0</span></h3>
+                    <div class="card-actions">
+                        <button class="btn btn-outline btn-sm" onclick="loadAdminRegistrations()"><i class="fas fa-sync"></i> โหลด</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>นักศึกษา</th>
+                                <th>กิจกรรม</th>
+                                <th>วันที่</th>
+                                <th>สถานะ</th>
+                                <th>คะแนน</th>
+                                <th>การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminRegTable"><tr><td colspan="7" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- MODAL: ลงทะเบียนนักศึกษาใหม่ -->
-    <div class="modal-overlay" id="registerMemberModal">
-        <div class="modal-box" style="max-width:650px;">
+    <!-- MODAL: Register Student -->
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal-box">
             <div class="modal-header">
                 <h3><i class="fas fa-user-plus"></i> ลงทะเบียนนักศึกษาใหม่</h3>
-                <button class="close" onclick="closeRegisterModal('registerMemberModal')">&times;</button>
+                <button class="close" onclick="closeModal('registerModal')">&times;</button>
             </div>
-            <div style="margin-bottom:18px;padding:14px 18px;background:linear-gradient(135deg,rgba(16,185,129,0.08),rgba(56,189,248,0.08));border-radius:var(--radius-sm);border-right:4px solid var(--success);">
-                <p style="font-size:13px;color:var(--text-secondary);margin:0;display:flex;align-items:center;gap:10px;">
-                    <i class="fas fa-sparkles" style="color:var(--success);font-size:18px;"></i>
-                    <span>รหัสนักศึกษาจะถูกสร้าง <strong style="color:var(--primary);">อัตโนมัติ</strong> พร้อมใช้งานทันที! 🎓</span>
-                </p>
+            <div class="form-group">
+                <label>รหัสนักศึกษา <span style="color:var(--danger);">*</span></label>
+                <input type="text" id="regStudentId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" />
             </div>
-            <div id="registerMemberForm">
+            <div class="form-group">
+                <label>ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label>
+                <input type="text" id="regFullName" placeholder="เช่น สมชาย ใจดี" />
+            </div>
+            <div class="form-row">
                 <div class="form-group">
-                    <label><i class="fas fa-id-card" style="color:var(--primary);margin-left:6px;"></i> รหัสนักศึกษา <span style="color:var(--danger);">*</span></label>
-                    <div class="copy-group">
-                        <input type="text" id="regStudentId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;font-size:16px;" />
-                        <button class="btn-copy" id="copyStudentIdBtn" onclick="copyStudentId()"><i class="fas fa-copy"></i> คัดลอก</button>
-                    </div>
-                    <small id="copyMessage" style="color:var(--success);font-size:11px;display:none;margin-top:4px;"><i class="fas fa-check-circle"></i> คัดลอกแล้ว!</small>
+                    <label>เบอร์โทร</label>
+                    <input type="text" id="regPhone" placeholder="0812345678" />
                 </div>
                 <div class="form-group">
-                    <label><i class="fas fa-user" style="color:var(--primary);margin-left:6px;"></i> ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label>
-                    <input type="text" id="regFullName" placeholder="เช่น สมชาย ใจดี" />
+                    <label>สาขาวิชา</label>
+                    <input type="text" id="regMajor" placeholder="เช่น วิศวกรรมศาสตร์" />
                 </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
-                    <div class="form-group">
-                        <label><i class="fas fa-phone" style="color:var(--primary);margin-left:6px;"></i> เบอร์โทรศัพท์</label>
-                        <input type="text" id="regPhone" placeholder="0812345678" />
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-graduation-cap" style="color:var(--primary);margin-left:6px;"></i> สาขาวิชา</label>
-                        <input type="text" id="regMajor" placeholder="เช่น วิศวกรรมศาสตร์" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-lock" style="color:var(--primary);margin-left:6px;"></i> รหัสผ่าน <span style="color:var(--danger);">*</span></label>
-                    <input type="text" id="regPassword" placeholder="อย่างน้อย 4 ตัว" />
-                </div>
-                <button class="btn btn-success btn-submit" onclick="registerStudent()"><i class="fas fa-user-plus"></i> ลงทะเบียน</button>
-                <div id="regResult" style="margin-top:12px;text-align:center;font-size:14px;font-weight:600;padding:8px;border-radius:var(--radius-sm);"></div>
             </div>
+            <div class="form-group">
+                <label>รหัสผ่าน <span style="color:var(--danger);">*</span></label>
+                <input type="text" id="regPassword" placeholder="อย่างน้อย 4 ตัว" />
+            </div>
+            <button class="btn btn-success btn-submit" onclick="registerStudent()"><i class="fas fa-save"></i> ลงทะเบียน</button>
+            <div id="regResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
         </div>
     </div>
 
-    <!-- DEBUG PANEL -->
-    <div id="debugPanel">
-        <div class="debug-header">
-            <h3><i class="fas fa-bug"></i> ระบบดีบัก <span class="debug-counter" id="debugCounter">0</span> <span class="debug-counter error-count" id="debugErrorCounter">0</span></h3>
-            <div class="debug-actions">
-                <button onclick="clearDebugLogs()"><i class="fas fa-eraser"></i> ล้าง</button>
-                <button onclick="exportDebugLogs()"><i class="fas fa-download"></i> Export</button>
-                <button class="btn-close-debug" onclick="toggleDebugPanel()"><i class="fas fa-times"></i> ปิด</button>
+    <!-- MODAL: Add/Edit Activity -->
+    <div class="modal-overlay" id="activityModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="activityModalTitle"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</h3>
+                <button class="close" onclick="closeModal('activityModal')">&times;</button>
             </div>
-        </div>
-        <div class="debug-body" id="debugBody">
-            <div style="text-align:center;color:var(--text-muted);padding:20px 0;">
-                <i class="fas fa-circle-info"></i> รอการทำงานของระบบ...
+            <div class="form-group">
+                <label>รหัสกิจกรรม</label>
+                <input type="text" id="actId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" />
             </div>
+            <div class="form-group">
+                <label>ชื่อกิจกรรม <span style="color:var(--danger);">*</span></label>
+                <input type="text" id="actTitle" placeholder="ชื่อกิจกรรม" />
+            </div>
+            <div class="form-group">
+                <label>รายละเอียด</label>
+                <textarea id="actDesc" placeholder="รายละเอียดกิจกรรม"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>วันที่จัด <span style="color:var(--danger);">*</span></label>
+                    <input type="date" id="actDate" />
+                </div>
+                <div class="form-group">
+                    <label>สถานที่</label>
+                    <input type="text" id="actLocation" placeholder="สถานที่" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>จำนวนที่รับ</label>
+                    <input type="number" id="actSlots" placeholder="50" value="50" />
+                </div>
+                <div class="form-group">
+                    <label>สถานะ</label>
+                    <select id="actStatus">
+                        <option value="upcoming">กำลังจะมา</option>
+                        <option value="ongoing">กำลังจัด</option>
+                        <option value="closed">ปิดแล้ว</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>ประเภท</label>
+                <select id="actType">
+                    <option value="public">สาธารณะ (Public)</option>
+                    <option value="private">ส่วนตัว (Private)</option>
+                </select>
+            </div>
+            <button class="btn btn-success btn-submit" onclick="saveActivity()"><i class="fas fa-save"></i> บันทึก</button>
+            <div id="actResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
         </div>
     </div>
 
-    <!-- TOAST CONTAINER -->
+    <!-- TOAST -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
         // ============================================================
         // CONFIG
         // ============================================================
-        const PROXY_URL = 'https://shababscanner.hem5426.workers.dev'; // เปลี่ยนเป็น URL Worker ของคุณ
+        const PROXY_URL = 'https://shababscanner.hem5426.workers.dev';
         const API_SECRET = 'MySuperSecretKey123!@#';
-
-        // ============================================================
-        // DEBUG SYSTEM
-        // ============================================================
-        let debugLogs = [];
-        let debugCounter = 0;
-        let errorCounter = 0;
-
-        function addDebugLog(method, endpoint, status, data, error = null) {
-            const log = {
-                id: ++debugCounter,
-                time: new Date().toLocaleString('th-TH', { hour12: false }),
-                method,
-                endpoint,
-                status,
-                data,
-                error,
-                timestamp: Date.now()
-            };
-            debugLogs.unshift(log);
-            if (log.error || status >= 400) errorCounter++;
-            renderDebugLogs();
-            updateDebugCounters();
-        }
-
-        function renderDebugLogs() {
-            const body = document.getElementById('debugBody');
-            if (debugLogs.length === 0) {
-                body.innerHTML = `
-                    <div style="text-align:center;color:var(--text-muted);padding:20px 0;">
-                        <i class="fas fa-circle-info"></i> ยังไม่มี Logs
-                    </div>
-                `;
-                return;
-            }
-            body.innerHTML = debugLogs.slice(0, 100).map(log => {
-                const statusClass = log.error || log.status >= 400 ? 'error' : log.status >= 200 ? 'success' :
-                'info';
-                const statusLabel = log.error ? '❌ ' + (log.error.message || 'Error') : log.status || 'OK';
-                const isError = log.error || log.status >= 400;
-                const dataStr = log.data ? JSON.stringify(log.data, null, 2) : '';
-
-                return `
-                    <div class="log-entry ${isError ? 'error' : 'success'}">
-                        <div>
-                            <span class="log-time">${log.time}</span>
-                            <span class="log-method ${log.method}">${log.method}</span>
-                            <span style="font-weight:500;">${log.endpoint}</span>
-                            <span class="log-status ${isError ? 'error' : 'success'}">${statusLabel}</span>
-                            <span class="toggle-detail" onclick="toggleLogDetail(this)">แสดงรายละเอียด</span>
-                        </div>
-                        <div class="log-detail">
-                            ${dataStr ? `<strong>📦 Response:</strong>\n${dataStr}` : ''}
-                            ${log.error ? `\n\n<strong>❌ Error:</strong>\n${log.error.stack || log.error.message || log.error}` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function toggleLogDetail(el) {
-            const detail = el.closest('.log-entry').querySelector('.log-detail');
-            if (detail) {
-                detail.classList.toggle('open');
-                el.textContent = detail.classList.contains('open') ? 'ซ่อนรายละเอียด' : 'แสดงรายละเอียด';
-            }
-        }
-
-        function updateDebugCounters() {
-            document.getElementById('debugCounter').textContent = debugCounter;
-            document.getElementById('debugErrorCounter').textContent = errorCounter;
-        }
-
-        function clearDebugLogs() {
-            debugLogs = [];
-            debugCounter = 0;
-            errorCounter = 0;
-            renderDebugLogs();
-            updateDebugCounters();
-            showToast('🧹 ล้าง Logs เรียบร้อย', 'info');
-        }
-
-        function exportDebugLogs() {
-            const text = debugLogs.map(log => {
-                return `[${log.time}] ${log.method} ${log.endpoint} → ${log.status || 'OK'}\n${log.data ? JSON.stringify(log.data, null, 2) : ''}${log.error ? '\nError: ' + log.error.message : ''}\n---`;
-            }).join('\n\n');
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `debug_logs_${new Date().toISOString().slice(0,10)}.txt`;
-            link.click();
-            URL.revokeObjectURL(link.href);
-            showToast('✅ Export Logs สำเร็จ', 'success');
-        }
-
-        function toggleDebugPanel() {
-            const panel = document.getElementById('debugPanel');
-            const btn = document.getElementById('debugToggleBtn');
-            panel.classList.toggle('open');
-            btn.classList.toggle('active');
-            if (panel.classList.contains('open')) {
-                btn.innerHTML = '<i class="fas fa-bug"></i> <span>ปิดดีบัก</span>';
-            } else {
-                btn.innerHTML = '<i class="fas fa-bug"></i> <span>ดีบัก</span>';
-            }
-        }
 
         // ============================================================
         // STATE
@@ -1824,10 +1732,9 @@
         let allStudents = [];
         let allActivities = [];
         let allRegistrations = [];
-        let currentStudent = null;
-        let currentPage = 'activities';
+        let currentUser = null;
+        let isAdmin = false;
         let isDark = localStorage.getItem('theme') === 'dark';
-        let isSidebarOpen = false;
 
         // ============================================================
         // HELPERS
@@ -1847,27 +1754,6 @@
                 setTimeout(() => el.remove(), 500); }, 4000);
         }
 
-        function normalizeDate(dateStr) {
-            if (!dateStr) return '';
-            const s = String(dateStr).trim();
-            if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-            if (s.includes('/')) {
-                const parts = s.split('/');
-                if (parts.length === 3) {
-                    let year = parseInt(parts[2]);
-                    let month = parseInt(parts[1]);
-                    let day = parseInt(parts[0]);
-                    if (year > 2500) year -= 543;
-                    if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
-                        return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-                    }
-                }
-            }
-            const d = new Date(s);
-            if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
-            return s;
-        }
-
         function getTodayStr() {
             return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
         }
@@ -1875,25 +1761,19 @@
         function formatDate(dateStr) {
             if (!dateStr) return '-';
             try {
-                const d = new Date(normalizeDate(dateStr));
+                const d = new Date(dateStr);
                 if (isNaN(d.getTime())) return dateStr;
                 return d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
             } catch { return dateStr; }
         }
 
-        function formatNumber(n) { return (n || 0).toLocaleString('th-TH'); }
-
         // ============================================================
-        // API WITH RETRY + DEBUG
+        // API
         // ============================================================
         async function apiCall(endpoint, options = {}, retries = 3) {
             const finalEndpoint = endpoint.includes('?') ? endpoint + '&t=' + Date.now() : endpoint + '?t=' + Date.now();
-            const method = options.method || 'GET';
-            let lastError = null;
-
             for (let attempt = 0; attempt <= retries; attempt++) {
                 try {
-                    const startTime = Date.now();
                     const res = await fetch(`${PROXY_URL}${finalEndpoint}`, {
                         ...options,
                         headers: {
@@ -1904,30 +1784,11 @@
                         }
                     });
                     const data = await res.json();
-                    const elapsed = Date.now() - startTime;
-
-                    if (!res.ok) {
-                        const err = new Error(data.error || `HTTP ${res.status}`);
-                        err.status = res.status;
-                        err.data = data;
-                        throw err;
-                    }
-
-                    // ✅ Success Log
-                    addDebugLog(method, endpoint, res.status, data);
+                    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
                     return data;
-
                 } catch (e) {
-                    lastError = e;
-                    console.warn(`⚠️ API Retry ${attempt + 1}/${retries}:`, e.message);
-
-                    if (attempt < retries) {
-                        await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
-                    } else {
-                        // ❌ Final Error Log
-                        addDebugLog(method, endpoint, e.status || 500, null, e);
-                        throw e;
-                    }
+                    if (attempt === retries) throw e;
+                    await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
                 }
             }
         }
@@ -1940,23 +1801,33 @@
             const pass = $('loginPass').value.trim();
             const errorDiv = $('loginError');
             errorDiv.style.display = 'none';
+
             if (!user || !pass) {
-                errorDiv.textContent = '⚠️ กรุณากรอกรหัสนักศึกษาและรหัสผ่าน';
+                errorDiv.textContent = '⚠️ กรุณากรอกให้ครบ';
                 errorDiv.style.display = 'block';
                 return;
             }
+
+            // Admin Login
+            if (user === 'admin' && pass === 'admin123') {
+                isAdmin = true;
+                currentUser = { full_name: 'Admin', student_id: 'admin', status: 'Admin' };
+                localStorage.setItem('user', JSON.stringify({ ...currentUser, isAdmin: true }));
+                enterApp();
+                return;
+            }
+
+            // Student Login
             try {
                 const data = await apiCall('/api/login', {
                     method: 'POST',
                     body: JSON.stringify({ student_id: user, password: pass })
                 });
                 if (data.success) {
-                    currentStudent = data.data;
-                    localStorage.setItem('student', JSON.stringify(currentStudent));
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('appMain').style.display = 'block';
-                    showToast(`✅ ยินดีต้อนรับ ${currentStudent.full_name}`, 'success');
-                    loadAllData();
+                    currentUser = data.data;
+                    isAdmin = false;
+                    localStorage.setItem('user', JSON.stringify({ ...currentUser, isAdmin: false }));
+                    enterApp();
                 } else {
                     errorDiv.textContent = '❌ ' + (data.error || 'เข้าสู่ระบบล้มเหลว');
                     errorDiv.style.display = 'block';
@@ -1964,37 +1835,79 @@
             } catch (e) {
                 errorDiv.textContent = '❌ ' + e.message;
                 errorDiv.style.display = 'block';
-                showToast('❌ ' + e.message, 'error');
+            }
+        }
+
+        function enterApp() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('appMain').style.display = 'block';
+            showToast(`✅ ยินดีต้อนรับ ${currentUser.full_name}`, 'success');
+            setupUI();
+            loadAllData();
+        }
+
+        function setupUI() {
+            const sidebarUser = $('sidebarUserName');
+            const sidebarRole = $('sidebarUserRole');
+            const avatar = $('sidebarAvatar');
+
+            if (isAdmin) {
+                sidebarUser.textContent = 'Admin';
+                sidebarRole.textContent = 'ผู้ดูแลระบบ';
+                avatar.textContent = 'A';
+                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminStats, #adminChartPanel').forEach(el => el
+                    .style.display = 'flex');
+                document.getElementById('profileNav').style.display = 'none';
+                document.getElementById('navCount').textContent = '👑';
+            } else {
+                sidebarUser.textContent = currentUser.full_name || 'นักศึกษา';
+                sidebarRole.textContent = 'นักศึกษา';
+                avatar.textContent = (currentUser.full_name || 'S').charAt(0).toUpperCase();
+                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminStats, #adminChartPanel').forEach(el => el
+                    .style.display = 'none');
+                document.getElementById('profileNav').style.display = 'flex';
+                document.getElementById('navCount').textContent = '0';
             }
         }
 
         function logout() {
             if (confirm('ยืนยันออกจากระบบ?')) {
-                localStorage.removeItem('student');
-                currentStudent = null;
+                localStorage.removeItem('user');
                 document.getElementById('loginPage').style.display = 'flex';
                 document.getElementById('appMain').style.display = 'none';
                 showToast('👋 ออกจากระบบแล้ว', 'info');
-                if (isSidebarOpen) toggleSidebar();
             }
         }
 
-        // ตรวจสอบ session
+        // Check session
         (function() {
-            const saved = localStorage.getItem('student');
+            const saved = localStorage.getItem('user');
             if (saved) {
                 try {
-                    currentStudent = JSON.parse(saved);
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('appMain').style.display = 'block';
-                    loadAllData();
-                } catch (e) { localStorage.removeItem('student'); }
+                    const data = JSON.parse(saved);
+                    isAdmin = data.isAdmin || false;
+                    currentUser = data;
+                    if (isAdmin) {
+                        document.getElementById('loginPage').style.display = 'none';
+                        document.getElementById('appMain').style.display = 'block';
+                        setupUI();
+                        loadAllData();
+                    } else {
+                        // Student session
+                        document.getElementById('loginPage').style.display = 'none';
+                        document.getElementById('appMain').style.display = 'block';
+                        setupUI();
+                        loadAllData();
+                    }
+                } catch (e) { localStorage.removeItem('user'); }
             }
         })();
 
         // ============================================================
         // LOAD DATA
         // ============================================================
+        let chartInstance = null;
+
         async function loadAllData() {
             try {
                 const [students, activities] = await Promise.all([
@@ -2004,18 +1917,29 @@
                 allStudents = students.data || [];
                 allActivities = activities.data || [];
 
-                if (currentStudent) {
-                    const profile = await apiCall(`/api/profile/${currentStudent.student_id}`);
+                if (currentUser && !isAdmin) {
+                    const profile = await apiCall(`/api/profile/${currentUser.student_id}`);
                     allRegistrations = profile.data?.registrations || [];
                 }
 
-                renderStats();
+                if (isAdmin) {
+                    // Admin: load all registrations
+                    const regs = await apiCall('/api/registrations');
+                    allRegistrations = regs.data || [];
+                }
+
+                renderDashboard();
                 renderActivities(allActivities);
-                loadProfile();
-                loadLeaderboards();
+                renderProfile();
+                renderLeaderboards();
+                if (isAdmin) {
+                    loadAdminStudents();
+                    loadAdminActivities();
+                    loadAdminRegistrations();
+                    renderAdminChart();
+                }
                 $('updateTime').textContent = '🕐 ' + new Date().toLocaleString('th-TH');
                 $('statusDot').style.background = '#34a853';
-                showToast('✅ โหลดข้อมูลสำเร็จ', 'success');
             } catch (e) {
                 showToast('❌ โหลดข้อมูลไม่สำเร็จ: ' + e.message, 'error');
                 $('statusDot').style.background = '#ea4335';
@@ -2028,54 +1952,115 @@
         }
 
         // ============================================================
-        // RENDER STATS
+        // RENDER DASHBOARD
         // ============================================================
-        function renderStats() {
-            $('statTotalStudents').textContent = allStudents.length;
-            $('statTotalActivities').textContent = allActivities.length;
-            const totalReg = allRegistrations.length || 0;
-            $('statTotalRegistrations').textContent = totalReg;
+        function renderDashboard() {
+            $('dashStudents').textContent = allStudents.length;
+            $('dashActivities').textContent = allActivities.length;
+            $('dashRegistrations').textContent = allRegistrations.length;
             const upcoming = allActivities.filter(a => a.status === 'upcoming').length;
-            $('statUpcoming').textContent = upcoming;
-            $('navActivityCount').textContent = allActivities.length;
-            $('upcomingBadge').textContent = upcoming;
+            $('dashUpcoming').textContent = upcoming;
+
+            if (isAdmin) {
+                const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
+                const waiting = allRegistrations.filter(r => r.attendance_status === 'registered').length;
+                $('dashCheckedIn').textContent = checkedIn;
+                $('dashWaiting').textContent = waiting;
+            }
+
+            // Recent activities
+            const recent = allActivities.slice(0, 4);
+            $('recentBadge').textContent = recent.length;
+            $('recentActivities').innerHTML = recent.map(a => `
+                <div class="activity-card">
+                    <div class="title">${a.title}</div>
+                    <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
+                    <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || '-'}</div>
+                    <span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // RENDER ADMIN CHART
+        // ============================================================
+        function renderAdminChart() {
+            if (!isAdmin) return;
+            if (chartInstance) { chartInstance.destroy();
+                chartInstance = null; }
+
+            const canvas = document.getElementById('activityChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const topActivities = allActivities.slice(0, 6);
+            const labels = topActivities.map(a => a.title || 'ไม่ระบุ');
+            const data = topActivities.map(a => {
+                const count = allRegistrations.filter(r => r.act_id === a.act_id).length;
+                return count;
+            });
+
+            const isDarkMode = isDark;
+            const textColor = isDarkMode ? '#b0b0cc' : '#4a4a6a';
+            const gridColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'จำนวนผู้ลงทะเบียน',
+                        data: data,
+                        backgroundColor: ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6'],
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: textColor, font: { size: 10 } },
+                            grid: { color: gridColor }
+                        },
+                        x: {
+                            ticks: { color: textColor, font: { size: 10 } },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
         }
 
         // ============================================================
         // RENDER ACTIVITIES
         // ============================================================
         function renderActivities(activities) {
-            const upcoming = activities.filter(a => a.status === 'upcoming');
-            const others = activities.filter(a => a.status !== 'upcoming');
-
-            const upcomingContainer = $('upcomingActivities');
-            const allContainer = $('allActivities');
-
-            upcomingContainer.innerHTML = upcoming.map(a => activityCard(a)).join('');
-            allContainer.innerHTML = others.map(a => activityCard(a)).join('');
-        }
-
-        function activityCard(act) {
-            const statusMap = { 'upcoming': 'กำลังจะมา', 'ongoing': 'กำลังจัด', 'closed': 'ปิดแล้ว' };
-            const statusClass = { 'upcoming': 'badge-upcoming', 'ongoing': 'badge-ongoing', 'closed': 'badge-closed' } [act
-                .status] || 'badge-upcoming';
-
-            let registerBtn = '';
-            if (act.status === 'upcoming' && currentStudent) {
-                registerBtn = `<button class="btn btn-success btn-sm" onclick="registerActivity('${act.act_id}')"><i class="fas fa-user-plus"></i> ลงทะเบียน</button>`;
-            }
-
-            return `
-                <div class="activity-card">
-                    <div class="title">${act.title}</div>
-                    <div class="meta"><i class="fas fa-calendar-day"></i> ${act.datetime || 'ไม่ระบุวันที่'}</div>
-                    <div class="meta"><i class="fas fa-map-marker-alt"></i> ${act.location || 'ไม่ระบุสถานที่'}</div>
-                    <div class="meta"><i class="fas fa-users"></i> รับสูงสุด ${act.max_slots || 'ไม่จำกัด'} คน</div>
-                    <div><span class="badge ${statusClass}">${statusMap[act.status] || act.status}</span></div>
-                    <p style="margin:8px 0;">${act.description || ''}</p>
-                    ${registerBtn}
-                </div>
-            `;
+            const container = $('allActivities');
+            container.innerHTML = activities.map(a => {
+                const statusMap = { 'upcoming': 'กำลังจะมา', 'ongoing': 'กำลังจัด', 'closed': 'ปิดแล้ว' };
+                let registerBtn = '';
+                if (a.status === 'upcoming' && currentUser && !isAdmin) {
+                    registerBtn =
+                        `<button class="btn btn-success btn-sm register-btn" onclick="registerActivity('${a.act_id}')"><i class="fas fa-user-plus"></i> ลงทะเบียน</button>`;
+                }
+                return `
+                    <div class="activity-card">
+                        <div class="title">${a.title}</div>
+                        <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
+                        <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || 'ไม่ระบุ'}</div>
+                        <div class="meta"><i class="fas fa-users"></i> รับสูงสุด ${a.max_slots || 'ไม่จำกัด'} คน</div>
+                        <span class="badge-status ${a.status}">${statusMap[a.status] || a.status}</span>
+                        ${registerBtn}
+                    </div>
+                `;
+            }).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ไม่มีกิจกรรม</p>';
         }
 
         function filterActivities() {
@@ -2087,16 +2072,13 @@
             renderActivities(filtered);
         }
 
-        // ============================================================
-        // REGISTER ACTIVITY
-        // ============================================================
         async function registerActivity(act_id) {
-            if (!currentStudent) return alert('กรุณาเข้าสู่ระบบ');
+            if (!currentUser) return alert('กรุณาเข้าสู่ระบบ');
             if (!confirm('ยืนยันการลงทะเบียน?')) return;
             try {
                 const res = await apiCall('/api/register', {
                     method: 'POST',
-                    body: JSON.stringify({ student_id: currentStudent.student_id, act_id })
+                    body: JSON.stringify({ student_id: currentUser.student_id, act_id })
                 });
                 if (res.success) {
                     showToast('✅ ลงทะเบียนสำเร็จ!', 'success');
@@ -2110,10 +2092,10 @@
         // ============================================================
         // PROFILE
         // ============================================================
-        async function loadProfile() {
-            if (!currentStudent) return;
+        async function renderProfile() {
+            if (!currentUser || isAdmin) return;
             try {
-                const res = await apiCall(`/api/profile/${currentStudent.student_id}`);
+                const res = await apiCall(`/api/profile/${currentUser.student_id}`);
                 if (res.success) {
                     const data = res.data;
                     const student = data.student;
@@ -2122,9 +2104,6 @@
                     $('profileMajor').textContent = student.major || 'ไม่ระบุ';
                     $('profileAttendance').textContent = student.total_attendance || 0;
                     $('profileImg').src = student.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.full_name)}&background=2b6cb0&color=fff`;
-                    $('sidebarUserName').textContent = student.full_name;
-                    $('sidebarUserRole').textContent = 'นักศึกษา';
-                    $('sidebarAvatar').textContent = student.full_name.charAt(0).toUpperCase();
 
                     const regs = data.registrations || [];
                     renderRegistrations(regs);
@@ -2183,7 +2162,7 @@
                 });
                 if (res.success) {
                     showToast('✅ ประเมินผลสำเร็จ!', 'success');
-                    loadProfile();
+                    loadAllData();
                 } else {
                     showToast('❌ ' + (res.error || 'เกิดข้อผิดพลาด'), 'error');
                 }
@@ -2202,7 +2181,7 @@
         // ============================================================
         // LEADERBOARD
         // ============================================================
-        async function loadLeaderboards() {
+        async function renderLeaderboards() {
             try {
                 const [studentRes, activityRes] = await Promise.all([
                     apiCall('/api/leaderboard/students'),
@@ -2210,12 +2189,16 @@
                 ]);
                 if (studentRes.success) {
                     const data = studentRes.data || [];
-                    $('studentLeaderboard').innerHTML = data.map((item, idx) => `
-                        <div class="leaderboard-item">
-                            <span><span class="rank">#${idx+1}</span> ${item.full_name} ${item.major ? ' ('+item.major+')' : ''}</span>
-                            <span><i class="fas fa-calendar-check"></i> ${item.count} ครั้ง</span>
-                        </div>
-                    `).join('') || '<p style="color:var(--text-muted);">ยังไม่มีข้อมูล</p>';
+                    $('studentLeaderboard').innerHTML = data.map((item, idx) => {
+                        const rankClass = idx === 0 ? 'gold' : idx === 1 ? 'silver' : idx === 2 ? 'bronze' : '';
+                        const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx+1}`;
+                        return `
+                            <div class="leaderboard-item">
+                                <span><span class="rank ${rankClass}">${medal}</span> ${item.full_name} ${item.major ? ' ('+item.major+')' : ''}</span>
+                                <span><i class="fas fa-calendar-check"></i> ${item.count} ครั้ง</span>
+                            </div>
+                        `;
+                    }).join('') || '<p style="color:var(--text-muted);">ยังไม่มีข้อมูล</p>';
                 }
                 if (activityRes.success) {
                     const data = activityRes.data || [];
@@ -2232,76 +2215,246 @@
         }
 
         // ============================================================
-        // REGISTER STUDENT
+        // ADMIN: STUDENTS
         // ============================================================
-        async function openRegisterMember() {
-            const modal = $('registerMemberModal');
-            if (!modal) return;
-            modal.classList.add('show');
-            modal.style.display = 'flex';
-            modal.style.zIndex = '100000';
+        async function loadAdminStudents() {
+            try {
+                const res = await apiCall('/api/students');
+                allStudents = res.data || [];
+                $('adminStudentCount').textContent = allStudents.length;
+                $('adminStudentTable').innerHTML = allStudents.map(s => `
+                    <tr>
+                        <td><strong>${s.student_id}</strong></td>
+                        <td>${s.full_name}</td>
+                        <td>${s.phone || '-'}</td>
+                        <td>${s.major || '-'}</td>
+                        <td>${s.total_attendance || 0}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.student_id}')"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-amber btn-sm" onclick="resetStudentPass('${s.student_id}')"><i class="fas fa-key"></i></button>
+                        </td>
+                    </tr>
+                `).join('') || `<tr><td colspan="6" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+            } catch (e) {
+                showToast('❌ ' + e.message, 'error');
+            }
+        }
 
+        async function deleteStudent(id) {
+            if (!confirm(`ยืนยันลบ ${id}?`)) return;
+            try {
+                await apiCall(`/api/students/${id}`, { method: 'DELETE' });
+                showToast(`✅ ลบ ${id} สำเร็จ`, 'success');
+                loadAdminStudents();
+                loadAllData();
+            } catch (e) { showToast('❌ ' + e.message, 'error'); }
+        }
+
+        async function resetStudentPass(id) {
+            const newPass = prompt(`ตั้งรหัสผ่านใหม่สำหรับ ${id}:`);
+            if (newPass && newPass.length >= 4) {
+                try {
+                    await apiCall(`/api/students/${id}/password`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ password: newPass })
+                    });
+                    showToast(`✅ เปลี่ยนรหัสผ่าน ${id} สำเร็จ`, 'success');
+                } catch (e) { showToast('❌ ' + e.message, 'error'); }
+            }
+        }
+
+        // ============================================================
+        // ADMIN: ACTIVITIES
+        // ============================================================
+        async function loadAdminActivities() {
+            try {
+                const res = await apiCall('/api/activities?type=all');
+                allActivities = res.data || [];
+                $('adminActCount').textContent = allActivities.length;
+                $('adminActTable').innerHTML = allActivities.map(a => `
+                    <tr>
+                        <td>${a.act_id}</td>
+                        <td>${a.title}</td>
+                        <td>${a.datetime || '-'}</td>
+                        <td>${a.location || '-'}</td>
+                        <td>${a.max_slots || 0}</td>
+                        <td><span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span></td>
+                        <td>${a.type === 'private' ? '🔒 ส่วนตัว' : '🌐 สาธารณะ'}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="editActivity('${a.act_id}')"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteActivity('${a.act_id}')"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('') || `<tr><td colspan="8" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+            } catch (e) {
+                showToast('❌ ' + e.message, 'error');
+            }
+        }
+
+        function openAddActivity() {
+            $('activityModalTitle').innerHTML = '<i class="fas fa-plus"></i> เพิ่มกิจกรรม';
+            $('actId').value = 'ACT' + String(Math.floor(Math.random() * 9000 + 1000));
+            $('actTitle').value = '';
+            $('actDesc').value = '';
+            $('actDate').value = getTodayStr();
+            $('actLocation').value = '';
+            $('actSlots').value = '50';
+            $('actStatus').value = 'upcoming';
+            $('actType').value = 'public';
+            $('actResult').textContent = '';
+            $('activityModal').classList.add('show');
+            $('activityModal').style.display = 'flex';
+        }
+
+        async function editActivity(id) {
+            const activity = allActivities.find(a => a.act_id === id);
+            if (!activity) return showToast('❌ ไม่พบกิจกรรม', 'error');
+            $('activityModalTitle').innerHTML = '<i class="fas fa-edit"></i> แก้ไขกิจกรรม';
+            $('actId').value = activity.act_id;
+            $('actTitle').value = activity.title || '';
+            $('actDesc').value = activity.description || '';
+            $('actDate').value = activity.datetime || '';
+            $('actLocation').value = activity.location || '';
+            $('actSlots').value = activity.max_slots || 50;
+            $('actStatus').value = activity.status || 'upcoming';
+            $('actType').value = activity.type || 'public';
+            $('actResult').textContent = '';
+            $('activityModal').classList.add('show');
+            $('activityModal').style.display = 'flex';
+        }
+
+        async function saveActivity() {
+            const act_id = $('actId').value.trim();
+            const title = $('actTitle').value.trim();
+            const description = $('actDesc').value.trim();
+            const datetime = $('actDate').value;
+            const location = $('actLocation').value.trim();
+            const max_slots = parseInt($('actSlots').value) || 0;
+            const status = $('actStatus').value;
+            const type = $('actType').value;
+            const resultDiv = $('actResult');
+
+            if (!title || !datetime) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกชื่อและวันที่</span>';
+                return;
+            }
+
+            const isEdit = allActivities.some(a => a.act_id === act_id);
+            const endpoint = isEdit ? `/api/activities/${act_id}` : '/api/activities';
+            const method = isEdit ? 'PUT' : 'POST';
+
+            try {
+                await apiCall(endpoint, {
+                    method: method,
+                    body: JSON.stringify({ act_id, title, description, datetime, location, max_slots, status, type })
+                });
+                resultDiv.innerHTML = `<span style="color:var(--success);">✅ ${isEdit ? 'แก้ไข' : 'เพิ่ม'}กิจกรรมสำเร็จ!</span>`;
+                showToast(`✅ ${isEdit ? 'แก้ไข' : 'เพิ่ม'}กิจกรรมสำเร็จ`, 'success');
+                setTimeout(() => {
+                    closeModal('activityModal');
+                    loadAdminActivities();
+                    loadAllData();
+                }, 1000);
+            } catch (e) {
+                resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
+                showToast('❌ ' + e.message, 'error');
+            }
+        }
+
+        async function deleteActivity(id) {
+            if (!confirm(`ยืนยันลบกิจกรรม ${id}?`)) return;
+            try {
+                await apiCall(`/api/activities/${id}`, { method: 'DELETE' });
+                showToast(`✅ ลบกิจกรรมสำเร็จ`, 'success');
+                loadAdminActivities();
+                loadAllData();
+            } catch (e) { showToast('❌ ' + e.message, 'error'); }
+        }
+
+        // ============================================================
+        // ADMIN: REGISTRATIONS
+        // ============================================================
+        async function loadAdminRegistrations() {
+            try {
+                const res = await apiCall('/api/registrations');
+                allRegistrations = res.data || [];
+                $('adminRegCount').textContent = allRegistrations.length;
+                $('adminRegTable').innerHTML = allRegistrations.map(r => {
+                    const student = allStudents.find(s => s.student_id === r.student_id);
+                    const activity = allActivities.find(a => a.act_id === r.act_id);
+                    const statusMap = { 'registered': 'รอเข้าร่วม', 'checked-in': '✅ เข้าร่วมแล้ว', 'absent': '❌ ขาด' };
+                    return `
+                        <tr>
+                            <td>${r.reg_id}</td>
+                            <td>${student ? student.full_name : r.student_id}</td>
+                            <td>${activity ? activity.title : r.act_id}</td>
+                            <td>${r.registered_at || '-'}</td>
+                            <td><span class="badge-status ${r.attendance_status === 'checked-in' ? 'active' : r.attendance_status === 'registered' ? 'upcoming' : 'closed'}">${statusMap[r.attendance_status] || r.attendance_status}</span></td>
+                            <td>${r.evaluation_score || '-'}</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="markCheckin('${r.reg_id}')"><i class="fas fa-check"></i> เช็คอิน</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteRegistration('${r.reg_id}')"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+            } catch (e) {
+                showToast('❌ ' + e.message, 'error');
+            }
+        }
+
+        async function markCheckin(reg_id) {
+            try {
+                await apiCall('/api/checkin', {
+                    method: 'POST',
+                    body: JSON.stringify({ reg_id, status: 'checked-in' })
+                });
+                showToast('✅ เช็คอินสำเร็จ', 'success');
+                loadAdminRegistrations();
+                loadAllData();
+            } catch (e) { showToast('❌ ' + e.message, 'error'); }
+        }
+
+        async function deleteRegistration(reg_id) {
+            if (!confirm('ยืนยันลบการลงทะเบียน?')) return;
+            try {
+                await apiCall(`/api/registrations/${reg_id}`, { method: 'DELETE' });
+                showToast('✅ ลบการลงทะเบียนสำเร็จ', 'success');
+                loadAdminRegistrations();
+                loadAllData();
+            } catch (e) { showToast('❌ ' + e.message, 'error'); }
+        }
+
+        // ============================================================
+        // MODALS
+        // ============================================================
+        function closeModal(id) {
+            const modal = $(id);
+            if (modal) { modal.classList.remove('show');
+                modal.style.display = 'none'; }
+        }
+
+        function openRegisterMember() {
+            $('registerModal').classList.add('show');
+            $('registerModal').style.display = 'flex';
+            $('regStudentId').value = 'S' + String(Math.floor(Math.random() * 9000 + 1000)).padStart(4, '0');
             $('regFullName').value = '';
             $('regPhone').value = '';
             $('regMajor').value = '';
             $('regPassword').value = '';
             $('regResult').textContent = '';
-            $('regResult').innerHTML = '';
-            $('copyMessage').style.display = 'none';
-
-            const tempId = 'S' + String(Math.floor(Math.random() * 9000 + 1000)).padStart(4, '0');
-            $('regStudentId').value = tempId;
-
+            // Try to get real ID
             try {
-                const data = await apiCall('/api/students');
-                const students = data.data || [];
-                let max = 0;
-                students.forEach(s => {
-                    const num = parseInt(s.student_id.replace(/\D/g, ''));
-                    if (!isNaN(num) && num > max) max = num;
-                });
-                const newId = 'S' + String(max + 1).padStart(4, '0');
-                $('regStudentId').value = newId;
-            } catch (e) {
-                // ใช้ ID ชั่วคราว
-            }
-        }
-
-        function closeRegisterModal(id) {
-            const modal = $(id);
-            if (modal) { modal.classList.remove('show');
-                modal.style.display = 'none'; }
-            document.querySelectorAll('.modal-overlay.show').forEach(el => {
-                el.classList.remove('show');
-                el.style.display = 'none';
-            });
-        }
-
-        function copyStudentId() {
-            const input = $('regStudentId');
-            const btn = $('copyStudentIdBtn');
-            const msg = $('copyMessage');
-            if (!input || !input.value) {
-                showToast('⚠️ ไม่มีรหัสให้คัดลอก', 'warning');
-                return;
-            }
-            navigator.clipboard.writeText(input.value).then(() => {
-                msg.style.display = 'block';
-                msg.innerHTML = `<i class="fas fa-check-circle"></i> คัดลอกแล้ว! ใช้รหัส <strong>${input.value}</strong> เพื่อเข้าสู่ระบบ`;
-                btn.classList.add('copied');
-                btn.innerHTML = '<i class="fas fa-check"></i> คัดลอกแล้ว';
-                showToast(`✅ คัดลอกรหัส ${input.value} แล้ว`, 'success');
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    btn.innerHTML = '<i class="fas fa-copy"></i> คัดลอก';
-                }, 3000);
-            }).catch(() => {
-                input.select();
-                document.execCommand('copy');
-                msg.style.display = 'block';
-                msg.innerHTML = `<i class="fas fa-check-circle"></i> คัดลอกแล้ว! ใช้รหัส <strong>${input.value}</strong> เพื่อเข้าสู่ระบบ`;
-                showToast(`✅ คัดลอกรหัส ${input.value} แล้ว`, 'success');
-            });
+                apiCall('/api/students').then(res => {
+                    const students = res.data || [];
+                    let max = 0;
+                    students.forEach(s => {
+                        const num = parseInt(s.student_id.replace(/\D/g, ''));
+                        if (!isNaN(num) && num > max) max = num;
+                    });
+                    $('regStudentId').value = 'S' + String(max + 1).padStart(4, '0');
+                }).catch(() => {});
+            } catch (e) {}
         }
 
         async function registerStudent() {
@@ -2314,12 +2467,10 @@
 
             if (!student_id || !full_name || !password) {
                 resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกข้อมูลให้ครบ</span>';
-                resultDiv.style.background = 'rgba(239,68,68,0.06)';
                 return;
             }
             if (password.length < 4) {
                 resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านต้องมีอย่างน้อย 4 ตัว</span>';
-                resultDiv.style.background = 'rgba(239,68,68,0.06)';
                 return;
             }
 
@@ -2328,39 +2479,28 @@
                     method: 'POST',
                     body: JSON.stringify({ student_id, full_name, phone, major, password })
                 });
-                resultDiv.innerHTML = `<span style="color:var(--success);"><i class="fas fa-check-circle"></i> ลงทะเบียนสำเร็จ! รหัส: <strong>${student_id}</strong></span>`;
-                resultDiv.style.background = 'rgba(16,185,129,0.06)';
+                resultDiv.innerHTML = `<span style="color:var(--success);">✅ ลงทะเบียนสำเร็จ! รหัส: ${student_id}</span>`;
                 showToast(`✅ ลงทะเบียน ${student_id} สำเร็จ`, 'success');
-
                 setTimeout(() => {
-                    closeRegisterModal('registerMemberModal');
-                    localStorage.setItem('student', JSON.stringify({ student_id, full_name }));
-                    currentStudent = { student_id, full_name };
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('appMain').style.display = 'block';
-                    showToast(`🔑 ยินดีต้อนรับ ${full_name}!`, 'success');
+                    closeModal('registerModal');
                     loadAllData();
+                    if (isAdmin) loadAdminStudents();
                 }, 1500);
-
             } catch (e) {
-                if (e.message.includes('already exists') || e.message.includes('duplicate')) {
-                    resultDiv.innerHTML = `<span style="color:var(--danger);"><i class="fas fa-times-circle"></i> รหัส ${student_id} มีอยู่แล้ว</span>`;
+                if (e.message.includes('already exists')) {
+                    resultDiv.innerHTML = `<span style="color:var(--danger);">❌ รหัส ${student_id} มีอยู่แล้ว</span>`;
                     const newId = 'S' + String(Math.floor(Math.random() * 9000 + 1000)).padStart(4, '0');
                     $('regStudentId').value = newId;
-                    showToast('🔄 สร้างรหัสใหม่ให้อัตโนมัติ', 'info');
                 } else {
-                    resultDiv.innerHTML = `<span style="color:var(--danger);"><i class="fas fa-times-circle"></i> ${e.message}</span>`;
-                    showToast('❌ ' + e.message, 'error');
+                    resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
                 }
-                resultDiv.style.background = 'rgba(239,68,68,0.06)';
             }
         }
 
         // ============================================================
-        // NAVIGATION, THEME
+        // NAVIGATION
         // ============================================================
         function switchTab(page) {
-            currentPage = page;
             document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -2368,20 +2508,22 @@
             if (target) target.classList.add('active');
 
             const titles = {
+                dashboard: { title: 'แดชบอร์ด', sub: 'ภาพรวมระบบ' },
                 activities: { title: 'กิจกรรม', sub: 'รายการกิจกรรมและลงทะเบียน' },
                 profile: { title: 'โปรไฟล์', sub: 'ข้อมูลส่วนตัวและประวัติการเข้าร่วม' },
-                leaderboard: { title: 'ลีดเดอร์บอร์ด', sub: 'อันดับการเข้าร่วมกิจกรรม' }
+                leaderboard: { title: 'ลีดเดอร์บอร์ด', sub: 'อันดับการเข้าร่วมกิจกรรม' },
+                'admin-students': { title: 'จัดการนักศึกษา', sub: 'เพิ่ม/แก้ไข/ลบ นักศึกษา' },
+                'admin-activities': { title: 'จัดการกิจกรรม', sub: 'เพิ่ม/แก้ไข/ลบ กิจกรรม' },
+                'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' }
             };
             const info = titles[page] || { title: 'หน้า', sub: '' };
             document.getElementById('pageTitle').textContent = info.title;
             document.getElementById('pageSubtitle').textContent = info.sub;
 
-            if (isSidebarOpen) toggleSidebar();
-
-            if (page === 'activities') loadAllData();
-            else if (page === 'profile') loadProfile();
-            else if (page === 'leaderboard') loadLeaderboards();
+            if (window.innerWidth <= 992 && isSidebarOpen) toggleSidebar();
         }
+
+        let isSidebarOpen = false;
 
         function toggleSidebar() {
             isSidebarOpen = !isSidebarOpen;
@@ -2389,68 +2531,25 @@
             document.getElementById('sidebarOverlay').classList.toggle('show', isSidebarOpen);
         }
 
+        // ============================================================
+        // THEME
+        // ============================================================
         function toggleTheme() {
             isDark = !isDark;
             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            if (isAdmin) renderAdminChart();
         }
 
         (function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                isDark = savedTheme === 'dark';
+            const saved = localStorage.getItem('theme');
+            if (saved) {
+                isDark = saved === 'dark';
                 document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
                 $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
             }
         })();
-
-        // ============================================================
-        // STAT DETAIL (Modal)
-        // ============================================================
-        function showStatDetail(type) {
-            let title = '📊 รายละเอียด';
-            let content = '';
-            if (type === 'students') {
-                title = '👥 นักศึกษาทั้งหมด';
-                content = allStudents.map(s => `${s.full_name} (${s.student_id})`).join('<br>') || 'ไม่มีข้อมูล';
-            } else if (type === 'activities') {
-                title = '📅 กิจกรรมทั้งหมด';
-                content = allActivities.map(a => `${a.title} (${a.datetime || 'ไม่ระบุ'})`).join('<br>') || 'ไม่มีข้อมูล';
-            } else if (type === 'registrations') {
-                title = '📋 การลงทะเบียนทั้งหมด';
-                content = `จำนวนทั้งหมด: ${allRegistrations.length} รายการ`;
-            } else if (type === 'upcoming') {
-                title = '⏳ กิจกรรมที่กำลังจะมา';
-                const upcoming = allActivities.filter(a => a.status === 'upcoming');
-                content = upcoming.map(a => `${a.title} (${a.datetime})`).join('<br>') || 'ไม่มีกิจกรรม';
-            }
-            openModal(title, content);
-        }
-
-        function openModal(title, html) {
-            const old = document.getElementById('tempModal');
-            if (old) old.remove();
-            const overlay = document.createElement('div');
-            overlay.className = 'modal-overlay show';
-            overlay.id = 'tempModal';
-            overlay.innerHTML = `
-                        <div class="modal-box">
-                            <div class="modal-header">
-                                <h3>${title}</h3>
-                                <button class="close" onclick="closeTempModal()">&times;</button>
-                            </div>
-                            <div style="max-height:60vh;overflow-y:auto;">${html}</div>
-                        </div>
-                    `;
-            document.body.appendChild(overlay);
-            overlay.addEventListener('click', function(e) { if (e.target === this) closeTempModal(); });
-        }
-
-        function closeTempModal() {
-            const el = document.getElementById('tempModal');
-            if (el) el.remove();
-        }
 
         // ============================================================
         // KEYBOARD SHORTCUTS
@@ -2459,53 +2558,17 @@
             if (e.ctrlKey && e.key === 'r') { e.preventDefault();
                 refreshData(); }
             if (e.key === 'Escape') {
-                const modal = document.querySelector('.modal-overlay.show');
-                if (modal) { const btn = modal.querySelector('.close'); if (btn) btn.click(); }
-                closeRegisterModal('registerMemberModal');
-                if (document.getElementById('debugPanel').classList.contains('open')) {
-                    toggleDebugPanel();
-                }
-            }
-            if (e.ctrlKey && e.key === 'd') {
-                e.preventDefault();
-                toggleDebugPanel();
+                document.querySelectorAll('.modal-overlay.show').forEach(el => {
+                    el.classList.remove('show');
+                    el.style.display = 'none';
+                });
             }
         });
 
-        // ============================================================
-        // TEST CONNECTION
-        // ============================================================
-        async function testConnection() {
-            const dot = document.getElementById('loginStatusDot');
-            const txt = document.getElementById('loginStatusText');
-            if (!dot || !txt) return;
-            dot.className = 'dot checking';
-            txt.textContent = 'กำลังเชื่อมต่อ...';
-            try {
-                const res = await fetch(PROXY_URL, { headers: { 'X-API-Secret': API_SECRET } });
-                const data = await res.json();
-                if (data.success || data.message) {
-                    dot.className = 'dot online';
-                    txt.textContent = '✅ เชื่อมต่อ API สำเร็จ';
-                } else {
-                    dot.className = 'dot offline';
-                    txt.textContent = '❌ API ไม่ตอบสนอง';
-                }
-            } catch (e) {
-                dot.className = 'dot offline';
-                txt.textContent = '❌ ' + e.message;
-            }
-        }
-
-        if (!document.getElementById('loginPage').style.display || document.getElementById('loginPage').style.display !==
-            'none') {
-            testConnection();
-        }
-
-        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา พร้อมใช้งาน (Premium UI + Debug)');
-        console.log('🔑 ตัวอย่างรหัส: sh01 / 1234');
-        console.log('⌨️ Ctrl+R = รีเฟรช, Ctrl+D = เปิด/ปิดดีบัก, ESC = ปิด Modal');
-        console.log('🔄 ระบบดีบัก: แสดง API Logs ทั้งหมด');
+        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — ฉบับสมบูรณ์');
+        console.log('👑 Admin: admin / admin123');
+        console.log('👤 Student: sh01 / 1234');
+        console.log('⌨️ Ctrl+R = รีเฟรช, ESC = ปิด Modal');
     </script>
 </body>
 </html>
