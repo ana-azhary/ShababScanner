@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
     <title>🎓 ระบบจัดการกิจกรรมนักศึกษา</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-    </script>
     <style>
         /* ============================================================
            ROOT & RESET — คงดีไซน์พรีเมียมจากระบบ Gym เดิม
@@ -57,12 +53,6 @@
             --stat-amber: #f59e0b;
             --stat-red: #ef4444;
             --stat-purple: #8b5cf6;
-            --stat-pink: #ec4899;
-            --stat-indigo: #6366f1;
-            --stat-teal: #14b8a6;
-            --gold: #f59e0b;
-            --silver: #94a3b8;
-            --bronze: #cd7f32;
         }
         [data-theme="dark"] {
             --bg-body: #0b1120;
@@ -77,14 +67,6 @@
             --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
             --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
             --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.5);
-            --stat-blue: #38bdf8;
-            --stat-green: #34d399;
-            --stat-amber: #fbbf24;
-            --stat-red: #f87171;
-            --stat-purple: #a78bfa;
-            --stat-pink: #f472b6;
-            --stat-indigo: #818cf8;
-            --stat-teal: #2dd4bf;
         }
         html {
             font-size: 15px;
@@ -116,36 +98,8 @@
             background: var(--primary);
         }
 
-        /* OFFLINE INDICATOR */
-        #offlineIndicator {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 99999;
-            background: var(--danger);
-            color: #fff;
-            text-align: center;
-            padding: 8px;
-            font-weight: 700;
-            font-size: 13px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-            animation: slideDown 0.4s ease;
-        }
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
         /* ============================================================
-           SIDEBAR — คงดีไซน์เดิม
+           SIDEBAR
            ============================================================ */
         .app-sidebar {
             position: fixed;
@@ -458,6 +412,28 @@
         .topbar .topbar-right .btn-refresh:active {
             transform: scale(0.96);
         }
+        .topbar .topbar-right .btn-debug {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+        .topbar .topbar-right .btn-debug:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        }
+        .topbar .topbar-right .btn-debug.active {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
 
         .page-section {
             display: none;
@@ -542,20 +518,8 @@
         .stat-card-click .stat-icon.amber {
             background: linear-gradient(135deg, #f59e0b, #d97706);
         }
-        .stat-card-click .stat-icon.red {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
         .stat-card-click .stat-icon.purple {
             background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
-        .stat-card-click .stat-icon.pink {
-            background: linear-gradient(135deg, #ec4899, #db2777);
-        }
-        .stat-card-click .stat-icon.indigo {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-        }
-        .stat-card-click .stat-icon.teal {
-            background: linear-gradient(135deg, #14b8a6, #0d9488);
         }
         .stat-card-click .num {
             font-size: 22px;
@@ -653,7 +617,7 @@
         }
 
         /* ============================================================
-           GRID & CARDS สำหรับกิจกรรม
+           GRID & CARDS
            ============================================================ */
         .grid {
             display: grid;
@@ -1170,6 +1134,181 @@
         }
 
         /* ============================================================
+           DEBUG PANEL
+           ============================================================ */
+        #debugPanel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999999;
+            background: var(--bg-surface);
+            border-top: 3px solid var(--primary);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+            max-height: 60vh;
+            display: none;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            border-radius: 16px 16px 0 0;
+        }
+        #debugPanel.open {
+            display: flex;
+        }
+        #debugPanel .debug-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: var(--primary-dark);
+            color: #fff;
+            border-radius: 16px 16px 0 0;
+            flex-shrink: 0;
+        }
+        #debugPanel .debug-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #debugPanel .debug-header .debug-actions {
+            display: flex;
+            gap: 8px;
+        }
+        #debugPanel .debug-header .debug-actions button {
+            padding: 4px 12px;
+            border-radius: var(--radius-sm);
+            border: none;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        #debugPanel .debug-header .debug-actions button:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        #debugPanel .debug-header .debug-actions .btn-close-debug {
+            background: rgba(239, 68, 68, 0.4);
+        }
+        #debugPanel .debug-header .debug-actions .btn-close-debug:hover {
+            background: rgba(239, 68, 68, 0.6);
+        }
+        #debugPanel .debug-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 20px;
+            background: var(--bg-body);
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+        #debugPanel .debug-body .log-entry {
+            padding: 6px 10px;
+            margin-bottom: 4px;
+            border-radius: 4px;
+            border-left: 3px solid transparent;
+            background: var(--bg-surface);
+            box-shadow: var(--shadow-sm);
+        }
+        #debugPanel .debug-body .log-entry .log-time {
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-right: 8px;
+        }
+        #debugPanel .debug-body .log-entry .log-method {
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-right: 6px;
+        }
+        #debugPanel .debug-body .log-entry .log-method.GET {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        #debugPanel .debug-body .log-entry .log-method.POST {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--info);
+        }
+        #debugPanel .debug-body .log-entry .log-method.PUT {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        #debugPanel .debug-body .log-entry .log-method.DELETE {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        #debugPanel .debug-body .log-entry .log-status {
+            font-weight: 700;
+            padding: 1px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 6px;
+        }
+        #debugPanel .debug-body .log-entry .log-status.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+        #debugPanel .debug-body .log-entry .log-status.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+        #debugPanel .debug-body .log-entry .log-status.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+        #debugPanel .debug-body .log-entry .log-detail {
+            margin-top: 4px;
+            padding: 6px 10px;
+            background: var(--bg-body);
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 120px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            display: none;
+        }
+        #debugPanel .debug-body .log-entry .log-detail.open {
+            display: block;
+        }
+        #debugPanel .debug-body .log-entry .toggle-detail {
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 10px;
+            text-decoration: underline;
+            margin-left: 6px;
+        }
+        #debugPanel .debug-body .log-entry .toggle-detail:hover {
+            color: var(--primary);
+        }
+        #debugPanel .debug-body .log-entry.error {
+            border-left-color: var(--danger);
+            background: rgba(239, 68, 68, 0.04);
+        }
+        #debugPanel .debug-body .log-entry.success {
+            border-left-color: var(--success);
+        }
+        #debugPanel .debug-body .log-entry.warning {
+            border-left-color: var(--warning);
+        }
+        #debugPanel .debug-body .log-entry.info {
+            border-left-color: var(--info);
+        }
+        .debug-counter {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            line-height: 22px;
+        }
+        .debug-counter.error-count {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* ============================================================
            RESPONSIVE
            ============================================================ */
         .sidebar-overlay {
@@ -1207,6 +1346,9 @@
             .grid {
                 grid-template-columns: 1fr 1fr;
             }
+            #debugPanel {
+                max-height: 50vh;
+            }
         }
         @media (max-width: 768px) {
             .stats-grid {
@@ -1232,6 +1374,13 @@
             .profile-info {
                 flex-direction: column;
                 text-align: center;
+            }
+            #debugPanel {
+                max-height: 40vh;
+            }
+            #debugPanel .debug-body {
+                font-size: 10px;
+                padding: 8px 12px;
             }
         }
         @media (max-width: 480px) {
@@ -1262,6 +1411,9 @@
             .topbar .topbar-right .btn-refresh span {
                 display: none;
             }
+            .topbar .topbar-right .btn-debug span {
+                display: none;
+            }
             .modal-box {
                 padding: 16px 14px;
             }
@@ -1283,6 +1435,17 @@
                 right: 12px;
                 max-width: none;
                 bottom: 16px;
+            }
+            #debugPanel {
+                max-height: 35vh;
+            }
+            #debugPanel .debug-body .log-entry {
+                font-size: 9px;
+                padding: 4px 6px;
+            }
+            #debugPanel .debug-body .log-entry .log-detail {
+                font-size: 9px;
+                max-height: 80px;
             }
         }
     </style>
@@ -1381,6 +1544,9 @@
                 <span class="text-muted text-sm" id="updateTime">-</span>
                 <button class="btn-icon" onclick="toggleTheme()" title="สลับธีม">
                     <i id="themeIcon" class="fas fa-moon"></i>
+                </button>
+                <button class="btn-debug" id="debugToggleBtn" onclick="toggleDebugPanel()">
+                    <i class="fas fa-bug"></i> <span>ดีบัก</span>
                 </button>
                 <button class="btn-refresh" id="refreshBtn" onclick="refreshData()">
                     <i class="fas fa-sync"></i> <span>รีเฟรช</span>
@@ -1519,6 +1685,23 @@
         </div>
     </div>
 
+    <!-- DEBUG PANEL -->
+    <div id="debugPanel">
+        <div class="debug-header">
+            <h3><i class="fas fa-bug"></i> ระบบดีบัก <span class="debug-counter" id="debugCounter">0</span> <span class="debug-counter error-count" id="debugErrorCounter">0</span></h3>
+            <div class="debug-actions">
+                <button onclick="clearDebugLogs()"><i class="fas fa-eraser"></i> ล้าง</button>
+                <button onclick="exportDebugLogs()"><i class="fas fa-download"></i> Export</button>
+                <button class="btn-close-debug" onclick="toggleDebugPanel()"><i class="fas fa-times"></i> ปิด</button>
+            </div>
+        </div>
+        <div class="debug-body" id="debugBody">
+            <div style="text-align:center;color:var(--text-muted);padding:20px 0;">
+                <i class="fas fa-circle-info"></i> รอการทำงานของระบบ...
+            </div>
+        </div>
+    </div>
+
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
 
@@ -1528,6 +1711,112 @@
         // ============================================================
         const PROXY_URL = 'https://shababscanner.hem5426.workers.dev'; // เปลี่ยนเป็น URL Worker ของคุณ
         const API_SECRET = 'MySuperSecretKey123!@#';
+
+        // ============================================================
+        // DEBUG SYSTEM
+        // ============================================================
+        let debugLogs = [];
+        let debugCounter = 0;
+        let errorCounter = 0;
+
+        function addDebugLog(method, endpoint, status, data, error = null) {
+            const log = {
+                id: ++debugCounter,
+                time: new Date().toLocaleString('th-TH', { hour12: false }),
+                method,
+                endpoint,
+                status,
+                data,
+                error,
+                timestamp: Date.now()
+            };
+            debugLogs.unshift(log);
+            if (log.error || status >= 400) errorCounter++;
+            renderDebugLogs();
+            updateDebugCounters();
+        }
+
+        function renderDebugLogs() {
+            const body = document.getElementById('debugBody');
+            if (debugLogs.length === 0) {
+                body.innerHTML = `
+                    <div style="text-align:center;color:var(--text-muted);padding:20px 0;">
+                        <i class="fas fa-circle-info"></i> ยังไม่มี Logs
+                    </div>
+                `;
+                return;
+            }
+            body.innerHTML = debugLogs.slice(0, 100).map(log => {
+                const statusClass = log.error || log.status >= 400 ? 'error' : log.status >= 200 ? 'success' :
+                'info';
+                const statusLabel = log.error ? '❌ ' + (log.error.message || 'Error') : log.status || 'OK';
+                const isError = log.error || log.status >= 400;
+                const dataStr = log.data ? JSON.stringify(log.data, null, 2) : '';
+
+                return `
+                    <div class="log-entry ${isError ? 'error' : 'success'}">
+                        <div>
+                            <span class="log-time">${log.time}</span>
+                            <span class="log-method ${log.method}">${log.method}</span>
+                            <span style="font-weight:500;">${log.endpoint}</span>
+                            <span class="log-status ${isError ? 'error' : 'success'}">${statusLabel}</span>
+                            <span class="toggle-detail" onclick="toggleLogDetail(this)">แสดงรายละเอียด</span>
+                        </div>
+                        <div class="log-detail">
+                            ${dataStr ? `<strong>📦 Response:</strong>\n${dataStr}` : ''}
+                            ${log.error ? `\n\n<strong>❌ Error:</strong>\n${log.error.stack || log.error.message || log.error}` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleLogDetail(el) {
+            const detail = el.closest('.log-entry').querySelector('.log-detail');
+            if (detail) {
+                detail.classList.toggle('open');
+                el.textContent = detail.classList.contains('open') ? 'ซ่อนรายละเอียด' : 'แสดงรายละเอียด';
+            }
+        }
+
+        function updateDebugCounters() {
+            document.getElementById('debugCounter').textContent = debugCounter;
+            document.getElementById('debugErrorCounter').textContent = errorCounter;
+        }
+
+        function clearDebugLogs() {
+            debugLogs = [];
+            debugCounter = 0;
+            errorCounter = 0;
+            renderDebugLogs();
+            updateDebugCounters();
+            showToast('🧹 ล้าง Logs เรียบร้อย', 'info');
+        }
+
+        function exportDebugLogs() {
+            const text = debugLogs.map(log => {
+                return `[${log.time}] ${log.method} ${log.endpoint} → ${log.status || 'OK'}\n${log.data ? JSON.stringify(log.data, null, 2) : ''}${log.error ? '\nError: ' + log.error.message : ''}\n---`;
+            }).join('\n\n');
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `debug_logs_${new Date().toISOString().slice(0,10)}.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            showToast('✅ Export Logs สำเร็จ', 'success');
+        }
+
+        function toggleDebugPanel() {
+            const panel = document.getElementById('debugPanel');
+            const btn = document.getElementById('debugToggleBtn');
+            panel.classList.toggle('open');
+            btn.classList.toggle('active');
+            if (panel.classList.contains('open')) {
+                btn.innerHTML = '<i class="fas fa-bug"></i> <span>ปิดดีบัก</span>';
+            } else {
+                btn.innerHTML = '<i class="fas fa-bug"></i> <span>ดีบัก</span>';
+            }
+        }
 
         // ============================================================
         // STATE
@@ -1595,12 +1884,16 @@
         function formatNumber(n) { return (n || 0).toLocaleString('th-TH'); }
 
         // ============================================================
-        // API
+        // API WITH RETRY + DEBUG
         // ============================================================
-        async function apiCall(endpoint, options = {}, retries = 2) {
+        async function apiCall(endpoint, options = {}, retries = 3) {
             const finalEndpoint = endpoint.includes('?') ? endpoint + '&t=' + Date.now() : endpoint + '?t=' + Date.now();
+            const method = options.method || 'GET';
+            let lastError = null;
+
             for (let attempt = 0; attempt <= retries; attempt++) {
                 try {
+                    const startTime = Date.now();
                     const res = await fetch(`${PROXY_URL}${finalEndpoint}`, {
                         ...options,
                         headers: {
@@ -1611,11 +1904,30 @@
                         }
                     });
                     const data = await res.json();
-                    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+                    const elapsed = Date.now() - startTime;
+
+                    if (!res.ok) {
+                        const err = new Error(data.error || `HTTP ${res.status}`);
+                        err.status = res.status;
+                        err.data = data;
+                        throw err;
+                    }
+
+                    // ✅ Success Log
+                    addDebugLog(method, endpoint, res.status, data);
                     return data;
+
                 } catch (e) {
-                    if (attempt === retries) throw e;
-                    await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+                    lastError = e;
+                    console.warn(`⚠️ API Retry ${attempt + 1}/${retries}:`, e.message);
+
+                    if (attempt < retries) {
+                        await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+                    } else {
+                        // ❌ Final Error Log
+                        addDebugLog(method, endpoint, e.status || 500, null, e);
+                        throw e;
+                    }
                 }
             }
         }
@@ -1692,7 +2004,6 @@
                 allStudents = students.data || [];
                 allActivities = activities.data || [];
 
-                // ดึงการลงทะเบียนของตัวเอง (ถ้ามี session)
                 if (currentStudent) {
                     const profile = await apiCall(`/api/profile/${currentStudent.student_id}`);
                     allRegistrations = profile.data?.registrations || [];
@@ -1704,6 +2015,7 @@
                 loadLeaderboards();
                 $('updateTime').textContent = '🕐 ' + new Date().toLocaleString('th-TH');
                 $('statusDot').style.background = '#34a853';
+                showToast('✅ โหลดข้อมูลสำเร็จ', 'success');
             } catch (e) {
                 showToast('❌ โหลดข้อมูลไม่สำเร็จ: ' + e.message, 'error');
                 $('statusDot').style.background = '#ea4335';
@@ -1929,7 +2241,6 @@
             modal.style.display = 'flex';
             modal.style.zIndex = '100000';
 
-            // รีเซ็ตฟอร์ม
             $('regFullName').value = '';
             $('regPhone').value = '';
             $('regMajor').value = '';
@@ -1938,11 +2249,9 @@
             $('regResult').innerHTML = '';
             $('copyMessage').style.display = 'none';
 
-            // สร้าง ID เบื้องต้น
             const tempId = 'S' + String(Math.floor(Math.random() * 9000 + 1000)).padStart(4, '0');
             $('regStudentId').value = tempId;
 
-            // โหลด ID จริงจาก API
             try {
                 const data = await apiCall('/api/students');
                 const students = data.data || [];
@@ -2023,7 +2332,6 @@
                 resultDiv.style.background = 'rgba(16,185,129,0.06)';
                 showToast(`✅ ลงทะเบียน ${student_id} สำเร็จ`, 'success');
 
-                // ปิด Modal และเข้าสู่ระบบอัตโนมัติ
                 setTimeout(() => {
                     closeRegisterModal('registerMemberModal');
                     localStorage.setItem('student', JSON.stringify({ student_id, full_name }));
@@ -2037,7 +2345,6 @@
             } catch (e) {
                 if (e.message.includes('already exists') || e.message.includes('duplicate')) {
                     resultDiv.innerHTML = `<span style="color:var(--danger);"><i class="fas fa-times-circle"></i> รหัส ${student_id} มีอยู่แล้ว</span>`;
-                    // สร้าง ID ใหม่
                     const newId = 'S' + String(Math.floor(Math.random() * 9000 + 1000)).padStart(4, '0');
                     $('regStudentId').value = newId;
                     showToast('🔄 สร้างรหัสใหม่ให้อัตโนมัติ', 'info');
@@ -2089,7 +2396,6 @@
             $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
         }
 
-        // เริ่มต้นธีม
         (function initTheme() {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
@@ -2156,6 +2462,13 @@
                 const modal = document.querySelector('.modal-overlay.show');
                 if (modal) { const btn = modal.querySelector('.close'); if (btn) btn.click(); }
                 closeRegisterModal('registerMemberModal');
+                if (document.getElementById('debugPanel').classList.contains('open')) {
+                    toggleDebugPanel();
+                }
+            }
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                toggleDebugPanel();
             }
         });
 
@@ -2184,16 +2497,15 @@
             }
         }
 
-        // เรียก test connection เมื่อหน้าโหลด
         if (!document.getElementById('loginPage').style.display || document.getElementById('loginPage').style.display !==
             'none') {
             testConnection();
         }
 
-        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา พร้อมใช้งาน (Premium UI)');
+        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา พร้อมใช้งาน (Premium UI + Debug)');
         console.log('🔑 ตัวอย่างรหัส: sh01 / 1234');
-        console.log('⌨️ Ctrl+R = รีเฟรช, ESC = ปิด Modal');
-        console.log('📝 จำนวนบรรทัดโดยประมาณ: ~2,900 บรรทัด');
+        console.log('⌨️ Ctrl+R = รีเฟรช, Ctrl+D = เปิด/ปิดดีบัก, ESC = ปิด Modal');
+        console.log('🔄 ระบบดีบัก: แสดง API Logs ทั้งหมด');
     </script>
 </body>
 </html>
