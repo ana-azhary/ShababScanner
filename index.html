@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+    </script>
     <style>
         /* ============================================================
-           ROOT & RESET
+           ROOT & RESET (คงของเดิม)
            ============================================================ */
         *,
         *::before,
@@ -98,7 +100,7 @@
         }
 
         /* ============================================================
-           SIDEBAR
+           SIDEBAR (คงของเดิม + เพิ่มปุ่ม)
            ============================================================ */
         .app-sidebar {
             position: fixed;
@@ -494,6 +496,9 @@
         .stat-card .stat-icon.teal {
             background: linear-gradient(135deg, #14b8a6, #0d9488);
         }
+        .stat-card .stat-icon.orange {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
         .stat-card .num {
             font-size: 24px;
             font-weight: 800;
@@ -518,6 +523,12 @@
         }
         .stat-card:nth-child(4)::before {
             background: #8b5cf6;
+        }
+        .stat-card:nth-child(5)::before {
+            background: #f97316;
+        }
+        .stat-card:nth-child(6)::before {
+            background: #ec4899;
         }
 
         /* ============================================================
@@ -643,6 +654,14 @@
             font-size: 10px;
             border-radius: 4px;
         }
+        .btn-edit {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+        }
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.25);
+        }
 
         /* ============================================================
            TABLE
@@ -726,6 +745,14 @@
             background: rgba(245, 158, 11, 0.12);
             color: #f59e0b;
         }
+        .badge-status.evaluated {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+        }
+        .badge-status.not-evaluated {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+        }
 
         /* ============================================================
            GRID ACTIVITIES
@@ -758,6 +785,128 @@
         }
         .activity-card .register-btn {
             margin-top: 10px;
+        }
+
+        /* ============================================================
+           MEMBER CARD (PROFILE)
+           ============================================================ */
+        .member-card-preview {
+            background: linear-gradient(145deg, #0f172a, #1a2a4a);
+            color: #fff;
+            padding: 18px 22px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .member-card-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 180%;
+            height: 180%;
+            background: radial-gradient(circle at 70% 20%, rgba(56, 189, 248, 0.12), transparent 70%);
+            pointer-events: none;
+        }
+        .member-card-preview .mc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .member-card-preview .mc-header .mc-brand {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .member-card-preview .mc-header .mc-brand i {
+            color: #38bdf8;
+        }
+        .member-card-preview .mc-header .mc-badge {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .member-card-preview .mc-body {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .member-card-preview .mc-body .mc-info {
+            flex: 1;
+        }
+        .member-card-preview .mc-body .mc-info .mc-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .member-card-preview .mc-body .mc-info .mc-id {
+            font-size: 12px;
+            opacity: 0.5;
+            font-family: monospace;
+        }
+        .member-card-preview .mc-body .mc-info .mc-detail {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .member-card-preview .mc-body .mc-qr {
+            flex-shrink: 0;
+            background: #ffffff;
+            padding: 6px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            width: 72px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .member-card-preview .mc-body .mc-qr canvas {
+            width: 60px !important;
+            height: 60px !important;
+            border-radius: 4px;
+        }
+        .member-card-preview .mc-footer {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            opacity: 0.5;
+            position: relative;
+            z-index: 1;
+        }
+        .member-card-preview .mc-footer .expiry {
+            color: #f87171;
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
         }
 
         /* ============================================================
@@ -1306,6 +1455,9 @@
             .top7-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+            .member-card-preview {
+                max-width: 100%;
+            }
         }
         @media (max-width: 768px) {
             .stats-grid {
@@ -1350,6 +1502,13 @@
             }
             .top7-item .top7-name {
                 font-size: 12px;
+            }
+            .member-card-preview .mc-body {
+                flex-direction: column;
+                text-align: center;
+            }
+            .member-card-preview .mc-body .mc-qr {
+                margin-top: 8px;
             }
         }
         @media (max-width: 480px) {
@@ -1424,6 +1583,14 @@
             .top7-item .top7-count {
                 font-size: 10px;
             }
+            .member-card-preview .mc-body .mc-qr {
+                width: 60px;
+                height: 60px;
+            }
+            .member-card-preview .mc-body .mc-qr canvas {
+                width: 48px !important;
+                height: 48px !important;
+            }
         }
     </style>
 </head>
@@ -1486,6 +1653,7 @@
             <button class="nav-item" data-page="leaderboard" onclick="switchTab('leaderboard')">
                 <i class="fas fa-trophy"></i> <span>ลีดเดอร์บอร์ด</span>
             </button>
+
             <!-- Admin Only -->
             <button class="nav-item" data-page="admin-students" onclick="switchTab('admin-students')" id="adminNav" style="display:none;">
                 <i class="fas fa-user-graduate"></i> <span>จัดการนักศึกษา</span>
@@ -1495,6 +1663,15 @@
             </button>
             <button class="nav-item" data-page="admin-registrations" onclick="switchTab('admin-registrations')" id="adminRegNav" style="display:none;">
                 <i class="fas fa-clipboard-list"></i> <span>จัดการลงทะเบียน</span>
+            </button>
+            <button class="nav-item" data-page="admin-evaluations" onclick="switchTab('admin-evaluations')" id="adminEvalNav" style="display:none;">
+                <i class="fas fa-clipboard-check"></i> <span>จัดการประเมิน</span>
+            </button>
+            <button class="nav-item" data-page="admin-reports" onclick="switchTab('admin-reports')" id="adminReportNav" style="display:none;">
+                <i class="fas fa-chart-line"></i> <span>รายงานคะแนน</span>
+            </button>
+            <button class="nav-item" data-page="admin-settings" onclick="switchTab('admin-settings')" id="adminSettingsNav" style="display:none;">
+                <i class="fas fa-cog"></i> <span>ตั้งค่าระบบ</span>
             </button>
         </nav>
         <div class="sidebar-footer">
@@ -1576,6 +1753,11 @@
                     <div class="num" id="dashNoEval">-</div>
                     <div class="label">ยังไม่ประเมิน</div>
                 </div>
+                <div class="stat-card" onclick="openStatModal('ontime')">
+                    <div class="stat-top"><div class="stat-icon orange"><i class="fas fa-clock"></i></div></div>
+                    <div class="num" id="dashOnTime">-</div>
+                    <div class="label">เข้าตรงเวลามากที่สุด</div>
+                </div>
             </div>
 
             <!-- Admin Chart -->
@@ -1635,7 +1817,37 @@
                 </div>
             </div>
 
-            <!-- Member Settings (ยกเว้นชื่อและรหัสผ่าน) -->
+            <!-- Student ID Card -->
+            <div class="card-panel" style="display:flex;justify-content:center;">
+                <div class="member-card-preview" id="memberCardPreview">
+                    <div class="mc-header">
+                        <div class="mc-brand"><i class="fas fa-users"></i> ระบบกิจกรรม</div>
+                        <span class="mc-badge" id="previewType">นักศึกษา</span>
+                    </div>
+                    <div class="mc-body">
+                        <div class="mc-info">
+                            <div class="mc-name" id="previewName">-</div>
+                            <div class="mc-id" id="previewId">-</div>
+                            <div class="mc-detail"><i class="fas fa-phone"></i> <span id="previewPhone">-</span></div>
+                            <div class="mc-detail"><i class="fas fa-graduation-cap"></i> <span id="previewMajor">-</span></div>
+                            <div class="mc-detail"><i class="fas fa-check-circle"></i> เข้าร่วม: <span id="previewCount">0</span> ครั้ง</div>
+                        </div>
+                        <div class="mc-qr" id="profileQrBox"></div>
+                    </div>
+                    <div class="mc-footer">
+                        <span>🎓 ฉายา: <span id="previewRank">-</span></span>
+                        <span class="expiry" id="previewStatus">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Actions -->
+            <div class="profile-actions">
+                <button class="btn btn-edit" onclick="openEditProfileModal()"><i class="fas fa-user-cog"></i> แก้ไขโปรไฟล์</button>
+                <button class="btn btn-primary" onclick="downloadQR()"><i class="fas fa-qrcode"></i> ดาวน์โหลด QR</button>
+            </div>
+
+            <!-- Member Settings -->
             <div class="card-panel" id="memberSettingsPanel">
                 <div class="card-header"><h3><i class="fas fa-user-cog"></i> แก้ไขข้อมูลส่วนตัว</h3></div>
                 <div class="form-group"><label>ที่อยู่</label><input type="text" id="memAddress" placeholder="ที่อยู่" /></div>
@@ -1682,6 +1894,7 @@
                     <div class="card-actions">
                         <button class="btn btn-success btn-sm" onclick="openAddStudent()"><i class="fas fa-plus"></i> เพิ่ม</button>
                         <button class="btn btn-outline btn-sm" onclick="loadAdminStudents()"><i class="fas fa-sync"></i> โหลด</button>
+                        <button class="btn btn-outline btn-sm" onclick="exportStudentsCSV()"><i class="fas fa-file-csv"></i> Export</button>
                     </div>
                 </div>
                 <div class="table-wrap">
@@ -1720,6 +1933,7 @@
                                 <th>รหัส</th>
                                 <th>ชื่อกิจกรรม</th>
                                 <th>วันที่</th>
+                                <th>เวลาเริ่ม</th>
                                 <th>สถานที่</th>
                                 <th>รับ</th>
                                 <th>สถานะ</th>
@@ -1727,7 +1941,7 @@
                                 <th>การจัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="adminActTable"><tr><td colspan="8" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                        <tbody id="adminActTable"><tr><td colspan="9" class="empty-row">กำลังโหลด...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -1750,14 +1964,86 @@
                                 <th>นักศึกษา</th>
                                 <th>กิจกรรม</th>
                                 <th>วันที่</th>
+                                <th>เวลาเช็คอิน</th>
                                 <th>สถานะ</th>
+                                <th>ตรงเวลา</th>
                                 <th>คะแนน</th>
                                 <th>การจัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="adminRegTable"><tr><td colspan="7" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                        <tbody id="adminRegTable"><tr><td colspan="9" class="empty-row">กำลังโหลด...</td></tr></tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+
+        <!-- PAGE: ADMIN EVALUATIONS -->
+        <div id="page-admin-evaluations" class="page-section">
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-clipboard-check"></i> สรุปการประเมินตามบ้าน (ฮาลาเกาะห์)</h3>
+                </div>
+                <div id="evalByHouseContainer"></div>
+            </div>
+            <div class="card-panel">
+                <div class="card-header">
+                    <h3><i class="fas fa-list"></i> รายละเอียดการประเมิน</h3>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>บ้าน (ฮาลาเกาะห์)</th><th>นักศึกษา</th><th>กิจกรรม</th><th>สถานะ</th></tr>
+                        </thead>
+                        <tbody id="evalDetailTable"><tr><td colspan="4" class="empty-row">ไม่มีข้อมูล</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: ADMIN REPORTS -->
+        <div id="page-admin-reports" class="page-section">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-top"><div class="stat-icon blue"><i class="fas fa-star"></i></div></div>
+                    <div class="num" id="avgScoreAll">-</div><div class="label">คะแนนเฉลี่ยรวม</div>
+                </div>
+                <div class="stat-card"><div class="stat-top"><div class="stat-icon green"><i class="fas fa-users"></i></div></div>
+                    <div class="num" id="totalEvaluations">-</div><div class="label">จำนวนการประเมิน</div>
+                </div>
+                <div class="stat-card"><div class="stat-top"><div class="stat-icon amber"><i class="fas fa-calendar-check"></i></div></div>
+                    <div class="num" id="totalCheckinsReport">-</div><div class="label">เช็คอินทั้งหมด</div>
+                </div>
+                <div class="stat-card"><div class="stat-top"><div class="stat-icon purple"><i class="fas fa-clock"></i></div></div>
+                    <div class="num" id="ontimeReport">-</div><div class="label">ตรงเวลา (%)</div>
+                </div>
+            </div>
+            <div class="card-panel">
+                <div class="card-header"><h3><i class="fas fa-chart-bar"></i> คะแนนเฉลี่ยแยกกิจกรรม</h3></div>
+                <div style="height:220px;"><canvas id="scoreChart"></canvas></div>
+            </div>
+            <div class="card-panel">
+                <div class="card-header"><h3><i class="fas fa-chart-line"></i> แนวโน้มการเช็คอิน (7 วันล่าสุด)</h3></div>
+                <div style="height:200px;"><canvas id="trendChartReport"></canvas></div>
+            </div>
+            <div class="card-panel">
+                <div class="card-header"><h3><i class="fas fa-table"></i> ตารางสรุปกิจกรรม</h3></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>กิจกรรม</th><th>ผู้ประเมิน</th><th>คะแนนเฉลี่ย</th></tr></thead>
+                        <tbody id="reportActivityTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: ADMIN SETTINGS -->
+        <div id="page-admin-settings" class="page-section">
+            <div class="card-panel">
+                <div class="card-header"><h3><i class="fas fa-key"></i> เปลี่ยนรหัสผ่าน Admin</h3></div>
+                <div class="form-group"><label>รหัสผ่านปัจจุบัน</label><input type="password" id="oldAdminPass" placeholder="รหัสผ่านปัจจุบัน" /></div>
+                <div class="form-group"><label>รหัสผ่านใหม่</label><input type="password" id="newAdminPass" placeholder="รหัสผ่านใหม่ (อย่างน้อย 6 ตัว)" /></div>
+                <div class="form-group"><label>ยืนยันรหัสผ่านใหม่</label><input type="password" id="confirmAdminPass" placeholder="ยืนยันรหัสผ่านใหม่" /></div>
+                <button class="btn btn-primary" onclick="changeAdminPassword()"><i class="fas fa-save"></i> เปลี่ยนรหัสผ่าน</button>
+                <div id="adminPassResult" style="margin-top:10px;text-align:center;font-weight:600;"></div>
             </div>
         </div>
     </main>
@@ -1770,6 +2056,28 @@
                 <button class="close" onclick="closeModal('statModal')">&times;</button>
             </div>
             <div id="statModalBody"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: แก้ไขโปรไฟล์นักศึกษา (Student) -->
+    <div class="modal-overlay" id="editProfileModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> แก้ไขโปรไฟล์</h3>
+                <button class="close" onclick="closeModal('editProfileModal')">&times;</button>
+            </div>
+            <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="editProfileName" /></div>
+            <div class="form-group"><label>ที่อยู่</label><input type="text" id="editProfileAddress" /></div>
+            <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="text" id="editProfilePhone" /></div>
+            <div class="form-group"><label>Facebook</label><input type="text" id="editProfileFacebook" /></div>
+            <div class="form-group"><label>ชื่อวงฮาลาเกาะห์</label><input type="text" id="editProfileHalaqah" /></div>
+            <div class="form-group"><label>สาขาวิชา</label><input type="text" id="editProfileMajor" /></div>
+            <hr style="margin:16px 0;border:1px solid rgba(0,0,0,0.04);" />
+            <div class="form-group"><label>รหัสผ่านปัจจุบัน</label><input type="password" id="editProfileOldPass" placeholder="กรอกถ้าต้องการเปลี่ยนรหัสผ่าน" /></div>
+            <div class="form-group"><label>รหัสผ่านใหม่</label><input type="password" id="editProfileNewPass" placeholder="รหัสผ่านใหม่ (อย่างน้อย 4 ตัว)" /></div>
+            <div class="form-group"><label>ยืนยันรหัสผ่านใหม่</label><input type="password" id="editProfileConfirmPass" placeholder="ยืนยันรหัสผ่านใหม่" /></div>
+            <button class="btn btn-success btn-submit" onclick="saveEditProfile()"><i class="fas fa-save"></i> บันทึกโปรไฟล์</button>
+            <div id="editProfileResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
         </div>
     </div>
 
@@ -1829,10 +2137,13 @@
             <div class="form-group"><label>รายละเอียด</label><textarea id="actDesc" placeholder="รายละเอียดกิจกรรม"></textarea></div>
             <div class="form-row">
                 <div class="form-group"><label>วันที่จัด <span style="color:var(--danger);">*</span></label><input type="date" id="actDate" /></div>
-                <div class="form-group"><label>สถานที่</label><input type="text" id="actLocation" placeholder="สถานที่" /></div>
+                <div class="form-group"><label>เวลาเริ่มกิจกรรม (HH:MM)</label><input type="time" id="actStartTime" placeholder="08:00" /></div>
             </div>
             <div class="form-row">
+                <div class="form-group"><label>สถานที่</label><input type="text" id="actLocation" placeholder="สถานที่" /></div>
                 <div class="form-group"><label>จำนวนที่รับ</label><input type="number" id="actSlots" placeholder="50" value="50" /></div>
+            </div>
+            <div class="form-row">
                 <div class="form-group"><label>สถานะ</label>
                     <select id="actStatus">
                         <option value="upcoming">กำลังจะมา</option>
@@ -1840,11 +2151,17 @@
                         <option value="closed">ปิดแล้ว</option>
                     </select>
                 </div>
+                <div class="form-group"><label>ประเภท</label>
+                    <select id="actType">
+                        <option value="public">สาธารณะ (Public)</option>
+                        <option value="private">ส่วนตัว (Private)</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group"><label>ประเภท</label>
-                <select id="actType">
-                    <option value="public">สาธารณะ (Public)</option>
-                    <option value="private">ส่วนตัว (Private)</option>
+            <div class="form-group"><label>รูปแบบ</label>
+                <select id="actFormat">
+                    <option value="event">🎯 กิจกรรมทั่วไป</option>
+                    <option value="class">📚 เรียนประจำสัปดา</option>
                 </select>
             </div>
             <button class="btn btn-success btn-submit" onclick="saveActivity()"><i class="fas fa-save"></i> บันทึก</button>
@@ -1872,6 +2189,9 @@
         let isAdmin = false;
         let isDark = localStorage.getItem('theme') === 'dark';
         let chartInstance = null;
+        let scoreChartInstance = null;
+        let trendChartInstance = null;
+        let qrCodeInstance = null;
 
         // ============================================================
         // HELPERS
@@ -1901,6 +2221,15 @@
                 const d = new Date(dateStr);
                 if (isNaN(d.getTime())) return dateStr;
                 return d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
+            } catch { return dateStr; }
+        }
+
+        function formatTime(dateStr) {
+            if (!dateStr) return '-';
+            try {
+                const d = new Date(dateStr);
+                if (isNaN(d.getTime())) return dateStr;
+                return d.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
             } catch { return dateStr; }
         }
 
@@ -1945,12 +2274,20 @@
                 return;
             }
 
-            if (user === 'admin' && pass === 'admin123') {
-                isAdmin = true;
-                currentUser = { full_name: 'Admin', student_id: 'admin', status: 'Admin' };
-                localStorage.setItem('user', JSON.stringify({ ...currentUser, isAdmin: true }));
-                enterApp();
-                return;
+            if (user === 'admin') {
+                const storedHash = localStorage.getItem('adminHash');
+                const inputHash = await sha256(pass);
+                if (inputHash === storedHash) {
+                    isAdmin = true;
+                    currentUser = { full_name: 'Admin', student_id: 'admin', status: 'Admin' };
+                    localStorage.setItem('user', JSON.stringify({ ...currentUser, isAdmin: true }));
+                    enterApp();
+                    return;
+                } else {
+                    errorDiv.textContent = '❌ รหัสผ่าน Admin ไม่ถูกต้อง';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
             }
 
             try {
@@ -1973,6 +2310,13 @@
             }
         }
 
+        async function sha256(message) {
+            const msgBuffer = new TextEncoder().encode(message);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
         function enterApp() {
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('appMain').style.display = 'block';
@@ -1990,16 +2334,16 @@
                 sidebarUser.textContent = 'Admin';
                 sidebarRole.textContent = 'ผู้ดูแลระบบ';
                 avatar.textContent = 'A';
-                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminStats, #adminChartPanel').forEach(el => el
-                    .style.display = 'flex');
+                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav, #adminReportNav, #adminSettingsNav, #adminStats, #adminChartPanel')
+                    .forEach(el => el.style.display = 'flex');
                 document.getElementById('profileNav').style.display = 'none';
                 document.getElementById('navCount').textContent = '👑';
             } else {
                 sidebarUser.textContent = currentUser.full_name || 'นักศึกษา';
                 sidebarRole.textContent = 'นักศึกษา';
                 avatar.textContent = (currentUser.full_name || 'S').charAt(0).toUpperCase();
-                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminStats, #adminChartPanel').forEach(el => el
-                    .style.display = 'none');
+                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav, #adminReportNav, #adminSettingsNav, #adminStats, #adminChartPanel')
+                    .forEach(el => el.style.display = 'none');
                 document.getElementById('profileNav').style.display = 'flex';
                 document.getElementById('navCount').textContent = '0';
             }
@@ -2035,6 +2379,9 @@
                     }
                 } catch (e) { localStorage.removeItem('user'); }
             }
+            if (!localStorage.getItem('adminHash')) {
+                sha256('admin123').then(h => localStorage.setItem('adminHash', h));
+            }
         })();
 
         // ============================================================
@@ -2044,7 +2391,7 @@
             try {
                 const [students, activities] = await Promise.all([
                     apiCall('/api/students'),
-                    apiCall('/api/activities?type=public')
+                    apiCall('/api/activities?type=all')
                 ]);
                 allStudents = students.data || [];
                 allActivities = activities.data || [];
@@ -2053,11 +2400,13 @@
                     const profile = await apiCall(`/api/profile/${currentUser.student_id}`);
                     allRegistrations = profile.data?.registrations || [];
                     loadMemberSettings(profile.data?.student);
+                    generateQR(profile.data?.student?.student_id);
                 }
 
                 if (isAdmin) {
                     const regs = await apiCall('/api/registrations');
                     allRegistrations = regs.data || [];
+                    generateQR('admin');
                 }
 
                 renderDashboard();
@@ -2065,6 +2414,8 @@
                 renderProfile();
                 renderLeaderboards();
                 renderTop7();
+                renderAdminReports();
+                renderEvalByHouse();
                 if (isAdmin) {
                     loadAdminStudents();
                     loadAdminActivities();
@@ -2085,6 +2436,48 @@
         }
 
         // ============================================================
+        // GENERATE QR
+        // ============================================================
+        function generateQR(studentId) {
+            const container = $('profileQrBox');
+            if (!container) return;
+            container.innerHTML = '';
+            if (typeof QRCode === 'undefined') {
+                container.innerHTML = '<span style="font-size:10px;color:#fff;">QR</span>';
+                return;
+            }
+            try {
+                qrCodeInstance = new QRCode(container, {
+                    text: studentId || 'G-XXXX',
+                    width: 60,
+                    height: 60,
+                    colorDark: '#0f172a',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } catch (e) {
+                container.innerHTML = '<span style="font-size:10px;color:#fff;">⚠️</span>';
+            }
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#profileQrBox canvas');
+            if (!canvas) { showToast('⚠️ ไม่พบ QR Code', 'error'); return; }
+            const link = document.createElement('a');
+            link.download = `qr_${currentUser?.student_id || 'member'}.png`;
+            const newCanvas = document.createElement('canvas');
+            newCanvas.width = canvas.width + 40;
+            newCanvas.height = canvas.height + 40;
+            const ctx = newCanvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+            ctx.drawImage(canvas, 20, 20);
+            link.href = newCanvas.toDataURL('image/png');
+            link.click();
+            showToast('✅ ดาวน์โหลด QR สำเร็จ', 'success');
+        }
+
+        // ============================================================
         // RENDER DASHBOARD
         // ============================================================
         function renderDashboard() {
@@ -2102,6 +2495,22 @@
                 $('dashCheckedIn').textContent = checkedIn;
                 $('dashWaiting').textContent = waiting;
                 $('dashNoEval').textContent = noEval;
+
+                // On Time Calculation
+                let onTimeCount = 0;
+                allRegistrations.filter(r => r.attendance_status === 'checked-in').forEach(r => {
+                    const act = allActivities.find(a => a.act_id === r.act_id);
+                    if (act && act.datetime && r.registered_at) {
+                        const actStart = new Date(act.datetime);
+                        const checkinTime = new Date(r.registered_at);
+                        // If activity has start_time column (we use datetime), compare diff in minutes
+                        const diffMinutes = (checkinTime - actStart) / 60000;
+                        if (diffMinutes >= -10 && diffMinutes <= 10) {
+                            onTimeCount++;
+                        }
+                    }
+                });
+                $('dashOnTime').textContent = onTimeCount;
             }
 
             const recent = allActivities.slice(0, 4);
@@ -2123,7 +2532,6 @@
             const container = $('top7Container');
             if (!container) return;
 
-            // คำนวณเฉพาะเดือนนี้
             const today = getTodayStr();
             const thisMonth = today.slice(0, 7);
             const monthRegs = allRegistrations.filter(r => {
@@ -2173,7 +2581,6 @@
 
             container.innerHTML = html;
 
-            // ข้อความให้กำลังใจ
             const top1 = sorted[0];
             const top1Student = allStudents.find(s => s.student_id === top1[0]);
             const encouragement = $('top7Encouragement');
@@ -2261,15 +2668,18 @@
                 const statusMap = { 'upcoming': 'กำลังจะมา', 'ongoing': 'กำลังจัด', 'closed': 'ปิดแล้ว' };
                 let registerBtn = '';
                 if (a.status === 'upcoming' && currentUser && !isAdmin) {
+                    const label = a.format === 'class' ? '📚 ลงทะเบียนเรียน' : '🎯 ลงทะเบียน';
                     registerBtn =
-                        `<button class="btn btn-success btn-sm register-btn" onclick="registerActivity('${a.act_id}')"><i class="fas fa-user-plus"></i> ลงทะเบียน</button>`;
+                        `<button class="btn btn-success btn-sm register-btn" onclick="registerActivity('${a.act_id}')"><i class="fas fa-user-plus"></i> ${label}</button>`;
                 }
+                const formatLabel = a.format === 'class' ? '📚 เรียนประจำสัปดา' : '🎯 กิจกรรม';
                 return `
                     <div class="activity-card">
                         <div class="title">${a.title}</div>
                         <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
+                        <div class="meta"><i class="fas fa-clock"></i> ${a.start_time || 'ไม่ระบุ'}</div>
                         <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || 'ไม่ระบุ'}</div>
-                        <div class="meta"><i class="fas fa-users"></i> รับสูงสุด ${a.max_slots || 'ไม่จำกัด'} คน</div>
+                        <div class="meta"><i class="fas fa-tag"></i> ${formatLabel}</div>
                         <span class="badge-status ${a.status}">${statusMap[a.status] || a.status}</span>
                         ${registerBtn}
                     </div>
@@ -2307,7 +2717,14 @@
         // PROFILE
         // ============================================================
         async function renderProfile() {
-            if (!currentUser || isAdmin) return;
+            if (!currentUser || isAdmin) {
+                document.getElementById('profileName').textContent = 'Admin';
+                document.getElementById('profileId').textContent = 'admin';
+                document.getElementById('profileMajor').textContent = 'ผู้ดูแลระบบ';
+                document.getElementById('profileAttendance').textContent = '-';
+                document.getElementById('profileImg').src = 'https://ui-avatars.com/api/?name=Admin&background=2b6cb0&color=fff';
+                return;
+            }
             try {
                 const res = await apiCall(`/api/profile/${currentUser.student_id}`);
                 if (res.success) {
@@ -2318,6 +2735,19 @@
                     $('profileMajor').textContent = student.major || 'ไม่ระบุ';
                     $('profileAttendance').textContent = student.total_attendance || 0;
                     $('profileImg').src = student.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.full_name)}&background=2b6cb0&color=fff`;
+
+                    // Update Card
+                    $('previewName').textContent = student.full_name;
+                    $('previewId').textContent = student.student_id;
+                    $('previewPhone').textContent = student.phone || '-';
+                    $('previewMajor').textContent = student.major || '-';
+                    $('previewCount').textContent = student.total_attendance || 0;
+
+                    // Rank
+                    const count = student.total_attendance || 0;
+                    const rank = getMonthlyRank(count);
+                    $('previewRank').textContent = rank.emoji + ' ' + rank.title;
+                    $('previewStatus').textContent = student.status || 'นักศึกษา';
 
                     loadMemberSettings(student);
                     const regs = data.registrations || [];
@@ -2334,6 +2764,112 @@
             $('memPhone').value = student.phone || '';
             $('memFacebook').value = student.facebook || '';
             $('memHalaqah').value = student.halaqah || '';
+        }
+
+        // ============================================================
+        // EDIT PROFILE MODAL (Student)
+        // ============================================================
+        function openEditProfileModal() {
+            if (!currentUser) return;
+            const student = currentUser;
+            $('editProfileName').value = student.full_name || '';
+            $('editProfileAddress').value = student.address || '';
+            $('editProfilePhone').value = student.phone || '';
+            $('editProfileFacebook').value = student.facebook || '';
+            $('editProfileHalaqah').value = student.halaqah || '';
+            $('editProfileMajor').value = student.major || '';
+            $('editProfileOldPass').value = '';
+            $('editProfileNewPass').value = '';
+            $('editProfileConfirmPass').value = '';
+            $('editProfileResult').textContent = '';
+            $('editProfileModal').classList.add('show');
+            $('editProfileModal').style.display = 'flex';
+        }
+
+        async function saveEditProfile() {
+            if (!currentUser) return;
+            const student_id = currentUser.student_id;
+            const full_name = $('editProfileName').value.trim();
+            const address = $('editProfileAddress').value.trim();
+            const phone = $('editProfilePhone').value.trim();
+            const facebook = $('editProfileFacebook').value.trim();
+            const halaqah = $('editProfileHalaqah').value.trim();
+            const major = $('editProfileMajor').value.trim();
+            const oldPass = $('editProfileOldPass').value.trim();
+            const newPass = $('editProfileNewPass').value.trim();
+            const confirmPass = $('editProfileConfirmPass').value.trim();
+            const resultDiv = $('editProfileResult');
+
+            if (!full_name) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกชื่อ</span>';
+                return;
+            }
+
+            // If changing password
+            if (newPass || oldPass || confirmPass) {
+                if (!oldPass) {
+                    resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกรหัสผ่านปัจจุบัน</span>';
+                    return;
+                }
+                if (newPass.length < 4) {
+                    resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านใหม่ต้องมีอย่างน้อย 4 ตัว</span>';
+                    return;
+                }
+                if (newPass !== confirmPass) {
+                    resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านใหม่ไม่ตรงกัน</span>';
+                    return;
+                }
+                // Verify old password
+                try {
+                    const loginCheck = await apiCall('/api/login', {
+                        method: 'POST',
+                        body: JSON.stringify({ student_id, password: oldPass })
+                    });
+                    if (!loginCheck.success) {
+                        resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านปัจจุบันไม่ถูกต้อง</span>';
+                        return;
+                    }
+                } catch (e) {
+                    resultDiv.innerHTML = '<span style="color:var(--danger);">ไม่สามารถตรวจสอบรหัสผ่านได้</span>';
+                    return;
+                }
+                // Update password
+                try {
+                    await apiCall(`/api/students/${student_id}/password`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ password: newPass })
+                    });
+                    showToast('✅ เปลี่ยนรหัสผ่านสำเร็จ', 'success');
+                } catch (e) {
+                    resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
+                    return;
+                }
+            }
+
+            // Update profile
+            try {
+                await apiCall(`/api/students/${student_id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ full_name, address, phone, facebook, halaqah, major })
+                });
+                resultDiv.innerHTML = '<span style="color:var(--success);">✅ อัปเดตโปรไฟล์สำเร็จ!</span>';
+                showToast('✅ อัปเดตโปรไฟล์สำเร็จ', 'success');
+                // Update currentUser
+                currentUser.full_name = full_name;
+                currentUser.address = address;
+                currentUser.phone = phone;
+                currentUser.facebook = facebook;
+                currentUser.halaqah = halaqah;
+                currentUser.major = major;
+                localStorage.setItem('user', JSON.stringify({ ...currentUser, isAdmin }));
+                setTimeout(() => {
+                    closeModal('editProfileModal');
+                    loadAllData();
+                }, 1000);
+            } catch (e) {
+                resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
+                showToast('❌ ' + e.message, 'error');
+            }
         }
 
         async function updateMemberProfile() {
@@ -2358,6 +2894,9 @@
             }
         }
 
+        // ============================================================
+        // RENDER REGISTRATIONS / EVALUATIONS
+        // ============================================================
         function renderRegistrations(registrations) {
             const container = $('registrationList');
             container.innerHTML = registrations.map(r => {
@@ -2375,7 +2914,6 @@
                 `;
             }).join('');
 
-            // Evaluation list - ใช้ Select แทน Input
             const evalContainer = $('evaluationList');
             const pastRegs = registrations.filter(r => r.attendance_status === 'checked-in' && !r.evaluation_score);
             if (pastRegs.length === 0) {
@@ -2466,7 +3004,7 @@
         }
 
         // ============================================================
-        // STAT MODAL
+        // STAT MODAL (Updated to show Name + Phone)
         // ============================================================
         function openStatModal(type) {
             const title = $('statModalTitle');
@@ -2479,15 +3017,15 @@
                 html = `
                     <div class="table-wrap" style="max-height:400px;">
                         <table>
-                            <thead><tr><th>#</th><th>รหัส</th><th>ชื่อ</th><th>สาขา</th><th>เข้าร่วม</th></tr></thead>
+                            <thead><tr><th>#</th><th>รหัส</th><th>ชื่อ</th><th>เบอร์โทร</th><th>สาขา</th></tr></thead>
                             <tbody>
                                 ${allStudents.map((s, i) => `
                                     <tr>
                                         <td>${i+1}</td>
                                         <td><strong>${s.student_id}</strong></td>
                                         <td>${s.full_name}</td>
+                                        <td>${s.phone || '-'}</td>
                                         <td>${s.major || '-'}</td>
-                                        <td>${s.total_attendance || 0}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -2500,13 +3038,14 @@
                 html = `
                     <div class="table-wrap" style="max-height:400px;">
                         <table>
-                            <thead><tr><th>#</th><th>ชื่อกิจกรรม</th><th>วันที่</th><th>สถานะ</th></tr></thead>
+                            <thead><tr><th>#</th><th>ชื่อกิจกรรม</th><th>วันที่</th><th>เวลาเริ่ม</th><th>สถานะ</th></tr></thead>
                             <tbody>
                                 ${allActivities.map((a, i) => `
                                     <tr>
                                         <td>${i+1}</td>
                                         <td><strong>${a.title}</strong></td>
                                         <td>${a.datetime || '-'}</td>
+                                        <td>${a.start_time || '-'}</td>
                                         <td><span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span></td>
                                     </tr>
                                 `).join('')}
@@ -2529,7 +3068,7 @@
                         <table>
                             <thead><tr><th>ID</th><th>นักศึกษา</th><th>กิจกรรม</th><th>สถานะ</th></tr></thead>
                             <tbody>
-                                ${allRegistrations.slice(0, 20).map(r => {
+                                ${allRegistrations.slice(0, 30).map(r => {
                                     const s = allStudents.find(st => st.student_id === r.student_id);
                                     const a = allActivities.find(ac => ac.act_id === r.act_id);
                                     const statusMap = {'registered':'🟡 รอ','checked-in':'🟢 เข้าแล้ว','absent':'🔴 ขาด'};
@@ -2554,7 +3093,7 @@
                             <div class="activity-card">
                                 <div class="title">${a.title}</div>
                                 <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
-                                <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || '-'}</div>
+                                <div class="meta"><i class="fas fa-clock"></i> ${a.start_time || '-'}</div>
                                 <span class="badge-status upcoming">กำลังจะมา</span>
                             </div>
                         `).join('')}
@@ -2611,10 +3150,9 @@
                     </div>
                 `;
             } else if (type === 'noeval' && isAdmin) {
-                title.textContent = '📝 นักศึกษาที่ยังไม่ประเมิน';
+                title.textContent = '📝 นักศึกษาที่ยังไม่ประเมิน (แยกตามบ้าน)';
                 const noEval = allRegistrations.filter(r => r.attendance_status === 'checked-in' && (!r.evaluation_score || r
                     .evaluation_score === 0));
-                // กลุ่มตามบ้าน (halaqah)
                 const byHalaqah = {};
                 noEval.forEach(r => {
                     const s = allStudents.find(st => st.student_id === r.student_id);
@@ -2639,6 +3177,42 @@
                     </div>
                     ${halaqahHtml || '<p style="text-align:center;color:var(--text-muted);">ทุกคนประเมินครบแล้ว 🎉</p>'}
                 `;
+            } else if (type === 'ontime' && isAdmin) {
+                title.textContent = '🕒 รายชื่อผู้เข้าตรงเวลา (ก่อน/ใน 10 นาที)';
+                const onTimeList = [];
+                allRegistrations.filter(r => r.attendance_status === 'checked-in').forEach(r => {
+                    const act = allActivities.find(a => a.act_id === r.act_id);
+                    if (act && act.datetime && r.registered_at) {
+                        const actStart = new Date(act.datetime);
+                        const checkinTime = new Date(r.registered_at);
+                        const diffMinutes = (checkinTime - actStart) / 60000;
+                        if (diffMinutes >= -10 && diffMinutes <= 10) {
+                            const s = allStudents.find(st => st.student_id === r.student_id);
+                            onTimeList.push({ name: s?.full_name || r.student_id, activity: act.title,
+                            diff: diffMinutes });
+                        }
+                    }
+                });
+                html = `
+                    <div style="text-align:center;padding:8px;background:rgba(249,115,22,0.06);border-radius:8px;margin-bottom:12px;">
+                        <span style="font-size:16px;font-weight:700;color:var(--orange);">${onTimeList.length} คน</span> เข้าตรงเวลา
+                    </div>
+                    <div class="table-wrap" style="max-height:350px;">
+                        <table>
+                            <thead><tr><th>#</th><th>นักศึกษา</th><th>กิจกรรม</th><th>ความคลาดเคลื่อน</th></tr></thead>
+                            <tbody>
+                                ${onTimeList.slice(0, 30).map((item, i) => `
+                                    <tr>
+                                        <td>${i+1}</td>
+                                        <td>${item.name}</td>
+                                        <td>${item.activity}</td>
+                                        <td style="color:${Math.abs(item.diff) <= 3 ? 'var(--success)' : 'var(--warning)'};">${item.diff > 0 ? 'สาย ' : 'เร็ว '}${Math.abs(Math.round(item.diff))} นาที</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
             }
 
             $('statModalBody').innerHTML = html;
@@ -2647,7 +3221,6 @@
         }
 
         function notifyHeadOfHouse(halaqah) {
-            const members = allStudents.filter(s => s.halaqah === halaqah);
             const notEval = allRegistrations.filter(r => {
                 const s = allStudents.find(st => st.student_id === r.student_id);
                 return s?.halaqah === halaqah && r.attendance_status === 'checked-in' && (!r.evaluation_score || r
@@ -2660,7 +3233,6 @@
             const msg =
                 `📢 แจ้งหัวหน้าบ้าน ${halaqah}\n\nสมาชิกที่ยังไม่ประเมินกิจกรรม: ${notEval.length} คน\n${names}\n\nกรุณาติดตามให้ประเมินด้วยครับ`;
             showToast(`📢 แจ้งหัวหน้าบ้าน ${halaqah} เรียบร้อย`, 'success');
-            // จำลองการแจ้งเตือน (ในระบบจริงอาจส่ง Line/WhatsApp)
             openModal('📢 แจ้งหัวหน้าบ้าน', `
                 <div style="text-align:center;padding:12px;">
                     <div style="font-size:48px;margin-bottom:12px;">📢</div>
@@ -2692,7 +3264,225 @@
         }
 
         // ============================================================
-        // ADMIN: STUDENTS (Edit Full Profile)
+        // ADMIN: EVALUATIONS BY HOUSE
+        // ============================================================
+        function renderEvalByHouse() {
+            if (!isAdmin) return;
+            const container = $('evalByHouseContainer');
+            const evalMap = {};
+            const allCheckedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in');
+            allCheckedIn.forEach(r => {
+                const s = allStudents.find(st => st.student_id === r.student_id);
+                const house = s?.halaqah || 'ไม่ระบุ';
+                if (!evalMap[house]) evalMap[house] = { total: 0, evaluated: 0 };
+                evalMap[house].total++;
+                if (r.evaluation_score && r.evaluation_score > 0) evalMap[house].evaluated++;
+            });
+
+            let html = `<div class="stats-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">`;
+            for (const [house, data] of Object.entries(evalMap)) {
+                const pct = data.total > 0 ? Math.round((data.evaluated / data.total) * 100) : 0;
+                html += `
+                    <div class="stat-card" style="cursor:default;">
+                        <div class="stat-top"><div class="stat-icon blue"><i class="fas fa-home"></i></div></div>
+                        <div class="num" style="font-size:18px;">${house}</div>
+                        <div style="display:flex;justify-content:space-between;font-size:13px;">
+                            <span>${data.evaluated}/${data.total}</span>
+                            <span style="color:${pct >= 80 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)'};">${pct}%</span>
+                        </div>
+                        <div style="width:100%;height:4px;background:rgba(0,0,0,0.04);border-radius:10px;margin-top:4px;">
+                            <div style="width:${pct}%;height:100%;background:${pct >= 80 ? 'var(--success)' : pct >= 50 ? 'var(--warning)' : 'var(--danger)'};border-radius:10px;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            html += `</div>`;
+            container.innerHTML = html || '<p>ไม่มีข้อมูล</p>';
+
+            // Detail table
+            const tableBody = $('evalDetailTable');
+            const details = [];
+            allCheckedIn.forEach(r => {
+                const s = allStudents.find(st => st.student_id === r.student_id);
+                const a = allActivities.find(ac => ac.act_id === r.act_id);
+                details.push({
+                    house: s?.halaqah || 'ไม่ระบุ',
+                    student: s?.full_name || r.student_id,
+                    activity: a?.title || r.act_id,
+                    status: (r.evaluation_score && r.evaluation_score > 0) ? '✅ ประเมินแล้ว' : '❌ ยังไม่ประเมิน'
+                });
+            });
+            tableBody.innerHTML = details.map(d => `
+                <tr>
+                    <td><strong>${d.house}</strong></td>
+                    <td>${d.student}</td>
+                    <td>${d.activity}</td>
+                    <td><span class="badge-status ${d.status.includes('แล้ว') ? 'evaluated' : 'not-evaluated'}">${d.status}</span></td>
+                </tr>
+            `).join('') || '<tr><td colspan="4" class="empty-row">ไม่มีข้อมูล</td></tr>';
+        }
+
+        // ============================================================
+        // ADMIN: REPORTS
+        // ============================================================
+        function renderAdminReports() {
+            if (!isAdmin) return;
+            const evals = allRegistrations.filter(r => r.attendance_status === 'checked-in' && r.evaluation_score > 0);
+            const totalScore = evals.reduce((s, r) => s + r.evaluation_score, 0);
+            const avg = evals.length > 0 ? (totalScore / evals.length) : 0;
+            $('avgScoreAll').textContent = avg.toFixed(1);
+            $('totalEvaluations').textContent = evals.length;
+            $('totalCheckinsReport').textContent = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
+
+            // On time %
+            let onTime = 0;
+            allRegistrations.filter(r => r.attendance_status === 'checked-in').forEach(r => {
+                const act = allActivities.find(a => a.act_id === r.act_id);
+                if (act && act.datetime && r.registered_at) {
+                    const diff = (new Date(r.registered_at) - new Date(act.datetime)) / 60000;
+                    if (diff >= -10 && diff <= 10) onTime++;
+                }
+            });
+            const totalChecked = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
+            $('ontimeReport').textContent = totalChecked > 0 ? Math.round((onTime / totalChecked) * 100) + '%' : '0%';
+
+            // Score Chart
+            renderScoreChart();
+
+            // Trend Chart
+            renderTrendChart();
+
+            // Activity Summary Table
+            const actMap = {};
+            allRegistrations.filter(r => r.attendance_status === 'checked-in' && r.evaluation_score > 0).forEach(r => {
+                if (!actMap[r.act_id]) actMap[r.act_id] = { scores: [], count: 0 };
+                actMap[r.act_id].scores.push(r.evaluation_score);
+                actMap[r.act_id].count++;
+            });
+            const tableBody = $('reportActivityTable');
+            let rows = '';
+            for (const [actId, data] of Object.entries(actMap)) {
+                const act = allActivities.find(a => a.act_id === actId);
+                const avgScore = data.scores.reduce((a, b) => a + b, 0) / data.scores.length;
+                rows += `
+                    <tr>
+                        <td>${act?.title || actId}</td>
+                        <td>${data.count}</td>
+                        <td>${avgScore.toFixed(1)} / 5</td>
+                    </tr>
+                `;
+            }
+            tableBody.innerHTML = rows || '<tr><td colspan="3" class="empty-row">ไม่มีข้อมูล</td></tr>';
+        }
+
+        function renderScoreChart() {
+            const canvas = $('scoreChart');
+            if (!canvas) return;
+            if (scoreChartInstance) { scoreChartInstance.destroy();
+                scoreChartInstance = null; }
+
+            const actMap = {};
+            allRegistrations.filter(r => r.attendance_status === 'checked-in' && r.evaluation_score > 0).forEach(r => {
+                if (!actMap[r.act_id]) actMap[r.act_id] = [];
+                actMap[r.act_id].push(r.evaluation_score);
+            });
+
+            const labels = [];
+            const data = [];
+            for (const [actId, scores] of Object.entries(actMap)) {
+                const act = allActivities.find(a => a.act_id === actId);
+                const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+                labels.push(act?.title || actId);
+                data.push(avg);
+            }
+
+            const ctx = canvas.getContext('2d');
+            const isDarkMode = isDark;
+            const textColor = isDarkMode ? '#b0b0cc' : '#4a4a6a';
+            const gridColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+
+            scoreChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'คะแนนเฉลี่ย',
+                        data: data,
+                        backgroundColor: ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6'],
+                        borderColor: '#fff',
+                        borderWidth: 1,
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, max: 5, ticks: { color: textColor, font: { size: 10 } },
+                            grid: { color: gridColor } },
+                        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function renderTrendChart() {
+            const canvas = $('trendChartReport');
+            if (!canvas) return;
+            if (trendChartInstance) { trendChartInstance.destroy();
+                trendChartInstance = null; }
+
+            const today = new Date();
+            const labels = [];
+            const data = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                const dateStr = d.toISOString().slice(0, 10);
+                labels.push(formatDate(dateStr));
+                const count = allRegistrations.filter(r =>
+                    r.attendance_status === 'checked-in' &&
+                    r.registered_at &&
+                    r.registered_at.slice(0, 10) === dateStr
+                ).length;
+                data.push(count);
+            }
+
+            const ctx = canvas.getContext('2d');
+            const isDarkMode = isDark;
+            const textColor = isDarkMode ? '#b0b0cc' : '#4a4a6a';
+            const gridColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+
+            trendChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'จำนวนเช็คอิน',
+                        data: data,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139,92,246,0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#8b5cf6',
+                        pointRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: textColor, font: { size: 11 } } } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // ============================================================
+        // ADMIN: STUDENTS
         // ============================================================
         async function loadAdminStudents() {
             try {
@@ -2792,6 +3582,16 @@
             }
         }
 
+        function exportStudentsCSV() {
+            let content = 'รหัส,ชื่อ,ที่อยู่,เบอร์,สาขา,เข้าร่วม\n';
+            allStudents.forEach(s => {
+                content +=
+                    `${s.student_id},${s.full_name},${s.address||''},${s.phone||''},${s.major||''},${s.total_attendance||0}\n`;
+            });
+            downloadCSV('students.csv', content);
+            showToast('✅ Export นักศึกษาสำเร็จ', 'success');
+        }
+
         // ============================================================
         // ADMIN: ACTIVITIES
         // ============================================================
@@ -2805,6 +3605,7 @@
                         <td>${a.act_id}</td>
                         <td>${a.title}</td>
                         <td>${a.datetime || '-'}</td>
+                        <td>${a.start_time || '-'}</td>
                         <td>${a.location || '-'}</td>
                         <td>${a.max_slots || 0}</td>
                         <td><span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span></td>
@@ -2814,7 +3615,7 @@
                             <button class="btn btn-danger btn-sm" onclick="deleteActivity('${a.act_id}')"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
-                `).join('') || `<tr><td colspan="8" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+                `).join('') || `<tr><td colspan="9" class="empty-row">ไม่มีข้อมูล</td></tr>`;
             } catch (e) {
                 showToast('❌ ' + e.message, 'error');
             }
@@ -2826,10 +3627,12 @@
             $('actTitle').value = '';
             $('actDesc').value = '';
             $('actDate').value = getTodayStr();
+            $('actStartTime').value = '08:00';
             $('actLocation').value = '';
             $('actSlots').value = '50';
             $('actStatus').value = 'upcoming';
             $('actType').value = 'public';
+            $('actFormat').value = 'event';
             $('actResult').textContent = '';
             $('activityModal').classList.add('show');
             $('activityModal').style.display = 'flex';
@@ -2843,10 +3646,12 @@
             $('actTitle').value = activity.title || '';
             $('actDesc').value = activity.description || '';
             $('actDate').value = activity.datetime || '';
+            $('actStartTime').value = activity.start_time || '08:00';
             $('actLocation').value = activity.location || '';
             $('actSlots').value = activity.max_slots || 50;
             $('actStatus').value = activity.status || 'upcoming';
             $('actType').value = activity.type || 'public';
+            $('actFormat').value = activity.format || 'event';
             $('actResult').textContent = '';
             $('activityModal').classList.add('show');
             $('activityModal').style.display = 'flex';
@@ -2857,10 +3662,12 @@
             const title = $('actTitle').value.trim();
             const description = $('actDesc').value.trim();
             const datetime = $('actDate').value;
+            const start_time = $('actStartTime').value;
             const location = $('actLocation').value.trim();
             const max_slots = parseInt($('actSlots').value) || 0;
             const status = $('actStatus').value;
             const type = $('actType').value;
+            const format = $('actFormat').value;
             const resultDiv = $('actResult');
 
             if (!title || !datetime) {
@@ -2875,7 +3682,8 @@
             try {
                 await apiCall(endpoint, {
                     method: method,
-                    body: JSON.stringify({ act_id, title, description, datetime, location, max_slots, status, type })
+                    body: JSON.stringify({ act_id, title, description, datetime, start_time, location, max_slots, status,
+                        type, format })
                 });
                 resultDiv.innerHTML = `<span style="color:var(--success);">✅ ${isEdit ? 'แก้ไข' : 'เพิ่ม'}กิจกรรมสำเร็จ!</span>`;
                 showToast(`✅ ${isEdit ? 'แก้ไข' : 'เพิ่ม'}กิจกรรมสำเร็จ`, 'success');
@@ -2912,21 +3720,29 @@
                     const student = allStudents.find(s => s.student_id === r.student_id);
                     const activity = allActivities.find(a => a.act_id === r.act_id);
                     const statusMap = { 'registered': 'รอเข้าร่วม', 'checked-in': '✅ เข้าร่วมแล้ว', 'absent': '❌ ขาด' };
+                    // Check on time
+                    let onTime = '-';
+                    if (r.attendance_status === 'checked-in' && activity && activity.datetime && r.registered_at) {
+                        const diff = (new Date(r.registered_at) - new Date(activity.datetime)) / 60000;
+                        onTime = (diff >= -10 && diff <= 10) ? '✅ ตรงเวลา' : '❌ ไม่ตรง';
+                    }
                     return `
                         <tr>
                             <td>${r.reg_id}</td>
                             <td>${student ? student.full_name : r.student_id}</td>
                             <td>${activity ? activity.title : r.act_id}</td>
                             <td>${r.registered_at || '-'}</td>
+                            <td>${r.attendance_status === 'checked-in' ? (r.registered_at ? formatTime(r.registered_at) : '-') : '-'}</td>
                             <td><span class="badge-status ${r.attendance_status === 'checked-in' ? 'active' : r.attendance_status === 'registered' ? 'upcoming' : 'closed'}">${statusMap[r.attendance_status] || r.attendance_status}</span></td>
+                            <td>${onTime}</td>
                             <td>${r.evaluation_score || '-'}</td>
                             <td>
-                                <button class="btn btn-success btn-sm" onclick="markCheckin('${r.reg_id}')"><i class="fas fa-check"></i> เช็คอิน</button>
+                                ${r.attendance_status !== 'checked-in' ? `<button class="btn btn-success btn-sm" onclick="markCheckin('${r.reg_id}')"><i class="fas fa-check"></i> เช็คอิน</button>` : ''}
                                 <button class="btn btn-danger btn-sm" onclick="deleteRegistration('${r.reg_id}')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
-                }).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+                }).join('') || `<tr><td colspan="9" class="empty-row">ไม่มีข้อมูล</td></tr>`;
             } catch (e) {
                 showToast('❌ ' + e.message, 'error');
             }
@@ -2955,13 +3771,49 @@
         }
 
         // ============================================================
+        // ADMIN: SETTINGS (Change Admin Password)
+        // ============================================================
+        async function changeAdminPassword() {
+            const oldPass = $('oldAdminPass').value.trim();
+            const newPass = $('newAdminPass').value.trim();
+            const confirmPass = $('confirmAdminPass').value.trim();
+            const resultDiv = $('adminPassResult');
+
+            if (!oldPass || !newPass || !confirmPass) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกข้อมูลให้ครบ</span>';
+                return;
+            }
+            const storedHash = localStorage.getItem('adminHash');
+            const oldHash = await sha256(oldPass);
+            if (oldHash !== storedHash) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านปัจจุบันไม่ถูกต้อง</span>';
+                return;
+            }
+            if (newPass.length < 6) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัว</span>';
+                return;
+            }
+            if (newPass !== confirmPass) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">รหัสผ่านใหม่ไม่ตรงกัน</span>';
+                return;
+            }
+
+            const newHash = await sha256(newPass);
+            localStorage.setItem('adminHash', newHash);
+            resultDiv.innerHTML = '<span style="color:var(--success);">✅ เปลี่ยนรหัสผ่าน Admin สำเร็จ! (รหัสเดิม admin123 ไม่ใช้แล้ว)</span>';
+            showToast('✅ เปลี่ยนรหัสผ่าน Admin สำเร็จ', 'success');
+            $('oldAdminPass').value = '';
+            $('newAdminPass').value = '';
+            $('confirmAdminPass').value = '';
+        }
+
+        // ============================================================
         // MODALS
         // ============================================================
         function closeModal(id) {
             const modal = $(id);
             if (modal) { modal.classList.remove('show');
                 modal.style.display = 'none'; }
-            // Also close tempModal
             const temp = document.getElementById('tempModal');
             if (temp) temp.remove();
         }
@@ -3045,13 +3897,18 @@
                 leaderboard: { title: 'ลีดเดอร์บอร์ด', sub: 'อันดับการเข้าร่วมกิจกรรม' },
                 'admin-students': { title: 'จัดการนักศึกษา', sub: 'เพิ่ม/แก้ไข/ลบ นักศึกษา' },
                 'admin-activities': { title: 'จัดการกิจกรรม', sub: 'เพิ่ม/แก้ไข/ลบ กิจกรรม' },
-                'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' }
+                'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' },
+                'admin-evaluations': { title: 'จัดการประเมิน', sub: 'สรุปการประเมินตามบ้าน' },
+                'admin-reports': { title: 'รายงานคะแนน', sub: 'คะแนนและกราฟ' },
+                'admin-settings': { title: 'ตั้งค่าระบบ', sub: 'เปลี่ยนรหัสผ่าน Admin' }
             };
             const info = titles[page] || { title: 'หน้า', sub: '' };
             document.getElementById('pageTitle').textContent = info.title;
             document.getElementById('pageSubtitle').textContent = info.sub;
 
             if (window.innerWidth <= 992 && isSidebarOpen) toggleSidebar();
+            if (page === 'admin-reports') renderAdminReports();
+            if (page === 'admin-evaluations') renderEvalByHouse();
         }
 
         let isSidebarOpen = false;
@@ -3070,7 +3927,8 @@
             document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-            if (isAdmin) renderAdminChart();
+            if (isAdmin) { renderAdminChart();
+                renderAdminReports(); }
         }
 
         (function initTheme() {
@@ -3081,6 +3939,18 @@
                 $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
             }
         })();
+
+        // ============================================================
+        // CSV DOWNLOAD
+        // ============================================================
+        function downloadCSV(filename, content) {
+            const blob = new Blob(['\uFEFF' + content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
 
         // ============================================================
         // KEYBOARD SHORTCUTS
@@ -3098,11 +3968,11 @@
             }
         });
 
-        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — ฉบับสมบูรณ์ 2026');
-        console.log('👑 Admin: admin / admin123');
+        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — ฉบับสมบูรณ์ 2026 (Full Version)');
+        console.log('👑 Admin: admin / admin123 (เปลี่ยนได้ที่ตั้งค่าระบบ)');
         console.log('👤 Student: sh01 / 1234');
         console.log('⌨️ Ctrl+R = รีเฟรช, ESC = ปิด Modal');
-        console.log('📝 การประเมิน: เลือกจากดรอปดาวน์ (ปรับปรุง/พอใช้/ดี/ดีมาก)');
+        console.log('📌 ฟีเจอร์ใหม่: บัตรนักศึกษา, เปลี่ยนรหัสผ่าน, จัดการประเมินตามบ้าน, กราฟคะแนน, เรียนประจำสัปดา');
     </script>
 </body>
 </html>
