@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
-    <title>🌿 ระบบจัดการกิจกรรมนักศึกษา อัล-อัซฮัร</title>
+    <title>🎓 ระบบจัดการกิจกรรมนักศึกษา</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <style>
         /* ============================================================
-           ROOT — ธีมอัล-อัซฮัร สดใส สไตล์ศาสนา
+           ROOT & RESET — พรีเมียมยิ่งกว่าเดิม
            ============================================================ */
         *,
         *::before,
@@ -19,50 +19,49 @@
             box-sizing: border-box;
         }
         :root {
-            --primary: #1a6b3c;
-            --primary-light: #2d8f55;
-            --primary-dark: #0f4a2a;
-            --secondary: #d4a845;
-            --secondary-light: #f0d68a;
-            --accent: #c9a84c;
-            --success: #2d8f55;
-            --danger: #c0392b;
-            --warning: #d4a845;
-            --info: #2980b9;
-            --gold: #d4a845;
-            --gold-light: #f0d68a;
-            --bg-body: #f5f0e8;
+            --primary: #0f2b4a;
+            --primary-light: #1a4a7a;
+            --primary-dark: #081d33;
+            --secondary: #38bdf8;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --bg-body: #f0f4f8;
             --bg-surface: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.88);
-            --bg-card-hover: rgba(255, 255, 255, 0.96);
-            --bg-glass: rgba(255, 255, 255, 0.30);
-            --text-primary: #1a2a1a;
-            --text-secondary: #3d5a3d;
-            --text-muted: #8a9a8a;
-            --text-inverse: #f5f0e8;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --bg-card: rgba(255, 255, 255, 0.80);
+            --bg-card-hover: rgba(255, 255, 255, 0.95);
+            --bg-glass: rgba(255, 255, 255, 0.25);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #94a3b8;
+            --text-inverse: #f1f5f9;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.08);
             --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
-            --shadow-hover: 0 12px 36px rgba(0, 0, 0, 0.10);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
             --radius-xl: 28px;
-            --font: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             --sidebar-width: 260px;
             --glass-blur: blur(16px);
         }
         [data-theme="dark"] {
-            --bg-body: #0f1a12;
-            --bg-surface: #1a2a1e;
-            --bg-card: rgba(26, 42, 30, 0.80);
-            --bg-card-hover: rgba(26, 42, 30, 0.92);
-            --bg-glass: rgba(15, 26, 18, 0.50);
-            --text-primary: #e8ede8;
-            --text-secondary: #b8c8b8;
-            --text-muted: #6a8a6a;
+            --bg-body: #0b1120;
+            --bg-surface: #1e293b;
+            --bg-card: rgba(30, 41, 59, 0.75);
+            --bg-card-hover: rgba(30, 41, 59, 0.92);
+            --bg-glass: rgba(15, 23, 42, 0.50);
+            --text-primary: #e2e8f0;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
             --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
             --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
@@ -91,7 +90,7 @@
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: var(--secondary);
+            background: var(--text-muted);
             border-radius: 20px;
         }
         ::-webkit-scrollbar-thumb:hover {
@@ -99,7 +98,7 @@
         }
 
         /* ============================================================
-           SIDEBAR — ธีมอิสลาม
+           SIDEBAR — พรีเมียม
            ============================================================ */
         .app-sidebar {
             position: fixed;
@@ -115,21 +114,21 @@
             z-index: 1000;
             transition: transform var(--transition), background var(--transition);
             overflow-y: auto;
-            box-shadow: 4px 0 32px rgba(0, 0, 0, 0.15);
-            border-left: 1px solid rgba(212, 168, 69, 0.15);
+            box-shadow: 4px 0 32px rgba(0, 0, 0, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.04);
         }
         .app-sidebar .brand {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 0 6px 20px 6px;
-            border-bottom: 1px solid rgba(212, 168, 69, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             margin-bottom: 16px;
         }
         .app-sidebar .brand .brand-icon {
             width: 44px;
             height: 44px;
-            background: rgba(212, 168, 69, 0.15);
+            background: rgba(56, 189, 248, 0.15);
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
@@ -143,13 +142,13 @@
             font-weight: 800;
             letter-spacing: -0.5px;
             line-height: 1.2;
-            background: linear-gradient(135deg, #fff 60%, var(--secondary-light));
+            background: linear-gradient(135deg, #fff 60%, var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .app-sidebar .brand .brand-text span {
             font-size: 11px;
-            opacity: 0.6;
+            opacity: 0.5;
             font-weight: 400;
             -webkit-text-fill-color: rgba(255, 255, 255, 0.5);
         }
@@ -202,14 +201,14 @@
             color: rgba(255, 255, 255, 0.6);
         }
         .app-sidebar .nav-item:hover {
-            background: rgba(212, 168, 69, 0.12);
+            background: rgba(255, 255, 255, 0.06);
             color: #fff;
         }
         .app-sidebar .nav-item:hover i {
             transform: scale(1.05);
         }
         .app-sidebar .nav-item.active {
-            background: rgba(212, 168, 69, 0.18);
+            background: rgba(56, 189, 248, 0.15);
             color: #fff;
             box-shadow: inset 4px 0 0 var(--secondary);
         }
@@ -217,7 +216,7 @@
             color: var(--secondary);
         }
         .app-sidebar .sidebar-footer {
-            border-top: 1px solid rgba(212, 168, 69, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 14px;
             margin-top: 6px;
             display: flex;
@@ -261,7 +260,7 @@
             padding: 10px 16px;
             border-radius: var(--radius-sm);
             border: none;
-            background: rgba(192, 57, 43, 0.15);
+            background: rgba(239, 68, 68, 0.12);
             color: #fca5a5;
             font-weight: 500;
             font-size: 13px;
@@ -271,7 +270,7 @@
             text-align: right;
         }
         .app-sidebar .sidebar-footer .btn-logout-side:hover {
-            background: rgba(192, 57, 43, 0.25);
+            background: rgba(239, 68, 68, 0.2);
             color: #f87171;
         }
 
@@ -289,9 +288,6 @@
             width: 100%;
         }
 
-        /* ============================================================
-           TOPBAR
-           ============================================================ */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -300,7 +296,7 @@
             gap: 12px;
             padding-bottom: 16px;
             margin-bottom: 24px;
-            border-bottom: 2px solid rgba(212, 168, 69, 0.15);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         }
         .topbar .topbar-left {
             display: flex;
@@ -328,7 +324,7 @@
             font-size: 24px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -400,11 +396,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(26, 107, 60, 0.2);
+            box-shadow: 0 4px 12px rgba(15, 59, 94, 0.2);
         }
         .topbar .topbar-right .btn-refresh:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(26, 107, 60, 0.3);
+            box-shadow: 0 8px 24px rgba(15, 59, 94, 0.3);
         }
 
         .page-section {
@@ -440,7 +436,7 @@
             background: var(--bg-card);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid rgba(212, 168, 69, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: var(--shadow);
             transition: all var(--transition);
             display: flex;
@@ -479,23 +475,23 @@
             color: #fff;
             flex-shrink: 0;
         }
-        .stat-card .stat-icon.green {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-        }
-        .stat-card .stat-icon.gold {
-            background: linear-gradient(135deg, var(--secondary), var(--gold));
-        }
         .stat-card .stat-icon.blue {
-            background: linear-gradient(135deg, #2980b9, #3498db);
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+        }
+        .stat-card .stat-icon.green {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        .stat-card .stat-icon.amber {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
         }
         .stat-card .stat-icon.purple {
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         }
         .stat-card .stat-icon.pink {
-            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            background: linear-gradient(135deg, #ec4899, #db2777);
         }
         .stat-card .stat-icon.teal {
-            background: linear-gradient(135deg, #1abc9c, #16a085);
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
         }
         .stat-card .num {
             font-size: 24px;
@@ -511,22 +507,22 @@
             font-weight: 500;
         }
         .stat-card:nth-child(1)::before {
-            background: var(--primary);
+            background: #0ea5e9;
         }
         .stat-card:nth-child(2)::before {
-            background: var(--secondary);
+            background: #10b981;
         }
         .stat-card:nth-child(3)::before {
-            background: #2980b9;
+            background: #f59e0b;
         }
         .stat-card:nth-child(4)::before {
-            background: #8e44ad;
+            background: #8b5cf6;
         }
         .stat-card:nth-child(5)::before {
-            background: #e74c3c;
+            background: #ec4899;
         }
         .stat-card:nth-child(6)::before {
-            background: #1abc9c;
+            background: #14b8a6;
         }
 
         /* ============================================================
@@ -536,7 +532,7 @@
             background: var(--bg-card);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid rgba(212, 168, 69, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: var(--radius-md);
             padding: 16px 20px;
             margin-bottom: 16px;
@@ -610,31 +606,31 @@
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(26, 107, 60, 0.25);
+            box-shadow: 0 8px 24px rgba(15, 59, 94, 0.25);
         }
         .btn-success {
-            background: linear-gradient(135deg, #2d8f55, #1a6b3c);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
         }
         .btn-success:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(45, 143, 85, 0.25);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
         }
         .btn-danger {
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: #fff;
         }
         .btn-danger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(192, 57, 43, 0.25);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
         }
-        .btn-gold {
-            background: linear-gradient(135deg, var(--secondary), var(--gold));
+        .btn-amber {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: #fff;
         }
-        .btn-gold:hover {
+        .btn-amber:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(212, 168, 69, 0.25);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
         }
         .btn-outline {
             background: transparent;
@@ -684,7 +680,7 @@
             letter-spacing: 0.3px;
             color: var(--text-muted);
             background: var(--bg-body);
-            border-bottom: 2px solid rgba(212, 168, 69, 0.15);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.04);
             white-space: nowrap;
         }
         .table-wrap table td {
@@ -698,7 +694,7 @@
             transition: background var(--transition);
         }
         .table-wrap table tbody tr:hover td {
-            background: rgba(26, 107, 60, 0.04);
+            background: rgba(15, 59, 94, 0.04);
         }
         .table-wrap table tbody tr:nth-child(even) td {
             background: rgba(0, 0, 0, 0.01);
@@ -720,32 +716,24 @@
             gap: 4px;
         }
         .badge-status.active {
-            background: rgba(45, 143, 85, 0.12);
-            color: #2d8f55;
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
         }
-        .badge-status.checked-in {
-            background: rgba(45, 143, 85, 0.12);
-            color: #2d8f55;
-        }
-        .badge-status.registered {
-            background: rgba(212, 168, 69, 0.12);
-            color: #d4a845;
-        }
-        .badge-status.absent {
-            background: rgba(192, 57, 43, 0.12);
-            color: #c0392b;
+        .badge-status.expired {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
         }
         .badge-status.upcoming {
-            background: rgba(41, 128, 185, 0.12);
-            color: #2980b9;
+            background: rgba(59, 130, 246, 0.12);
+            color: #3b82f6;
         }
         .badge-status.closed {
             background: rgba(148, 163, 184, 0.12);
             color: #94a3b8;
         }
         .badge-status.ongoing {
-            background: rgba(212, 168, 69, 0.12);
-            color: #d4a845;
+            background: rgba(245, 158, 11, 0.12);
+            color: #f59e0b;
         }
 
         /* ============================================================
@@ -757,7 +745,7 @@
             gap: 16px;
         }
         .activity-card {
-            border-left: 4px solid var(--secondary);
+            border-left: 4px solid var(--primary);
             padding: 16px;
             background: var(--bg-card);
             border-radius: var(--radius-md);
@@ -795,7 +783,6 @@
             height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--secondary);
         }
         .tab-bar {
             display: flex;
@@ -811,16 +798,13 @@
             font-weight: 600;
             transition: all var(--transition);
             font-size: 13px;
-            border: 1px solid transparent;
         }
         .tab-bar button.active {
             background: var(--primary);
             color: #fff;
-            border-color: var(--primary);
         }
         .tab-bar button:hover:not(.active) {
             background: var(--bg-card-hover);
-            border-color: var(--secondary);
         }
         .hidden {
             display: none !important;
@@ -840,7 +824,7 @@
             color: var(--primary);
         }
         .leaderboard-item .rank.gold {
-            color: #d4a845;
+            color: #f59e0b;
         }
         .leaderboard-item .rank.silver {
             color: #94a3b8;
@@ -850,7 +834,7 @@
         }
 
         /* ============================================================
-           MODAL — ดีไซน์พรีเมียม สไตล์อัลอัซฮัร
+           MODAL
            ============================================================ */
         .modal-overlay {
             display: none;
@@ -870,14 +854,14 @@
         .modal-box {
             background: var(--bg-surface);
             border-radius: var(--radius-lg);
-            max-width: 750px;
+            max-width: 650px;
             width: 100%;
             max-height: 95vh;
             overflow-y: auto;
             padding: 32px 36px;
             box-shadow: 0 40px 96px rgba(0, 0, 0, 0.3);
             animation: fadeUp 0.35s ease;
-            border: 1px solid rgba(212, 168, 69, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         @keyframes fadeUp {
             from {
@@ -893,7 +877,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--secondary);
+            border-bottom: 2px solid var(--accent);
             padding-bottom: 16px;
             margin-bottom: 20px;
         }
@@ -904,9 +888,6 @@
             align-items: center;
             gap: 10px;
             color: var(--text-primary);
-        }
-        .modal-box .modal-header h3 i {
-            color: var(--secondary);
         }
         .modal-box .modal-header .close {
             font-size: 30px;
@@ -922,60 +903,66 @@
             opacity: 1;
             transform: rotate(90deg);
         }
-
-        /* Evaluation stars */
-        .eval-stars {
-            display: flex;
-            gap: 8px;
-            margin: 6px 0;
+        .modal-box .form-group {
+            margin-bottom: 14px;
         }
-        .eval-stars .star {
-            font-size: 28px;
-            cursor: pointer;
-            color: #ddd;
-            transition: all 0.2s;
-        }
-        .eval-stars .star.active {
-            color: var(--secondary);
-        }
-        .eval-stars .star:hover {
-            transform: scale(1.2);
-        }
-
-        /* Halaqah (บ้าน) badge */
-        .halaqah-badge {
-            display: inline-block;
-            padding: 2px 12px;
-            border-radius: 30px;
-            font-size: 10px;
+        .modal-box .form-group label {
+            display: block;
             font-weight: 700;
-            background: rgba(212, 168, 69, 0.12);
-            color: var(--secondary);
-            border: 1px solid rgba(212, 168, 69, 0.15);
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
         }
-
-        /* Summary cards */
-        .summary-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .summary-card {
-            padding: 12px 16px;
+        .modal-box .form-group input,
+        .modal-box .form-group select,
+        .modal-box .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
             border-radius: var(--radius-sm);
+            border: 2px solid rgba(0, 0, 0, 0.06);
             background: var(--bg-body);
-            border: 1px solid rgba(212, 168, 69, 0.10);
-            text-align: center;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
         }
-        .summary-card .number {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--primary);
+        .modal-box .form-group input:focus,
+        .modal-box .form-group select:focus,
+        .modal-box .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(15, 59, 94, 0.10);
         }
-        .summary-card .label {
-            font-size: 11px;
-            color: var(--text-muted);
+        .modal-box .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .modal-box .btn-submit {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .modal-box .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+        .modal-box .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        @media (max-width: 480px) {
+            .modal-box .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ============================================================
@@ -995,7 +982,7 @@
         #loginPage .login-box {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(32px);
-            border: 1px solid rgba(212, 168, 69, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: var(--radius-xl);
             padding: 40px 36px;
             max-width: 420px;
@@ -1010,7 +997,7 @@
         #loginPage .login-box .logo i {
             font-size: 48px;
             color: var(--secondary);
-            background: rgba(212, 168, 69, 0.10);
+            background: rgba(56, 189, 248, 0.10);
             padding: 14px;
             border-radius: var(--radius-md);
             margin-bottom: 10px;
@@ -1019,7 +1006,7 @@
             font-size: 28px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 60%, var(--secondary-light));
+            background: linear-gradient(135deg, #fff 60%, var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -1056,15 +1043,15 @@
         }
         #loginPage .login-box .input-group input:focus {
             background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(212, 168, 69, 0.3);
+            border-color: rgba(255, 255, 255, 0.15);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(212, 168, 69, 0.15);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
         }
         #loginPage .login-box .btn-login {
             width: 100%;
             padding: 12px;
             border-radius: var(--radius-sm);
-            background: linear-gradient(135deg, var(--secondary), var(--gold));
+            background: linear-gradient(135deg, var(--secondary), #0ea5e9);
             color: #fff;
             font-size: 15px;
             font-weight: 700;
@@ -1075,11 +1062,11 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 16px rgba(212, 168, 69, 0.2);
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
         }
         #loginPage .login-box .btn-login:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(212, 168, 69, 0.3);
+            box-shadow: 0 8px 32px rgba(56, 189, 248, 0.3);
         }
         #loginPage .login-box .register-row {
             display: flex;
@@ -1099,11 +1086,11 @@
             color: #fff;
         }
         #loginPage .login-box .register-row .btn-register.member {
-            background: linear-gradient(135deg, var(--success), var(--primary));
+            background: linear-gradient(135deg, var(--success), #059669);
         }
         #loginPage .login-box .register-row .btn-register.member:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(45, 143, 85, 0.25);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
         }
         #loginPage .login-box .status-row {
             display: flex;
@@ -1127,7 +1114,7 @@
             background: #f87171;
         }
         #loginPage .login-box .status-row .dot.checking {
-            background: var(--secondary);
+            background: #fbbf24;
             animation: pulse 1.2s infinite;
         }
         @keyframes pulse {
@@ -1184,16 +1171,16 @@
             transform: translateX(0);
         }
         .toast-item.success {
-            background: rgba(45, 143, 85, 0.92);
+            background: rgba(16, 185, 129, 0.92);
         }
         .toast-item.error {
-            background: rgba(192, 57, 43, 0.92);
+            background: rgba(239, 68, 68, 0.92);
         }
         .toast-item.info {
-            background: rgba(26, 107, 60, 0.92);
+            background: rgba(15, 59, 94, 0.92);
         }
         .toast-item.warning {
-            background: rgba(212, 168, 69, 0.92);
+            background: rgba(245, 158, 11, 0.92);
             color: #0f172a;
         }
 
@@ -1340,9 +1327,9 @@
     <div id="loginPage">
         <div class="login-box">
             <div class="logo">
-                <i class="fas fa-mosque"></i>
-                <h1>ระบบจัดการกิจกรรม</h1>
-                <p>🌿 อัล-อัซฮัร อัชชะรีฟ</p>
+                <i class="fas fa-users"></i>
+                <h1>ระบบจัดการกิจกรรมนักศึกษา</h1>
+                <p>ลงชื่อเข้าใช้เพื่อเริ่มต้น</p>
             </div>
             <div class="input-group">
                 <i class="fas fa-user"></i>
@@ -1372,10 +1359,10 @@
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
     <aside class="app-sidebar" id="appSidebar">
         <div class="brand">
-            <div class="brand-icon"><i class="fas fa-mosque"></i></div>
+            <div class="brand-icon"><i class="fas fa-users"></i></div>
             <div class="brand-text">
                 <h1>ระบบกิจกรรม</h1>
-                <span>อัล-อัซฮัร</span>
+                <span>นักศึกษา</span>
             </div>
         </div>
         <nav class="nav-section">
@@ -1403,9 +1390,6 @@
             <button class="nav-item" data-page="admin-registrations" onclick="switchTab('admin-registrations')" id="adminRegNav" style="display:none;">
                 <i class="fas fa-clipboard-list"></i> <span>จัดการลงทะเบียน</span>
             </button>
-            <button class="nav-item" data-page="admin-halaqah" onclick="switchTab('admin-halaqah')" id="adminHalaqahNav" style="display:none;">
-                <i class="fas fa-people-arrows"></i> <span>สรุปตามบ้าน</span>
-            </button>
         </nav>
         <div class="sidebar-footer">
             <div class="sidebar-user">
@@ -1429,7 +1413,7 @@
                 <button class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
                 <div class="page-title">
                     <h2 id="pageTitle">แดชบอร์ด</h2>
-                    <p id="pageSubtitle">🌿 ภาพรวมระบบอัล-อัซฮัร</p>
+                    <p id="pageSubtitle">ภาพรวมระบบ</p>
                 </div>
             </div>
             <div class="topbar-right">
@@ -1448,17 +1432,17 @@
         <div id="page-dashboard" class="page-section active">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-top"><div class="stat-icon green"><i class="fas fa-user-graduate"></i></div></div>
+                    <div class="stat-top"><div class="stat-icon blue"><i class="fas fa-user-graduate"></i></div></div>
                     <div class="num" id="dashStudents">-</div>
                     <div class="label">นักศึกษาทั้งหมด</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-top"><div class="stat-icon gold"><i class="fas fa-calendar-check"></i></div></div>
+                    <div class="stat-top"><div class="stat-icon green"><i class="fas fa-calendar-check"></i></div></div>
                     <div class="num" id="dashActivities">-</div>
                     <div class="label">กิจกรรมทั้งหมด</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-top"><div class="stat-icon blue"><i class="fas fa-clipboard-list"></i></div></div>
+                    <div class="stat-top"><div class="stat-icon amber"><i class="fas fa-clipboard-list"></i></div></div>
                     <div class="num" id="dashRegistrations">-</div>
                     <div class="label">การลงทะเบียน</div>
                 </div>
@@ -1519,7 +1503,7 @@
         <div id="page-profile" class="page-section">
             <div class="card-panel">
                 <div class="profile-info">
-                    <img id="profileImg" src="https://ui-avatars.com/api/?name=Student&background=1a6b3c&color=fff" alt="Profile" />
+                    <img id="profileImg" src="https://ui-avatars.com/api/?name=Student&background=2b6cb0&color=fff" alt="Profile" />
                     <div>
                         <h2 id="profileName">-</h2>
                         <p><i class="fas fa-id-badge"></i> <span id="profileId">-</span></p>
@@ -1534,11 +1518,11 @@
                     <button onclick="showProfileTab('evaluate')">ประเมินผล</button>
                 </div>
                 <div id="registrationsTab">
-                    <h3>📋 ประวัติการลงทะเบียน</h3>
+                    <h3>ประวัติการลงทะเบียน</h3>
                     <div id="registrationList"></div>
                 </div>
                 <div id="evaluateTab" class="hidden">
-                    <h3>⭐ ประเมินกิจกรรมที่ผ่านมา</h3>
+                    <h3>ประเมินกิจกรรมที่ผ่านมา</h3>
                     <div id="evaluationList"></div>
                 </div>
             </div>
@@ -1572,14 +1556,13 @@
                             <tr>
                                 <th>รหัส</th>
                                 <th>ชื่อ</th>
-                                <th>บ้าน</th>
                                 <th>เบอร์</th>
                                 <th>สาขา</th>
                                 <th>เข้าร่วม</th>
                                 <th>การจัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="adminStudentTable"><tr><td colspan="7" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                        <tbody id="adminStudentTable"><tr><td colspan="6" class="empty-row">กำลังโหลด...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -1630,7 +1613,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>นักศึกษา</th>
-                                <th>บ้าน</th>
                                 <th>กิจกรรม</th>
                                 <th>วันที่</th>
                                 <th>สถานะ</th>
@@ -1638,22 +1620,9 @@
                                 <th>การจัดการ</th>
                             </tr>
                         </thead>
-                        <tbody id="adminRegTable"><tr><td colspan="8" class="empty-row">กำลังโหลด...</td></tr></tbody>
+                        <tbody id="adminRegTable"><tr><td colspan="7" class="empty-row">กำลังโหลด...</td></tr></tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <!-- PAGE: ADMIN HALAQAH (สรุปตามบ้าน) -->
-        <div id="page-admin-halaqah" class="page-section">
-            <div class="card-panel">
-                <div class="card-header">
-                    <h3><i class="fas fa-people-arrows"></i> สรุปตามบ้านฮาลาเกาะห์ <span class="badge" id="halaqahCount">0</span></h3>
-                    <div class="card-actions">
-                        <button class="btn btn-outline btn-sm" onclick="loadHalaqahSummary()"><i class="fas fa-sync"></i> โหลด</button>
-                    </div>
-                </div>
-                <div id="halaqahSummaryContainer"></div>
             </div>
         </div>
     </main>
@@ -1667,15 +1636,11 @@
             </div>
             <div class="form-group">
                 <label>รหัสนักศึกษา <span style="color:var(--danger);">*</span></label>
-                <input type="text" id="regStudentId" readonly style="background:rgba(26,107,60,0.06);font-weight:700;" />
+                <input type="text" id="regStudentId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" />
             </div>
             <div class="form-group">
                 <label>ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label>
                 <input type="text" id="regFullName" placeholder="เช่น สมชาย ใจดี" />
-            </div>
-            <div class="form-group">
-                <label>บ้านฮาลาเกาะห์ <span style="color:var(--danger);">*</span></label>
-                <input type="text" id="regHalaqah" placeholder="เช่น บ้านลาตานา" />
             </div>
             <div class="form-row">
                 <div class="form-group">
@@ -1705,7 +1670,7 @@
             </div>
             <div class="form-group">
                 <label>รหัสกิจกรรม</label>
-                <input type="text" id="actId" readonly style="background:rgba(26,107,60,0.06);font-weight:700;" />
+                <input type="text" id="actId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" />
             </div>
             <div class="form-group">
                 <label>ชื่อกิจกรรม <span style="color:var(--danger);">*</span></label>
@@ -1751,17 +1716,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Halaqah Detail -->
-    <div class="modal-overlay" id="halaqahModal">
-        <div class="modal-box" style="max-width:900px;">
-            <div class="modal-header">
-                <h3 id="halaqahModalTitle"><i class="fas fa-people-arrows"></i> รายละเอียดบ้าน</h3>
-                <button class="close" onclick="closeModal('halaqahModal')">&times;</button>
-            </div>
-            <div id="halaqahModalContent"></div>
-        </div>
-    </div>
-
     <!-- TOAST -->
     <div class="toast-container" id="toastContainer"></div>
 
@@ -1781,7 +1735,6 @@
         let currentUser = null;
         let isAdmin = false;
         let isDark = localStorage.getItem('theme') === 'dark';
-        let chartInstance = null;
 
         // ============================================================
         // HELPERS
@@ -1812,15 +1765,6 @@
                 if (isNaN(d.getTime())) return dateStr;
                 return d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
             } catch { return dateStr; }
-        }
-
-        function getHalaqah(student) {
-            return student.address || student.halaqah || 'ไม่ระบุบ้าน';
-        }
-
-        function getHalaqahShort(student) {
-            const h = getHalaqah(student);
-            return h.length > 12 ? h.substring(0, 12) + '...' : h;
         }
 
         // ============================================================
@@ -1864,6 +1808,7 @@
                 return;
             }
 
+            // Admin Login
             if (user === 'admin' && pass === 'admin123') {
                 isAdmin = true;
                 currentUser = { full_name: 'Admin', student_id: 'admin', status: 'Admin' };
@@ -1872,6 +1817,7 @@
                 return;
             }
 
+            // Student Login
             try {
                 const data = await apiCall('/api/login', {
                     method: 'POST',
@@ -1909,16 +1855,16 @@
                 sidebarUser.textContent = 'Admin';
                 sidebarRole.textContent = 'ผู้ดูแลระบบ';
                 avatar.textContent = 'A';
-                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminHalaqahNav, #adminStats, #adminChartPanel')
-                    .forEach(el => el.style.display = 'flex');
+                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminStats, #adminChartPanel').forEach(el => el
+                    .style.display = 'flex');
                 document.getElementById('profileNav').style.display = 'none';
                 document.getElementById('navCount').textContent = '👑';
             } else {
                 sidebarUser.textContent = currentUser.full_name || 'นักศึกษา';
                 sidebarRole.textContent = 'นักศึกษา';
                 avatar.textContent = (currentUser.full_name || 'S').charAt(0).toUpperCase();
-                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminHalaqahNav, #adminStats, #adminChartPanel')
-                    .forEach(el => el.style.display = 'none');
+                document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminStats, #adminChartPanel').forEach(el => el
+                    .style.display = 'none');
                 document.getElementById('profileNav').style.display = 'flex';
                 document.getElementById('navCount').textContent = '0';
             }
@@ -1941,10 +1887,18 @@
                     const data = JSON.parse(saved);
                     isAdmin = data.isAdmin || false;
                     currentUser = data;
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('appMain').style.display = 'block';
-                    setupUI();
-                    loadAllData();
+                    if (isAdmin) {
+                        document.getElementById('loginPage').style.display = 'none';
+                        document.getElementById('appMain').style.display = 'block';
+                        setupUI();
+                        loadAllData();
+                    } else {
+                        // Student session
+                        document.getElementById('loginPage').style.display = 'none';
+                        document.getElementById('appMain').style.display = 'block';
+                        setupUI();
+                        loadAllData();
+                    }
                 } catch (e) { localStorage.removeItem('user'); }
             }
         })();
@@ -1952,6 +1906,8 @@
         // ============================================================
         // LOAD DATA
         // ============================================================
+        let chartInstance = null;
+
         async function loadAllData() {
             try {
                 const [students, activities] = await Promise.all([
@@ -1967,6 +1923,7 @@
                 }
 
                 if (isAdmin) {
+                    // Admin: load all registrations
                     const regs = await apiCall('/api/registrations');
                     allRegistrations = regs.data || [];
                 }
@@ -1980,13 +1937,12 @@
                     loadAdminActivities();
                     loadAdminRegistrations();
                     renderAdminChart();
-                    loadHalaqahSummary();
                 }
                 $('updateTime').textContent = '🕐 ' + new Date().toLocaleString('th-TH');
-                $('statusDot').style.background = '#4ade80';
+                $('statusDot').style.background = '#34a853';
             } catch (e) {
                 showToast('❌ โหลดข้อมูลไม่สำเร็จ: ' + e.message, 'error');
-                $('statusDot').style.background = '#f87171';
+                $('statusDot').style.background = '#ea4335';
             }
         }
 
@@ -2012,6 +1968,7 @@
                 $('dashWaiting').textContent = waiting;
             }
 
+            // Recent activities
             const recent = allActivities.slice(0, 4);
             $('recentBadge').textContent = recent.length;
             $('recentActivities').innerHTML = recent.map(a => `
@@ -2044,7 +2001,7 @@
             });
 
             const isDarkMode = isDark;
-            const textColor = isDarkMode ? '#b0b0cc' : '#3d5a3d';
+            const textColor = isDarkMode ? '#b0b0cc' : '#4a4a6a';
             const gridColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
 
             chartInstance = new Chart(ctx, {
@@ -2054,7 +2011,7 @@
                     datasets: [{
                         label: 'จำนวนผู้ลงทะเบียน',
                         data: data,
-                        backgroundColor: ['#1a6b3c', '#2d8f55', '#d4a845', '#2980b9', '#8e44ad', '#e74c3c'],
+                        backgroundColor: ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6'],
                         borderColor: '#fff',
                         borderWidth: 1,
                         borderRadius: 4,
@@ -2146,7 +2103,7 @@
                     $('profileId').textContent = student.student_id;
                     $('profileMajor').textContent = student.major || 'ไม่ระบุ';
                     $('profileAttendance').textContent = student.total_attendance || 0;
-                    $('profileImg').src = student.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.full_name)}&background=1a6b3c&color=fff`;
+                    $('profileImg').src = student.profile_image || `https://ui-avatars.com/api/?name=${encodeURIComponent(student.full_name)}&background=2b6cb0&color=fff`;
 
                     const regs = data.registrations || [];
                     renderRegistrations(regs);
@@ -2167,13 +2124,13 @@
                         <div style="color:var(--text-secondary);font-size:13px;"><i class="fas fa-calendar-day"></i> ${r.activity_datetime || ''}</div>
                         <div style="color:var(--text-secondary);font-size:13px;"><i class="fas fa-map-marker-alt"></i> ${r.activity_location || ''}</div>
                         <div>สถานะ: ${statusText}</div>
-                        ${r.evaluation_score ? `<div>⭐ คะแนนประเมิน: ${['ปรับปรุง','พอใช้','ดี','ดีมาก'][r.evaluation_score-1] || r.evaluation_score}/4</div>` : ''}
-                        ${r.evaluation_comment ? `<div>💬 ความคิดเห็น: ${r.evaluation_comment}</div>` : ''}
+                        ${r.evaluation_score ? `<div>คะแนนประเมิน: ${r.evaluation_score}/5</div>` : ''}
+                        ${r.evaluation_comment ? `<div>ความคิดเห็น: ${r.evaluation_comment}</div>` : ''}
                     </div>
                 `;
             }).join('');
 
-            // Evaluation list — ใช้ Select แทนตัวเลข
+            // Evaluation list
             const evalContainer = $('evaluationList');
             const pastRegs = registrations.filter(r => r.attendance_status === 'checked-in' && !r.evaluation_score);
             if (pastRegs.length === 0) {
@@ -2183,15 +2140,9 @@
                     <div style="background:var(--bg-body);border-radius:8px;padding:12px;margin-bottom:8px;border:1px solid rgba(0,0,0,0.04);">
                         <div><strong>${r.activity_title}</strong> (${r.activity_datetime})</div>
                         <div class="evaluation-form" data-regid="${r.reg_id}" style="margin-top:8px;">
-                            <label style="font-weight:600;">⭐ ประเมินผล:</label>
-                            <select class="eval-score" style="width:100%;padding:8px;border-radius:4px;border:1px solid rgba(0,0,0,0.06);margin:4px 0;">
-                                <option value="1">🟡 ปรับปรุง</option>
-                                <option value="2" selected>🟢 พอใช้</option>
-                                <option value="3">🔵 ดี</option>
-                                <option value="4">🟣 ดีมาก</option>
-                            </select>
-                            <textarea placeholder="💬 ความคิดเห็น (ไม่บังคับ)" class="eval-comment" style="width:100%;padding:6px;border:1px solid rgba(0,0,0,0.06);border-radius:4px;margin:4px 0;"></textarea>
-                            <button class="btn btn-gold btn-sm" onclick="submitEvaluation(this)"><i class="fas fa-paper-plane"></i> ส่งประเมิน</button>
+                            <label>คะแนน (0-5): <input type="number" min="0" max="5" value="5" class="eval-score" style="width:60px;padding:4px;border:1px solid rgba(0,0,0,0.06);border-radius:4px;"></label>
+                            <textarea placeholder="ความคิดเห็น (ไม่บังคับ)" class="eval-comment" style="width:100%;margin:4px 0;padding:6px;border:1px solid rgba(0,0,0,0.06);border-radius:4px;"></textarea>
+                            <button class="btn btn-primary btn-sm" onclick="submitEvaluation(this)"><i class="fas fa-paper-plane"></i> ส่งประเมิน</button>
                         </div>
                     </div>
                 `).join('');
@@ -2203,7 +2154,7 @@
             const reg_id = form.dataset.regid;
             const score = form.querySelector('.eval-score').value;
             const comment = form.querySelector('.eval-comment').value;
-            if (!reg_id || score === '') return alert('กรุณาเลือกคะแนน');
+            if (!reg_id || score === '') return alert('กรุณากรอกคะแนน');
             try {
                 const res = await apiCall('/api/evaluate', {
                     method: 'POST',
@@ -2275,16 +2226,15 @@
                     <tr>
                         <td><strong>${s.student_id}</strong></td>
                         <td>${s.full_name}</td>
-                        <td><span class="halaqah-badge">${getHalaqahShort(s)}</span></td>
                         <td>${s.phone || '-'}</td>
                         <td>${s.major || '-'}</td>
                         <td>${s.total_attendance || 0}</td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.student_id}')"><i class="fas fa-trash"></i></button>
-                            <button class="btn btn-gold btn-sm" onclick="resetStudentPass('${s.student_id}')"><i class="fas fa-key"></i></button>
+                            <button class="btn btn-amber btn-sm" onclick="resetStudentPass('${s.student_id}')"><i class="fas fa-key"></i></button>
                         </td>
                     </tr>
-                `).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+                `).join('') || `<tr><td colspan="6" class="empty-row">ไม่มีข้อมูล</td></tr>`;
             } catch (e) {
                 showToast('❌ ' + e.message, 'error');
             }
@@ -2422,7 +2372,7 @@
         }
 
         // ============================================================
-        // ADMIN: REGISTRATIONS (แสดงบ้าน)
+        // ADMIN: REGISTRATIONS
         // ============================================================
         async function loadAdminRegistrations() {
             try {
@@ -2433,25 +2383,21 @@
                     const student = allStudents.find(s => s.student_id === r.student_id);
                     const activity = allActivities.find(a => a.act_id === r.act_id);
                     const statusMap = { 'registered': 'รอเข้าร่วม', 'checked-in': '✅ เข้าร่วมแล้ว', 'absent': '❌ ขาด' };
-                    const halaqah = student ? getHalaqahShort(student) : '-';
-                    const scoreText = r.evaluation_score ? ['ปรับปรุง', 'พอใช้', 'ดี', 'ดีมาก'][r.evaluation_score - 1] || r
-                        .evaluation_score : '-';
                     return `
                         <tr>
                             <td>${r.reg_id}</td>
                             <td>${student ? student.full_name : r.student_id}</td>
-                            <td><span class="halaqah-badge">${halaqah}</span></td>
                             <td>${activity ? activity.title : r.act_id}</td>
                             <td>${r.registered_at || '-'}</td>
-                            <td><span class="badge-status ${r.attendance_status === 'checked-in' ? 'checked-in' : r.attendance_status === 'registered' ? 'registered' : 'absent'}">${statusMap[r.attendance_status] || r.attendance_status}</span></td>
-                            <td>${scoreText}</td>
+                            <td><span class="badge-status ${r.attendance_status === 'checked-in' ? 'active' : r.attendance_status === 'registered' ? 'upcoming' : 'closed'}">${statusMap[r.attendance_status] || r.attendance_status}</span></td>
+                            <td>${r.evaluation_score || '-'}</td>
                             <td>
-                                ${r.attendance_status !== 'checked-in' ? `<button class="btn btn-success btn-sm" onclick="markCheckin('${r.reg_id}')"><i class="fas fa-check"></i> เช็คอิน</button>` : ''}
+                                <button class="btn btn-success btn-sm" onclick="markCheckin('${r.reg_id}')"><i class="fas fa-check"></i> เช็คอิน</button>
                                 <button class="btn btn-danger btn-sm" onclick="deleteRegistration('${r.reg_id}')"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
-                }).join('') || `<tr><td colspan="8" class="empty-row">ไม่มีข้อมูล</td></tr>`;
+                }).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
             } catch (e) {
                 showToast('❌ ' + e.message, 'error');
             }
@@ -2480,216 +2426,6 @@
         }
 
         // ============================================================
-        // ADMIN: HALAQAH SUMMARY (สรุปตามบ้าน)
-        // ============================================================
-        function loadHalaqahSummary() {
-            const container = $('halaqahSummaryContainer');
-
-            // Group students by halaqah
-            const halaqahMap = {};
-            allStudents.forEach(s => {
-                const h = getHalaqah(s);
-                if (!halaqahMap[h]) {
-                    halaqahMap[h] = {
-                        students: [],
-                        totalAttendance: 0,
-                        checkedInCount: 0,
-                        evaluatedCount: 0
-                    };
-                }
-                halaqahMap[h].students.push(s);
-                halaqahMap[h].totalAttendance += s.total_attendance || 0;
-            });
-
-            // Count registrations per halaqah
-            allRegistrations.forEach(r => {
-                const student = allStudents.find(s => s.student_id === r.student_id);
-                if (student) {
-                    const h = getHalaqah(student);
-                    if (halaqahMap[h]) {
-                        if (r.attendance_status === 'checked-in') {
-                            halaqahMap[h].checkedInCount++;
-                        }
-                        if (r.evaluation_score && r.evaluation_score > 0) {
-                            halaqahMap[h].evaluatedCount++;
-                        }
-                    }
-                }
-            });
-
-            const halaqahList = Object.keys(halaqahMap).sort();
-            $('halaqahCount').textContent = halaqahList.length;
-
-            if (halaqahList.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px;">ยังไม่มีข้อมูลบ้านฮาลาเกาะห์</p>';
-                return;
-            }
-
-            let html = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;">
-            `;
-
-            halaqahList.forEach(h => {
-                const data = halaqahMap[h];
-                const studentCount = data.students.length;
-                const avgAttendance = studentCount > 0 ? Math.round(data.totalAttendance / studentCount) : 0;
-                const evalPercent = data.checkedInCount > 0 ? Math.round((data.evaluatedCount / data.checkedInCount) *
-                    100) : 0;
-
-                html += `
-                    <div class="card-panel" style="cursor:pointer;" onclick="showHalaqahDetail('${h}')">
-                        <div style="display:flex;justify-content:space-between;align-items:center;">
-                            <h4 style="font-size:16px;font-weight:700;color:var(--primary);">
-                                <i class="fas fa-home"></i> ${h}
-                            </h4>
-                            <span class="halaqah-badge">${studentCount} คน</span>
-                        </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px;">
-                            <div style="text-align:center;background:var(--bg-body);padding:6px;border-radius:6px;">
-                                <div style="font-size:18px;font-weight:700;color:var(--primary);">${avgAttendance}</div>
-                                <div style="font-size:9px;color:var(--text-muted);">เฉลี่ยเข้าร่วม</div>
-                            </div>
-                            <div style="text-align:center;background:var(--bg-body);padding:6px;border-radius:6px;">
-                                <div style="font-size:18px;font-weight:700;color:var(--secondary);">${data.checkedInCount}</div>
-                                <div style="font-size:9px;color:var(--text-muted);">เข้าร่วมแล้ว</div>
-                            </div>
-                            <div style="text-align:center;background:var(--bg-body);padding:6px;border-radius:6px;">
-                                <div style="font-size:18px;font-weight:700;color:var(--success);">${evalPercent}%</div>
-                                <div style="font-size:9px;color:var(--text-muted);">ประเมินแล้ว</div>
-                            </div>
-                        </div>
-                        <div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;">
-                            ${data.students.slice(0, 5).map(s => `<span class="halaqah-badge" style="font-size:8px;">${s.full_name}</span>`).join('')}
-                            ${data.students.length > 5 ? `<span class="halaqah-badge" style="font-size:8px;">+${data.students.length-5}</span>` : ''}
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += `</div>`;
-            container.innerHTML = html;
-        }
-
-        function showHalaqahDetail(halaqah) {
-            const students = allStudents.filter(s => getHalaqah(s) === halaqah);
-            const registrations = allRegistrations.filter(r => {
-                const student = allStudents.find(s => s.student_id === r.student_id);
-                return student && getHalaqah(student) === halaqah;
-            });
-
-            // สรุปการประเมิน (ไม่แสดงชื่อผู้ประเมิน แสดงเฉพาะบ้าน)
-            const evalSummary = registrations.filter(r => r.evaluation_score && r.evaluation_score > 0);
-            const evalCount = evalSummary.length;
-            const avgScore = evalCount > 0 ? Math.round(evalSummary.reduce((s, r) => s + r.evaluation_score, 0) / evalCount *
-                10) / 10 : 0;
-            const scoreLabels = ['', 'ปรับปรุง', 'พอใช้', 'ดี', 'ดีมาก'];
-            const scoreDistribution = {};
-            evalSummary.forEach(r => {
-                const label = scoreLabels[r.evaluation_score] || r.evaluation_score;
-                scoreDistribution[label] = (scoreDistribution[label] || 0) + 1;
-            });
-
-            // นักศึกษาที่ยังไม่ประเมิน (แจ้งหัวหน้าบ้าน)
-            const checkedInRegs = registrations.filter(r => r.attendance_status === 'checked-in');
-            const notEvaluated = checkedInRegs.filter(r => !r.evaluation_score || r.evaluation_score === 0);
-
-            let html = `
-                <div style="margin-bottom:16px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-                        <h4 style="font-size:20px;font-weight:700;color:var(--primary);">
-                            <i class="fas fa-home"></i> ${halaqah}
-                        </h4>
-                        <span class="halaqah-badge" style="font-size:14px;padding:4px 16px;">${students.length} คน</span>
-                    </div>
-                </div>
-
-                <div class="summary-cards">
-                    <div class="summary-card">
-                        <div class="number">${students.length}</div>
-                        <div class="label">👥 จำนวนนักศึกษา</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="number">${checkedInRegs.length}</div>
-                        <div class="label">✅ เข้าร่วมแล้ว</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="number">${evalCount}</div>
-                        <div class="label">⭐ ประเมินแล้ว</div>
-                    </div>
-                    <div class="summary-card">
-                        <div class="number">${avgScore}</div>
-                        <div class="label">📊 คะแนนเฉลี่ย</div>
-                    </div>
-                </div>
-
-                <div style="margin-top:12px;">
-                    <h5 style="font-weight:700;margin-bottom:8px;">📊 การกระจายคะแนนประเมิน</h5>
-                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                        ${Object.entries(scoreDistribution).map(([label, count]) => `
-                            <div style="background:var(--bg-body);padding:6px 14px;border-radius:20px;border:1px solid rgba(212,168,69,0.15);">
-                                <span style="font-weight:700;">${label}</span> ${count} คน
-                            </div>
-                        `).join('')}
-                        ${evalCount === 0 ? '<span style="color:var(--text-muted);">ยังไม่มีการประเมิน</span>' : ''}
-                    </div>
-                </div>
-
-                ${notEvaluated.length > 0 ? `
-                <div style="margin-top:16px;padding:12px 16px;background:rgba(212,168,69,0.08);border-radius:8px;border-right:4px solid var(--secondary);">
-                    <h5 style="font-weight:700;color:var(--secondary);"><i class="fas fa-bell"></i> นักศึกษาที่ยังไม่ประเมิน (${notEvaluated.length} คน)</h5>
-                    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">
-                        ${notEvaluated.map(r => {
-                            const student = allStudents.find(s => s.student_id === r.student_id);
-                            return `<span class="halaqah-badge" style="background:rgba(212,168,69,0.08);">${student ? student.full_name : r.student_id}</span>`;
-                        }).join('')}
-                    </div>
-                    <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">
-                        <i class="fas fa-info-circle"></i> แจ้งหัวหน้าบ้านเพื่อติดตามการประเมิน
-                    </p>
-                </div>
-                ` : `
-                <div style="margin-top:16px;padding:12px 16px;background:rgba(45,143,85,0.08);border-radius:8px;border-right:4px solid var(--success);">
-                    <h5 style="font-weight:700;color:var(--success);"><i class="fas fa-check-circle"></i> ทุกคนประเมินครบแล้ว!</h5>
-                </div>
-                `}
-
-                <div style="margin-top:16px;">
-                    <h5 style="font-weight:700;margin-bottom:8px;">👥 รายชื่อนักศึกษาในบ้าน</h5>
-                    <div class="table-wrap" style="max-height:200px;">
-                        <table style="min-width:300px;">
-                            <thead>
-                                <tr>
-                                    <th>รหัส</th>
-                                    <th>ชื่อ</th>
-                                    <th>เข้าร่วม</th>
-                                    <th>ประเมินแล้ว</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${students.map(s => {
-                                    const hasEval = registrations.some(r => r.student_id === s.student_id && r.evaluation_score > 0);
-                                    return `
-                                        <tr>
-                                            <td>${s.student_id}</td>
-                                            <td>${s.full_name}</td>
-                                            <td>${s.total_attendance || 0}</td>
-                                            <td>${hasEval ? '✅' : '❌'}</td>
-                                        </tr>
-                                    `;
-                                }).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-
-            $('halaqahModalTitle').innerHTML = `<i class="fas fa-people-arrows"></i> รายละเอียดบ้าน: ${halaqah}`;
-            $('halaqahModalContent').innerHTML = html;
-            $('halaqahModal').classList.add('show');
-            $('halaqahModal').style.display = 'flex';
-        }
-
-        // ============================================================
         // MODALS
         // ============================================================
         function closeModal(id) {
@@ -2703,11 +2439,11 @@
             $('registerModal').style.display = 'flex';
             $('regStudentId').value = 'S' + String(Math.floor(Math.random() * 9000 + 1000)).padStart(4, '0');
             $('regFullName').value = '';
-            $('regHalaqah').value = '';
             $('regPhone').value = '';
             $('regMajor').value = '';
             $('regPassword').value = '';
             $('regResult').textContent = '';
+            // Try to get real ID
             try {
                 apiCall('/api/students').then(res => {
                     const students = res.data || [];
@@ -2724,14 +2460,13 @@
         async function registerStudent() {
             const student_id = $('regStudentId').value.trim();
             const full_name = $('regFullName').value.trim();
-            const halaqah = $('regHalaqah').value.trim();
             const phone = $('regPhone').value.trim();
             const major = $('regMajor').value.trim();
             const password = $('regPassword').value.trim();
             const resultDiv = $('regResult');
 
-            if (!student_id || !full_name || !halaqah || !password) {
-                resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกข้อมูลให้ครบ (รหัส, ชื่อ, บ้าน, รหัสผ่าน)</span>';
+            if (!student_id || !full_name || !password) {
+                resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกข้อมูลให้ครบ</span>';
                 return;
             }
             if (password.length < 4) {
@@ -2742,7 +2477,7 @@
             try {
                 await apiCall('/api/students', {
                     method: 'POST',
-                    body: JSON.stringify({ student_id, full_name, address: halaqah, phone, major, password })
+                    body: JSON.stringify({ student_id, full_name, phone, major, password })
                 });
                 resultDiv.innerHTML = `<span style="color:var(--success);">✅ ลงทะเบียนสำเร็จ! รหัส: ${student_id}</span>`;
                 showToast(`✅ ลงทะเบียน ${student_id} สำเร็จ`, 'success');
@@ -2773,14 +2508,13 @@
             if (target) target.classList.add('active');
 
             const titles = {
-                dashboard: { title: 'แดชบอร์ด', sub: '🌿 ภาพรวมระบบอัล-อัซฮัร' },
+                dashboard: { title: 'แดชบอร์ด', sub: 'ภาพรวมระบบ' },
                 activities: { title: 'กิจกรรม', sub: 'รายการกิจกรรมและลงทะเบียน' },
                 profile: { title: 'โปรไฟล์', sub: 'ข้อมูลส่วนตัวและประวัติการเข้าร่วม' },
                 leaderboard: { title: 'ลีดเดอร์บอร์ด', sub: 'อันดับการเข้าร่วมกิจกรรม' },
                 'admin-students': { title: 'จัดการนักศึกษา', sub: 'เพิ่ม/แก้ไข/ลบ นักศึกษา' },
                 'admin-activities': { title: 'จัดการกิจกรรม', sub: 'เพิ่ม/แก้ไข/ลบ กิจกรรม' },
-                'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' },
-                'admin-halaqah': { title: 'สรุปตามบ้าน', sub: 'ข้อมูลการมีส่วนร่วมแยกตามบ้านฮาลาเกาะห์' }
+                'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' }
             };
             const info = titles[page] || { title: 'หน้า', sub: '' };
             document.getElementById('pageTitle').textContent = info.title;
@@ -2831,11 +2565,9 @@
             }
         });
 
-        console.log('🌿 ระบบจัดการกิจกรรม อัล-อัซฮัร อัชชะรีฟ');
+        console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — ฉบับสมบูรณ์');
         console.log('👑 Admin: admin / admin123');
         console.log('👤 Student: sh01 / 1234');
-        console.log('🏠 มีระบบสรุปตามบ้านฮาลาเกาะห์');
-        console.log('⭐ ประเมินผลแบบเลือก: ปรับปรุง / พอใช้ / ดี / ดีมาก');
         console.log('⌨️ Ctrl+R = รีเฟรช, ESC = ปิด Modal');
     </script>
 </body>
