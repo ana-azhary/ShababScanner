@@ -14,8 +14,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
   </script>
   <style>
-    /* (CSS เดิมทั้งหมด – ไม่มีการเปลี่ยนแปลง) */
-    /* ... คงไว้เหมือนเดิมเพื่อความกระชับในโค้ด ... */
+    /* ============================================================
+       ROOT — Premium Dark/Light
+       ============================================================ */
     *,
     *::before,
     *::after {
@@ -352,15 +353,8 @@
       animation: pulse-dot 2s infinite;
     }
     @keyframes pulse-dot {
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.5;
-        transform: scale(0.8);
-      }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
     }
     .topbar .topbar-right .btn-icon {
       background: var(--bg-surface);
@@ -414,14 +408,8 @@
       display: block;
     }
     @keyframes fadeSlide {
-      from {
-        opacity: 0;
-        transform: translateY(16px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* ===== STATS ===== */
@@ -432,7 +420,7 @@
       margin-bottom: 20px;
     }
     .stat-card {
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-radius: var(--radius-md);
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
@@ -445,8 +433,11 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
-      min-height: 120px;
+      height: 135px;
+      min-height: 135px;
+      max-height: 135px;
       justify-content: center;
+      align-items: stretch;
     }
     .stat-card::before {
       content: '';
@@ -466,16 +457,16 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .stat-card .stat-icon {
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 17px;
       color: #fff;
       flex-shrink: 0;
     }
@@ -501,15 +492,15 @@
       background: linear-gradient(135deg, #ef4444, #dc2626);
     }
     .stat-card .num {
-      font-size: 30px;
+      font-size: 26px;
       font-weight: 800;
       line-height: 1.2;
       color: var(--text-primary);
-      margin-top: 2px;
+      margin-top: 0px;
       letter-spacing: -0.5px;
     }
     .stat-card .label {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-secondary);
       margin-top: 2px;
       font-weight: 500;
@@ -519,27 +510,10 @@
       color: var(--text-muted);
       margin-top: 2px;
     }
-    .stat-card:nth-child(1)::before {
-      background: #0ea5e9;
-    }
-    .stat-card:nth-child(2)::before {
-      background: #10b981;
-    }
-    .stat-card:nth-child(3)::before {
-      background: #f59e0b;
-    }
-    .stat-card:nth-child(4)::before {
-      background: #8b5cf6;
-    }
-    .stat-card:nth-child(5)::before {
-      background: #ec4899;
-    }
-    .stat-card:nth-child(6)::before {
-      background: #14b8a6;
-    }
-    .stat-card:nth-child(7)::before {
-      background: #ef4444;
-    }
+    .stat-card:nth-child(1)::before { background: #0ea5e9; }
+    .stat-card:nth-child(2)::before { background: #10b981; }
+    .stat-card:nth-child(3)::before { background: #f59e0b; }
+    .stat-card:nth-child(4)::before { background: #8b5cf6; }
 
     /* ===== CARD ===== */
     .card-panel {
@@ -609,9 +583,7 @@
       text-decoration: none;
       box-shadow: var(--shadow-sm);
     }
-    .btn:active {
-      transform: scale(0.96);
-    }
+    .btn:active { transform: scale(0.96); }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--primary-light));
       color: #fff;
@@ -934,7 +906,6 @@
     .top7-item.rank-7 {
       background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(236, 72, 153, 0.02));
     }
-
     .top7-encouragement {
       padding: 12px 16px;
       border-radius: var(--radius-sm);
@@ -1070,7 +1041,6 @@
       position: relative;
       z-index: 1;
     }
-
     .profile-settings-trigger {
       cursor: pointer;
       transition: all var(--transition);
@@ -1081,7 +1051,6 @@
       color: var(--primary);
       transform: rotate(60deg);
     }
-
     .card-actions-row {
       display: flex;
       gap: 8px;
@@ -1190,14 +1159,8 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: translateY(40px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .modal-box .modal-header {
       display: flex;
@@ -1459,15 +1422,8 @@
       animation: pulse 1.2s infinite;
     }
     @keyframes pulse {
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.4;
-        transform: scale(0.7);
-      }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
     }
     #loginPage .login-box .login-error {
       color: #f87171;
@@ -1549,7 +1505,6 @@
       color: var(--primary);
       border-bottom-color: var(--primary);
     }
-
     .hidden {
       display: none !important;
     }
@@ -1666,7 +1621,9 @@
       color: var(--danger);
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -1684,33 +1641,30 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
+      .stat-card {
+        height: 120px;
+        min-height: 120px;
+        max-height: 120px;
+        padding: 14px 16px;
+      }
+      .stat-card .num { font-size: 22px; }
+      .stat-card .stat-icon { width: 34px; height: 34px; font-size: 15px; }
+      .stat-card .label { font-size: 11px; }
+      .stat-card .stat-sub { font-size: 10px; }
       .app-sidebar {
         transform: translateX(100%);
         width: 280px;
         box-shadow: 0 0 48px rgba(0, 0, 0, 0.3);
       }
-      .app-sidebar.open {
-        transform: translateX(0);
-      }
+      .app-sidebar.open { transform: translateX(0); }
       .app-main {
         margin-right: 0;
         padding: 14px 16px 28px;
       }
-      .topbar .topbar-left .menu-toggle {
-        display: block;
-      }
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .top7-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .student-id-card {
-        max-width: 100%;
-      }
-      .stat-card .num {
-        font-size: 26px;
-      }
+      .topbar .topbar-left .menu-toggle { display: block; }
+      .grid { grid-template-columns: 1fr 1fr; }
+      .top7-grid { grid-template-columns: repeat(4, 1fr); }
+      .student-id-card { max-width: 100%; }
     }
     @media (max-width: 768px) {
       .stats-grid {
@@ -1718,151 +1672,62 @@
         gap: 10px;
       }
       .stat-card {
-        padding: 14px 16px;
-        min-height: 100px;
+        height: 105px;
+        min-height: 105px;
+        max-height: 105px;
+        padding: 12px 14px;
       }
-      .stat-card .num {
-        font-size: 22px;
-      }
-      .stat-card .stat-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-      }
-      .stat-card .label {
-        font-size: 12px;
-      }
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      .topbar .topbar-left .page-title h2 {
-        font-size: 18px;
-      }
-      .topbar .topbar-left .page-title p {
-        font-size: 12px;
-      }
-      .modal-box {
-        padding: 24px 20px;
-        max-width: 95%;
-      }
-      .table-wrap table {
-        font-size: 11px;
-        min-width: 380px;
-      }
-      .table-wrap table th,
-      .table-wrap table td {
-        padding: 4px 8px;
-      }
-      .top7-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .top7-item .top7-name {
-        font-size: 12px;
-      }
-      .student-id-card .card-body .card-qr {
-        width: 64px;
-        height: 64px;
-      }
-      .student-id-card .card-body .card-qr canvas {
-        width: 52px !important;
-        height: 52px !important;
-      }
-      .modal-box .form-row {
-        grid-template-columns: 1fr;
-      }
-      .modal-box .modal-stats {
-        grid-template-columns: 1fr 1fr;
-      }
+      .stat-card .num { font-size: 19px; }
+      .stat-card .stat-icon { width: 30px; height: 30px; font-size: 13px; }
+      .stat-card .label { font-size: 10px; }
+      .stat-card .stat-sub { font-size: 9px; }
+      .grid { grid-template-columns: 1fr; }
+      .topbar .topbar-left .page-title h2 { font-size: 18px; }
+      .topbar .topbar-left .page-title p { font-size: 12px; }
+      .modal-box { padding: 24px 20px; max-width: 95%; }
+      .table-wrap table { font-size: 11px; min-width: 380px; }
+      .table-wrap table th, .table-wrap table td { padding: 4px 8px; }
+      .top7-grid { grid-template-columns: repeat(3, 1fr); }
+      .top7-item .top7-name { font-size: 12px; }
+      .student-id-card .card-body .card-qr { width: 64px; height: 64px; }
+      .student-id-card .card-body .card-qr canvas { width: 52px !important; height: 52px !important; }
+      .modal-box .form-row { grid-template-columns: 1fr; }
+      .modal-box .modal-stats { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 480px) {
-      .app-main {
-        padding: 10px 12px 20px;
-      }
+      .app-main { padding: 10px 12px 20px; }
       .stats-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
       }
       .stat-card {
-        padding: 12px 14px;
-        min-height: 80px;
-      }
-      .stat-card .num {
-        font-size: 18px;
-      }
-      .stat-card .stat-icon {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-      }
-      .stat-card .label {
-        font-size: 10px;
-      }
-      .card-panel {
+        height: 90px;
+        min-height: 90px;
+        max-height: 90px;
         padding: 10px 12px;
       }
-      .topbar .topbar-right .btn-refresh span {
-        display: none;
-      }
-      .modal-box {
-        padding: 16px 14px;
-      }
-      #loginPage .login-box {
-        padding: 24px 18px;
-      }
-      .toast-container {
-        left: 12px;
-        right: 12px;
-        max-width: none;
-        bottom: 16px;
-      }
-      .table-wrap table {
-        font-size: 10px;
-        min-width: 300px;
-      }
-      .table-wrap table th,
-      .table-wrap table td {
-        padding: 3px 6px;
-      }
-      .btn {
-        padding: 4px 10px;
-        font-size: 10px;
-      }
-      .btn-sm {
-        padding: 2px 6px;
-        font-size: 8px;
-      }
-      .top7-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-      }
-      .top7-item {
-        padding: 6px 4px;
-        min-height: 100px;
-      }
-      .top7-item .rank-medal {
-        font-size: 22px;
-      }
-      .top7-item .top7-name {
-        font-size: 11px;
-      }
-      .top7-item .top7-count {
-        font-size: 10px;
-      }
-      .student-id-card {
-        padding: 14px 16px;
-      }
-      .student-id-card .card-body .card-qr {
-        width: 56px;
-        height: 56px;
-        padding: 4px;
-      }
-      .student-id-card .card-body .card-qr canvas {
-        width: 48px !important;
-        height: 48px !important;
-      }
-      .student-id-card .card-body .card-info .card-name {
-        font-size: 16px;
-      }
+      .stat-card .num { font-size: 16px; }
+      .stat-card .stat-icon { width: 26px; height: 26px; font-size: 11px; }
+      .stat-card .label { font-size: 9px; }
+      .stat-card .stat-sub { font-size: 8px; }
+      .card-panel { padding: 10px 12px; }
+      .topbar .topbar-right .btn-refresh span { display: none; }
+      .modal-box { padding: 16px 14px; }
+      #loginPage .login-box { padding: 24px 18px; }
+      .toast-container { left: 12px; right: 12px; max-width: none; bottom: 16px; }
+      .table-wrap table { font-size: 10px; min-width: 300px; }
+      .table-wrap table th, .table-wrap table td { padding: 3px 6px; }
+      .btn { padding: 4px 10px; font-size: 10px; }
+      .btn-sm { padding: 2px 6px; font-size: 8px; }
+      .top7-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+      .top7-item { padding: 6px 4px; min-height: 100px; }
+      .top7-item .rank-medal { font-size: 22px; }
+      .top7-item .top7-name { font-size: 11px; }
+      .top7-item .top7-count { font-size: 10px; }
+      .student-id-card { padding: 14px 16px; }
+      .student-id-card .card-body .card-qr { width: 56px; height: 56px; padding: 4px; }
+      .student-id-card .card-body .card-qr canvas { width: 48px !important; height: 48px !important; }
+      .student-id-card .card-body .card-info .card-name { font-size: 16px; }
     }
   </style>
 </head>
@@ -1978,7 +1843,7 @@
       </div>
     </header>
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD (Admin stats removed) -->
     <div id="page-dashboard" class="page-section active">
       <div class="stats-grid" id="dashStats">
         <div class="stat-card" onclick="openStatModal('students')">
@@ -2003,43 +1868,7 @@
         </div>
       </div>
 
-      <!-- Admin extra stats -->
-      <div class="stats-grid" id="adminStats" style="display:none;">
-        <div class="stat-card" onclick="openStatModal('checkedin')">
-          <div class="stat-top"><div class="stat-icon pink"><i class="fas fa-user-check"></i></div></div>
-          <div class="num" id="dashCheckedIn">-</div>
-          <div class="label">เข้าร่วมแล้ว</div>
-        </div>
-        <div class="stat-card" onclick="openStatModal('waiting')">
-          <div class="stat-top"><div class="stat-icon teal"><i class="fas fa-user-clock"></i></div></div>
-          <div class="num" id="dashWaiting">-</div>
-          <div class="label">รอเข้าร่วม</div>
-        </div>
-        <div class="stat-card" onclick="openStatModal('noeval')">
-          <div class="stat-top"><div class="stat-icon purple"><i class="fas fa-clipboard-question"></i></div></div>
-          <div class="num" id="dashNoEval">-</div>
-          <div class="label">ยังไม่ประเมิน</div>
-        </div>
-        <div class="stat-card" onclick="openStatModal('checkin-today')">
-          <div class="stat-top"><div class="stat-icon red"><i class="fas fa-sign-in-alt"></i></div></div>
-          <div class="num" id="dashCheckinToday">-</div>
-          <div class="label">คนเข้าตรงวันนี้</div>
-          <div class="stat-sub" id="dashCheckinPct">0%</div>
-        </div>
-      </div>
-
-      <!-- Admin chart -->
-      <div class="card-panel" id="adminChartPanel" style="display:none;">
-        <div class="card-header">
-          <h3><i class="fas fa-chart-bar"></i> กิจกรรมยอดนิยม</h3>
-          <span style="font-size:12px;color:var(--text-muted);"><i class="fas fa-star" style="color:var(--accent);"></i> ตามจำนวนผู้ลงทะเบียน</span>
-        </div>
-        <div style="height:200px;max-width:100%;">
-          <canvas id="activityChart"></canvas>
-        </div>
-      </div>
-
-      <!-- TOP 7 (เหมือนกันทั้ง Admin และ Member) -->
+      <!-- TOP 7 -->
       <div class="card-panel">
         <div class="card-header">
           <h3 id="top7Title"><i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span></h3>
@@ -2348,7 +2177,6 @@
     let currentUser = null;
     let isAdmin = false;
     let isDark = localStorage.getItem('theme') === 'dark';
-    let chartInstance = null;
     let evalChartInstance = null;
     let registeredActivities = new Set();
     let visibleActivities = [];
@@ -2494,7 +2322,7 @@
         sidebarUser.textContent = 'Admin';
         sidebarRole.textContent = 'ผู้ดูแลระบบ';
         avatar.textContent = 'A';
-        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav, #adminStats, #adminChartPanel')
+        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav')
           .forEach(el => el.style.display = 'flex');
         document.getElementById('profileNav').style.display = 'none';
         document.getElementById('navCount').textContent = '👑';
@@ -2502,7 +2330,7 @@
         sidebarUser.textContent = currentUser.full_name || 'นักศึกษา';
         sidebarRole.textContent = 'นักศึกษา';
         avatar.textContent = (currentUser.full_name || 'S').charAt(0).toUpperCase();
-        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav, #adminStats, #adminChartPanel')
+        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav')
           .forEach(el => el.style.display = 'none');
         document.getElementById('profileNav').style.display = 'flex';
         document.getElementById('navCount').textContent = '0';
@@ -2591,7 +2419,6 @@
           loadAdminActivities();
           loadAdminRegistrations();
           loadAdminEvaluations();
-          renderAdminChart();
         }
         $('updateTime').textContent = '🕐 ' + new Date().toLocaleString('th-TH');
         $('statusDot').style.background = '#34a853';
@@ -2615,25 +2442,6 @@
       $('dashRegistrations').textContent = allRegistrations.length;
       const upcoming = visibleActivities.filter(a => a.status === 'upcoming').length;
       $('dashUpcoming').textContent = upcoming;
-
-      if (isAdmin) {
-        const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
-        const waiting = allRegistrations.filter(r => r.attendance_status === 'registered').length;
-        const noEval = allRegistrations.filter(r => r.attendance_status === 'checked-in' && (!r.evaluation_score || r
-          .evaluation_score === 0)).length;
-        const today = getTodayStr();
-        const checkinToday = allRegistrations.filter(r => {
-          if (!r.registered_at) return false;
-          const d = r.registered_at.slice(0, 10);
-          return d === today && r.attendance_status === 'checked-in';
-        }).length;
-        $('dashCheckedIn').textContent = checkedIn;
-        $('dashWaiting').textContent = waiting;
-        $('dashNoEval').textContent = noEval;
-        $('dashCheckinToday').textContent = checkinToday;
-        const pct = allStudents.length > 0 ? Math.round((checkinToday / allStudents.length) * 100) : 0;
-        $('dashCheckinPct').textContent = pct + '%';
-      }
 
       const now = new Date();
       const recent = visibleActivities
@@ -2671,7 +2479,7 @@
     }
 
     // ================================================================
-    //  TOP 7 — เหมือนกันทั้ง Admin และ Member (ใช้ leaderboard API)
+    //  TOP 7
     // ================================================================
     async function renderTop7() {
       const container = $('top7Container');
@@ -2683,7 +2491,6 @@
 
       let sorted = [];
 
-      // ใช้ leaderboard API สำหรับทั้ง Admin และ Member
       try {
         const res = await apiCall('/api/leaderboard/students');
         if (res.success) {
@@ -2696,24 +2503,7 @@
         }
       } catch (e) {
         console.warn('Leaderboard API failed, using fallback', e);
-        // Fallback: ใช้ allRegistrations คำนวณเฉพาะ Admin (ถ้ามี)
-        if (isAdmin) {
-          const monthRegs = allRegistrations.filter(r => {
-            if (!r.registered_at) return false;
-            const d = r.registered_at.slice(0, 7);
-            return d === thisMonth && r.attendance_status === 'checked-in';
-          });
-          const countMap = {};
-          monthRegs.forEach(r => {
-            countMap[r.student_id] = (countMap[r.student_id] || 0) + 1;
-          });
-          sorted = Object.entries(countMap)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 7);
-          document.getElementById('top7Title').innerHTML =
-            '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span>';
-        } else {
-          // Member fallback: ใช้เฉพาะของตัวเอง (อาจไม่สมบูรณ์ แต่ทำได้)
+        if (isAdmin || allRegistrations.length > 0) {
           const monthRegs = allRegistrations.filter(r => {
             if (!r.registered_at) return false;
             const d = r.registered_at.slice(0, 7);
@@ -2787,50 +2577,6 @@
       if (count >= 3) return { emoji: '👍', title: 'ขยัน' };
       if (count >= 1) return { emoji: '🌱', title: 'เริ่มต้น' };
       return { emoji: '🌟', title: 'นักสู้หน้าใหม่' };
-    }
-
-    // ================================================================
-    //  ADMIN CHART
-    // ================================================================
-    function renderAdminChart() {
-      if (!isAdmin) return;
-      if (chartInstance) { chartInstance.destroy();
-        chartInstance = null; }
-
-      const canvas = document.getElementById('activityChart');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const topActivities = allActivities.slice(0, 6);
-      const labels = topActivities.map(a => a.title || 'ไม่ระบุ');
-      const data = topActivities.map(a => allRegistrations.filter(r => r.act_id === a.act_id).length);
-
-      const isDarkMode = isDark;
-      const textColor = isDarkMode ? '#b0b0cc' : '#4a4a6a';
-      const gridColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-
-      chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'จำนวนผู้ลงทะเบียน',
-            data: data,
-            backgroundColor: ['#0ea5e9', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6'],
-            borderColor: '#fff',
-            borderWidth: 1,
-            borderRadius: 4,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
-            x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
-          }
-        }
-      });
     }
 
     // ================================================================
@@ -3336,119 +3082,6 @@
                 </div>
               `).join('')}
             </div>`}
-          `;
-      } else if (type === 'checkedin' && isAdmin) {
-        title.textContent = '✅ นักศึกษาที่เข้าร่วมแล้ว';
-        const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in');
-        html = `
-            <div style="text-align:center;padding:8px;background:rgba(16,185,129,0.06);border-radius:8px;margin-bottom:12px;">
-              <span style="font-size:16px;font-weight:700;color:var(--success);">${checkedIn.length} คน</span> เข้าร่วมแล้ว
-            </div>
-            <div class="table-wrap" style="max-height:350px;">
-              <table>
-                <thead><tr><th>#</th><th>นักศึกษา</th><th>กิจกรรม</th><th>วันที่</th></tr></thead>
-                <tbody>
-                  ${checkedIn.slice(0, 30).map((r, i) => {
-                    const s = allStudents.find(st => st.student_id === r.student_id);
-                    const a = allActivities.find(ac => ac.act_id === r.act_id);
-                    return `<tr>
-                      <td>${i+1}</td>
-                      <td>${s ? s.full_name : r.student_id}</td>
-                      <td>${a ? a.title : r.act_id}</td>
-                      <td>${r.registered_at || '-'}</td>
-                    </tr>`;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>
-          `;
-      } else if (type === 'waiting' && isAdmin) {
-        title.textContent = '⏳ นักศึกษาที่ยังไม่ได้เช็คอิน';
-        const waiting = allRegistrations.filter(r => r.attendance_status === 'registered');
-        html = `
-            <div style="text-align:center;padding:8px;background:rgba(245,158,11,0.06);border-radius:8px;margin-bottom:12px;">
-              <span style="font-size:16px;font-weight:700;color:var(--warning);">${waiting.length} คน</span> รอเข้าร่วม
-            </div>
-            <div class="table-wrap" style="max-height:350px;">
-              <table>
-                <thead><tr><th>#</th><th>นักศึกษา</th><th>กิจกรรม</th><th>วันที่</th></tr></thead>
-                <tbody>
-                  ${waiting.slice(0, 30).map((r, i) => {
-                    const s = allStudents.find(st => st.student_id === r.student_id);
-                    const a = allActivities.find(ac => ac.act_id === r.act_id);
-                    return `<tr>
-                      <td>${i+1}</td>
-                      <td>${s ? s.full_name : r.student_id}</td>
-                      <td>${a ? a.title : r.act_id}</td>
-                      <td>${r.registered_at || '-'}</td>
-                    </tr>`;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>
-          `;
-      } else if (type === 'noeval' && isAdmin) {
-        title.textContent = '📝 นักศึกษาที่ยังไม่ประเมิน (แยกตามบ้าน)';
-        const noEval = allRegistrations.filter(r => r.attendance_status === 'checked-in' && (!r.evaluation_score || r
-          .evaluation_score === 0));
-        const byHalaqah = {};
-        noEval.forEach(r => {
-          const s = allStudents.find(st => st.student_id === r.student_id);
-          const h = s?.halaqah || 'ไม่ระบุ';
-          if (!byHalaqah[h]) byHalaqah[h] = [];
-          byHalaqah[h].push({ name: s?.full_name || r.student_id, id: r.student_id });
-        });
-        let halaqahHtml = Object.entries(byHalaqah).map(([h, list]) => `
-            <div class="house-card">
-              <div class="house-header">
-                <div class="house-name"><i class="fas fa-home"></i> ${h}</div>
-                <span class="house-count">${list.length} คน</span>
-              </div>
-              <div class="house-members">
-                ${list.map(s => `<span class="member-tag missing">${s.name}</span>`).join('')}
-              </div>
-              <button class="btn btn-warning btn-sm" style="margin-top:8px;" onclick="notifyHeadOfHouse('${h}')">
-                <i class="fas fa-bell"></i> แจ้งหัวหน้าบ้าน
-              </button>
-            </div>
-          `).join('');
-        html = `
-            <div style="text-align:center;padding:8px;background:rgba(139,92,246,0.06);border-radius:8px;margin-bottom:12px;">
-              <span style="font-size:16px;font-weight:700;color:var(--purple);">${noEval.length} คน</span> ยังไม่ประเมิน
-            </div>
-            ${halaqahHtml || '<p style="text-align:center;color:var(--text-muted);">🎉 ทุกคนประเมินครบแล้ว!</p>'}
-          `;
-      } else if (type === 'checkin-today' && isAdmin) {
-        title.textContent = '✅ คนเข้าตรงวันนี้';
-        const today = getTodayStr();
-        const todayRegs = allRegistrations.filter(r => {
-          if (!r.registered_at) return false;
-          return r.registered_at.slice(0, 10) === today && r.attendance_status === 'checked-in';
-        });
-        html = `
-            <div style="text-align:center;padding:8px;background:rgba(16,185,129,0.06);border-radius:8px;margin-bottom:12px;">
-              <span style="font-size:20px;font-weight:800;color:var(--success);">${todayRegs.length} คน</span>
-              <span style="font-size:13px;color:var(--text-muted);"> เข้าตรงวันนี้ (${formatDate(today)})</span>
-            </div>
-            <div class="table-wrap" style="max-height:350px;">
-              <table>
-                <thead><tr><th>#</th><th>นักศึกษา</th><th>กิจกรรม</th><th>เวลา</th></tr></thead>
-                <tbody>
-                  ${todayRegs.slice(0, 50).map((r, i) => {
-                    const s = allStudents.find(st => st.student_id === r.student_id);
-                    const a = allActivities.find(ac => ac.act_id === r.act_id);
-                    const time = r.registered_at ? r.registered_at.slice(11, 16) : '-';
-                    return `<tr>
-                      <td>${i+1}</td>
-                      <td>${s ? s.full_name : r.student_id}</td>
-                      <td>${a ? a.title : r.act_id}</td>
-                      <td>${time}</td>
-                    </tr>`;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>
-            <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--text-muted);">คิดเป็น ${allStudents.length > 0 ? Math.round((todayRegs.length/allStudents.length)*100) : 0}% ของนักศึกษาทั้งหมด</div>
           `;
       } else if (type === 'eval-summary' && isAdmin) {
         title.textContent = '⭐ สรุปการประเมิน';
@@ -4083,8 +3716,7 @@
       document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-      if (isAdmin) { renderAdminChart();
-        loadAdminEvaluations(); }
+      if (isAdmin) { loadAdminEvaluations(); }
     }
 
     (function initTheme() {
@@ -4112,7 +3744,7 @@
       }
     });
 
-    console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — Premium ฉบับสมบูรณ์');
+    console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — Premium ฉบับสมบูรณ์ (ลบกราฟกิจกรรมยอดนิยมแล้ว)');
     console.log('👑 Admin: admin / admin123');
     console.log('👤 Student: sh01 / 1234');
     console.log('⌨️ Ctrl+R = รีเฟรช, ESC = ปิด Modal');
@@ -4125,7 +3757,7 @@
     console.log('✅ ปุ่มลงทะเบียนเปลี่ยนเป็น "จองแล้ว" เมื่อลงทะเบียนแล้ว');
     console.log('🔒 กิจกรรมส่วนตัว (private) จะไม่แสดงให้สมาชิกเห็น');
     console.log('📥 ดาวน์โหลด QR และพิมพ์บัตร PDF ได้');
-    console.log('📊 กิจกรรมยอดนิยม 7 อันดับนับจากทุกกิจกรรม public');
+    console.log('📐 การ์ดสถิติทุกตัวมีขนาดเท่ากัน');
   </script>
 </body>
 </html>
