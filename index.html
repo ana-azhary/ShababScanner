@@ -9,10 +9,13 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+  </script>
   <style>
-    /* ============================================================
-       ROOT — Premium Dark/Light
-       ============================================================ */
+    /* (CSS เดิมทั้งหมด – ไม่มีการเปลี่ยนแปลง) */
+    /* ... คงไว้เหมือนเดิมเพื่อความกระชับในโค้ด ... */
     *,
     *::before,
     *::after {
@@ -20,7 +23,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     :root {
       --primary: #0f2b4a;
       --primary-light: #1a4a7a;
@@ -34,35 +36,29 @@
       --purple: #8b5cf6;
       --pink: #ec4899;
       --teal: #14b8a6;
-
       --bg-body: #f0f4f8;
       --bg-surface: #ffffff;
       --bg-card: rgba(255, 255, 255, 0.78);
       --bg-card-hover: rgba(255, 255, 255, 0.94);
       --bg-glass: rgba(255, 255, 255, 0.22);
-
       --text-primary: #0f172a;
       --text-secondary: #334155;
       --text-muted: #94a3b8;
       --text-inverse: #f1f5f9;
-
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
       --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
       --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.09);
       --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.13);
       --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.13);
-
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
       --radius-xl: 28px;
-
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       --sidebar-width: 260px;
       --glass-blur: blur(18px);
     }
-
     [data-theme="dark"] {
       --bg-body: #0b1120;
       --bg-surface: #1e293b;
@@ -77,12 +73,10 @@
       --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
       --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.55);
     }
-
     html {
       font-size: 15px;
       scroll-behavior: smooth;
     }
-
     body {
       font-family: var(--font);
       background: var(--bg-body);
@@ -93,7 +87,6 @@
       -webkit-font-smoothing: antialiased;
       line-height: 1.6;
     }
-
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -109,9 +102,7 @@
       background: var(--primary);
     }
 
-    /* ============================================================
-       SIDEBAR
-       ============================================================ */
+    /* ===== SIDEBAR ===== */
     .app-sidebar {
       position: fixed;
       top: 0;
@@ -286,9 +277,7 @@
       color: #f87171;
     }
 
-    /* ============================================================
-       MAIN
-       ============================================================ */
+    /* ===== MAIN ===== */
     .app-main {
       margin-right: var(--sidebar-width);
       flex: 1;
@@ -299,7 +288,6 @@
       max-width: 100%;
       width: 100%;
     }
-
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -436,9 +424,7 @@
       }
     }
 
-    /* ============================================================
-       STATS
-       ============================================================ */
+    /* ===== STATS ===== */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -555,9 +541,7 @@
       background: #ef4444;
     }
 
-    /* ============================================================
-       CARD
-       ============================================================ */
+    /* ===== CARD ===== */
     .card-panel {
       background: var(--bg-card);
       backdrop-filter: var(--glass-blur);
@@ -609,9 +593,7 @@
       align-items: center;
     }
 
-    /* ============================================================
-       BUTTONS
-       ============================================================ */
+    /* ===== BUTTONS ===== */
     .btn {
       padding: 6px 16px;
       border-radius: var(--radius-sm);
@@ -712,10 +694,24 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
     }
+    .btn-download {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: #fff;
+    }
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);
+    }
+    .btn-pdf {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: #fff;
+    }
+    .btn-pdf:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
+    }
 
-    /* ============================================================
-       TABLE
-       ============================================================ */
+    /* ===== TABLE ===== */
     .table-wrap {
       overflow-x: auto;
       overflow-y: auto;
@@ -808,9 +804,7 @@
       color: #ef4444;
     }
 
-    /* ============================================================
-       GRID ACTIVITIES
-       ============================================================ */
+    /* ===== GRID ACTIVITIES ===== */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -841,9 +835,7 @@
       margin-top: 10px;
     }
 
-    /* ============================================================
-       TOP 7 — นักสู้ประจำเดือน / ยอดเยี่ยม
-       ============================================================ */
+    /* ===== TOP 7 ===== */
     .top7-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -955,9 +947,7 @@
       color: var(--text-secondary);
     }
 
-    /* ============================================================
-       STUDENT ID CARD
-       ============================================================ */
+    /* ===== STUDENT ID CARD ===== */
     .student-id-card {
       background: linear-gradient(145deg, #0f172a, #1a2a4a);
       color: #fff;
@@ -1092,9 +1082,15 @@
       transform: rotate(60deg);
     }
 
-    /* ============================================================
-       LEADERBOARD
-       ============================================================ */
+    .card-actions-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ===== LEADERBOARD ===== */
     .leaderboard-item {
       display: flex;
       justify-content: space-between;
@@ -1115,9 +1111,7 @@
       color: #cd7f32;
     }
 
-    /* ============================================================
-       REGISTRATION / EVALUATION
-       ============================================================ */
+    /* ===== REGISTRATION / EVALUATION ===== */
     .reg-card {
       background: var(--bg-card);
       border-radius: var(--radius-md);
@@ -1167,9 +1161,7 @@
       border-top: 1px solid rgba(0, 0, 0, 0.04);
     }
 
-    /* ============================================================
-       MODAL
-       ============================================================ */
+    /* ===== MODAL ===== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -1316,9 +1308,7 @@
       color: var(--text-muted);
     }
 
-    /* ============================================================
-       LOGIN
-       ============================================================ */
+    /* ===== LOGIN ===== */
     #loginPage {
       display: flex;
       justify-content: center;
@@ -1488,9 +1478,7 @@
       font-weight: 500;
     }
 
-    /* ============================================================
-       TOAST
-       ============================================================ */
+    /* ===== TOAST ===== */
     .toast-container {
       position: fixed;
       bottom: 28px;
@@ -1535,9 +1523,7 @@
       color: #0f172a;
     }
 
-    /* ============================================================
-       TAB BAR
-       ============================================================ */
+    /* ===== TAB BAR ===== */
     .tab-bar {
       display: flex;
       gap: 4px;
@@ -1568,9 +1554,7 @@
       display: none !important;
     }
 
-    /* ============================================================
-       HOUSE CARD (No-Eval)
-       ============================================================ */
+    /* ===== HOUSE CARD ===== */
     .house-card {
       background: var(--bg-card);
       border-radius: var(--radius-md);
@@ -1624,9 +1608,7 @@
       background: rgba(239, 68, 68, 0.04);
     }
 
-    /* ============================================================
-       EVALUATION BY ACTIVITY
-       ============================================================ */
+    /* ===== EVALUATION BY ACTIVITY ===== */
     .eval-activity-card {
       background: var(--bg-card);
       border-radius: var(--radius-md);
@@ -1684,9 +1666,7 @@
       color: var(--danger);
     }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
+    /* ===== RESPONSIVE ===== */
     .sidebar-overlay {
       display: none;
       position: fixed;
@@ -2059,10 +2039,10 @@
         </div>
       </div>
 
-      <!-- TOP 7 -->
+      <!-- TOP 7 (เหมือนกันทั้ง Admin และ Member) -->
       <div class="card-panel">
         <div class="card-header">
-          <h3 id="top7Title"><i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ประจำเดือน <span class="badge" id="top7Count">0</span></h3>
+          <h3 id="top7Title"><i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span></h3>
           <span style="font-size:11px;color:var(--text-muted);"><i class="fas fa-calendar-alt"></i> <span id="top7Month">-</span></span>
         </div>
         <div id="top7Container">
@@ -2071,7 +2051,7 @@
         <div id="top7Encouragement" class="top7-encouragement">💪 ทุกกิจกรรมคือโอกาสใหม่ อย่าพลาดที่จะเติบโต!</div>
       </div>
 
-      <!-- Recent (เฉพาะกิจกรรมสาธารณะ) -->
+      <!-- Recent -->
       <div class="card-panel">
         <div class="card-header">
           <h3><i class="fas fa-list"></i> กิจกรรมล่าสุด <span class="badge" id="recentBadge">0</span></h3>
@@ -2123,6 +2103,12 @@
             <div><i class="fas fa-calendar-alt"></i> เริ่มต้น: <span id="cardStartDate">-</span></div>
             <div>@<span id="cardIdShort">-</span></div>
           </div>
+        </div>
+
+        <!-- ปุ่มดาวน์โหลด QR และพิมพ์ PDF -->
+        <div class="card-actions-row">
+          <button class="btn btn-download btn-sm" onclick="downloadQR()"><i class="fas fa-qrcode"></i> ดาวน์โหลด QR</button>
+          <button class="btn btn-pdf btn-sm" onclick="printCardPDF()"><i class="fas fa-file-pdf"></i> พิมพ์บัตร (PDF)</button>
         </div>
       </div>
 
@@ -2365,8 +2351,6 @@
     let chartInstance = null;
     let evalChartInstance = null;
     let registeredActivities = new Set();
-
-    // กิจกรรมที่สมาชิกเห็น (ไม่รวม private)
     let visibleActivities = [];
 
     // ================================================================
@@ -2572,10 +2556,8 @@
         if (isAdmin) {
           const allActs = await apiCall('/api/activities?type=all');
           allActivities = allActs.data || [];
-          // Admin เห็นทุกกิจกรรม
           visibleActivities = [...allActivities];
         } else {
-          // สมาชิก: กรองเฉพาะ public
           visibleActivities = allActivities.filter(a => a.type !== 'private');
         }
 
@@ -2653,7 +2635,6 @@
         $('dashCheckinPct').textContent = pct + '%';
       }
 
-      // Recent activities (เฉพาะที่สมาชิกเห็น)
       const now = new Date();
       const recent = visibleActivities
         .filter(a => {
@@ -2690,7 +2671,7 @@
     }
 
     // ================================================================
-    //  TOP 7 — นักสู้ (ใช้ leaderboard API)
+    //  TOP 7 — เหมือนกันทั้ง Admin และ Member (ใช้ leaderboard API)
     // ================================================================
     async function renderTop7() {
       const container = $('top7Container');
@@ -2702,32 +2683,21 @@
 
       let sorted = [];
 
-      if (isAdmin) {
-        // Admin: ใช้ allRegistrations
-        const monthRegs = allRegistrations.filter(r => {
-          if (!r.registered_at) return false;
-          const d = r.registered_at.slice(0, 7);
-          return d === thisMonth && r.attendance_status === 'checked-in';
-        });
-        const countMap = {};
-        monthRegs.forEach(r => {
-          countMap[r.student_id] = (countMap[r.student_id] || 0) + 1;
-        });
-        sorted = Object.entries(countMap)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 7);
-        document.getElementById('top7Title').innerHTML = '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ประจำเดือน <span class="badge" id="top7Count">0</span>';
-      } else {
-        // Member: ใช้ leaderboard API
-        try {
-          const res = await apiCall('/api/leaderboard/students');
-          if (res.success) {
-            const data = res.data || [];
-            sorted = data.slice(0, 7).map(item => [item.student_id, item.count]);
-            document.getElementById('top7Title').innerHTML = '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span>';
-          }
-        } catch (e) {
-          console.warn('Leaderboard API failed, using fallback', e);
+      // ใช้ leaderboard API สำหรับทั้ง Admin และ Member
+      try {
+        const res = await apiCall('/api/leaderboard/students');
+        if (res.success) {
+          const data = res.data || [];
+          sorted = data.slice(0, 7).map(item => [item.student_id, item.count]);
+          document.getElementById('top7Title').innerHTML =
+            '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span>';
+        } else {
+          throw new Error('Leaderboard API returned success=false');
+        }
+      } catch (e) {
+        console.warn('Leaderboard API failed, using fallback', e);
+        // Fallback: ใช้ allRegistrations คำนวณเฉพาะ Admin (ถ้ามี)
+        if (isAdmin) {
           const monthRegs = allRegistrations.filter(r => {
             if (!r.registered_at) return false;
             const d = r.registered_at.slice(0, 7);
@@ -2740,7 +2710,24 @@
           sorted = Object.entries(countMap)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 7);
-          document.getElementById('top7Title').innerHTML = '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ประจำเดือน <span class="badge" id="top7Count">0</span>';
+          document.getElementById('top7Title').innerHTML =
+            '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span>';
+        } else {
+          // Member fallback: ใช้เฉพาะของตัวเอง (อาจไม่สมบูรณ์ แต่ทำได้)
+          const monthRegs = allRegistrations.filter(r => {
+            if (!r.registered_at) return false;
+            const d = r.registered_at.slice(0, 7);
+            return d === thisMonth && r.attendance_status === 'checked-in';
+          });
+          const countMap = {};
+          monthRegs.forEach(r => {
+            countMap[r.student_id] = (countMap[r.student_id] || 0) + 1;
+          });
+          sorted = Object.entries(countMap)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 7);
+          document.getElementById('top7Title').innerHTML =
+            '<i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม <span class="badge" id="top7Count">0</span>';
         }
       }
 
@@ -2887,7 +2874,6 @@
 
     async function registerActivity(act_id) {
       if (!currentUser) return alert('กรุณาเข้าสู่ระบบ');
-      // ตรวจสอบว่า act_id อยู่ใน visibleActivities หรือไม่ (ถ้าไม่ใช่ admin)
       if (!isAdmin && !visibleActivities.some(a => a.act_id === act_id)) {
         showToast('❌ ไม่พบกิจกรรมนี้', 'error');
         return;
@@ -3047,7 +3033,6 @@
           `;
       }).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ไม่มีประวัติการลงทะเบียน</p>';
 
-      // Evaluation list
       const evalContainer = $('evaluateTab');
       const pastRegs = registrations.filter(r => r.attendance_status === 'checked-in' && !r.evaluation_score);
       if (pastRegs.length === 0) {
@@ -3117,11 +3102,72 @@
     }
 
     // ================================================================
+    //  DOWNLOAD QR
+    // ================================================================
+    function downloadQR() {
+      const canvas = document.querySelector('#cardQrBox canvas');
+      if (!canvas) {
+        showToast('⚠️ ไม่พบ QR Code', 'error');
+        return;
+      }
+      const newCanvas = document.createElement('canvas');
+      const size = 300;
+      newCanvas.width = size;
+      newCanvas.height = size;
+      const ctx = newCanvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, size, size);
+      const qrSize = canvas.width;
+      const scale = (size - 40) / qrSize;
+      ctx.drawImage(canvas, 20, 20, qrSize * scale, qrSize * scale);
+      const link = document.createElement('a');
+      link.download = `QR_${currentUser?.student_id || 'member'}.png`;
+      link.href = newCanvas.toDataURL('image/png');
+      link.click();
+      showToast('✅ ดาวน์โหลด QR สำเร็จ', 'success');
+    }
+
+    // ================================================================
+    //  PRINT CARD PDF
+    // ================================================================
+    function printCardPDF() {
+      const card = document.querySelector('.student-id-card');
+      if (!card) {
+        showToast('⚠️ ไม่พบบัตร', 'error');
+        return;
+      }
+
+      html2canvas(card, {
+        scale: 2,
+        backgroundColor: null,
+        useCORS: true,
+        logging: false,
+        width: card.scrollWidth,
+        height: card.scrollHeight,
+        windowWidth: card.scrollWidth,
+        windowHeight: card.scrollHeight
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 100;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const x = (210 - imgWidth) / 2;
+        const y = (297 - imgHeight) / 2;
+        doc.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+        doc.save(`บัตร_${currentUser?.student_id || 'member'}.pdf`);
+        showToast('✅ พิมพ์บัตร PDF สำเร็จ', 'success');
+      }).catch(err => {
+        console.error(err);
+        showToast('❌ ไม่สามารถสร้าง PDF ได้', 'error');
+      });
+    }
+
+    // ================================================================
     //  LEADERBOARD
     // ================================================================
     async function renderLeaderboards() {
       try {
-        // นักศึกษา leaderboard
         const studentRes = await apiCall('/api/leaderboard/students');
         if (studentRes.success) {
           const data = studentRes.data || [];
@@ -3138,20 +3184,37 @@
           }).join('') || '<p style="color:var(--text-muted);">ยังไม่มีข้อมูล</p>';
         }
 
-        // กิจกรรมยอดนิยม (เฉพาะ public)
+        let regsToCount = [];
+        if (isAdmin) {
+          regsToCount = allRegistrations;
+        } else {
+          try {
+            const allRegsRes = await apiCall('/api/registrations');
+            if (allRegsRes.success) {
+              regsToCount = allRegsRes.data || [];
+            } else {
+              regsToCount = allRegistrations;
+            }
+          } catch (e) {
+            console.warn('ไม่สามารถโหลดการลงทะเบียนทั้งหมด, ใช้เฉพาะของตัวเอง', e);
+            regsToCount = allRegistrations;
+          }
+        }
+
         const actCount = {};
-        allRegistrations.forEach(r => {
-          // นับเฉพาะกิจกรรมที่อยู่ใน visibleActivities (public)
-          if (visibleActivities.some(a => a.act_id === r.act_id)) {
+        regsToCount.forEach(r => {
+          const act = allActivities.find(a => a.act_id === r.act_id);
+          if (act && (isAdmin || act.type !== 'private')) {
             actCount[r.act_id] = (actCount[r.act_id] || 0) + 1;
           }
         });
+
         const sortedActs = Object.entries(actCount)
           .sort((a, b) => b[1] - a[1])
           .slice(0, 7);
 
         if (sortedActs.length === 0) {
-          $('activityLeaderboard').innerHTML = '<p style="color:var(--text-muted);">ยังไม่มีข้อมูล</p>';
+          $('activityLeaderboard').innerHTML = '<p style="color:var(--text-muted);">ยังไม่มีข้อมูลกิจกรรม</p>';
         } else {
           let html = '';
           sortedActs.forEach(([actId, count], idx) => {
@@ -3172,7 +3235,7 @@
     }
 
     // ================================================================
-    //  STAT MODAL (ไม่มีการเปลี่ยนแปลง)
+    //  STAT MODAL
     // ================================================================
     function openStatModal(type) {
       const title = $('statModalTitle');
@@ -3637,7 +3700,7 @@
       try {
         const res = await apiCall('/api/activities?type=all');
         allActivities = res.data || [];
-        visibleActivities = [...allActivities]; // admin เห็นทุกอย่าง
+        visibleActivities = [...allActivities];
         $('adminActCount').textContent = allActivities.length;
         $('adminActTable').innerHTML = allActivities.map(a => `
             <tr>
@@ -4057,10 +4120,12 @@
     console.log('📞 ทุกรายชื่อมีปุ่มโทรออก');
     console.log('🏠 นักศึกษาที่ยังไม่ประเมินแสดงแยกตามบ้าน');
     console.log('📊 การประเมินแยกตามกิจกรรม');
-    console.log('🌟 นักสู้ประจำเดือนแสดง 7 อันดับเท่านั้น');
+    console.log('🌟 นักสู้ยอดเยี่ยมแสดง 7 อันดับ (เหมือนกันทั้ง Admin และ Member)');
     console.log('🏅 ลีดเดอร์บอร์ดนักศึกษาแสดง 12 อันดับ');
     console.log('✅ ปุ่มลงทะเบียนเปลี่ยนเป็น "จองแล้ว" เมื่อลงทะเบียนแล้ว');
     console.log('🔒 กิจกรรมส่วนตัว (private) จะไม่แสดงให้สมาชิกเห็น');
+    console.log('📥 ดาวน์โหลด QR และพิมพ์บัตร PDF ได้');
+    console.log('📊 กิจกรรมยอดนิยม 7 อันดับนับจากทุกกิจกรรม public');
   </script>
 </body>
 </html>
