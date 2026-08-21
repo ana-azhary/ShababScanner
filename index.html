@@ -1,856 +1,926 @@
 <!DOCTYPE html>
-<html lang="th" class="dark">
+<html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity Management System</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#eff6ff',
-                            500: '#3b82f6',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- QR Code Library -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-    <!-- Custom Styles for Glassmorphism & Animations -->
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .glass {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .dark .glass {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(51, 65, 85, 0.5);
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 9999px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.8); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shabab Student Activity Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3b82f6; --primary-dark: #2563eb; --primary-light: #60a5fa;
+      --secondary: #8b5cf6; --accent: #f59e0b; --success: #10b981; --danger: #ef4444;
+      --warning: #f59e0b; --info: #06b6d4; --bg: #f1f5f9;
+      --surface: rgba(255,255,255,0.75); --surface-solid: #ffffff;
+      --text: #1e293b; --text-secondary: #64748b; --border: rgba(148,163,184,0.2);
+      --shadow: 0 8px 32px rgba(31,38,135,0.1); --glass: rgba(255,255,255,0.65);
+      --glass-border: rgba(255,255,255,0.4); --radius: 16px; --radius-sm: 10px;
+      --sidebar-w: 260px; --sidebar-collapsed: 72px;
+    }
+    [data-theme="dark"] {
+      --bg: #0f172a; --surface: rgba(30,41,59,0.7); --surface-solid: #1e293b;
+      --text: #f1f5f9; --text-secondary: #94a3b8; --border: rgba(148,163,184,0.1);
+      --shadow: 0 8px 32px rgba(0,0,0,0.4); --glass: rgba(30,41,59,0.6);
+      --glass-border: rgba(255,255,255,0.08);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Sarabun',sans-serif; background:var(--bg); color:var(--text);
+      min-height:100vh; transition:background 0.3s,color 0.3s; overflow-x:hidden;
+    }
+    .bg-blob {
+      position:fixed; border-radius:50%; filter:blur(80px); opacity:0.35; z-index:0; pointer-events:none;
+      animation:blobFloat 10s ease-in-out infinite alternate;
+    }
+    .bg-blob:nth-child(1){width:400px;height:400px;background:var(--primary);top:-100px;left:-100px;}
+    .bg-blob:nth-child(2){width:350px;height:350px;background:var(--secondary);bottom:-80px;right:-80px;animation-delay:-3s;}
+    .bg-blob:nth-child(3){width:300px;height:300px;background:var(--accent);top:40%;left:60%;animation-delay:-6s;}
+    @keyframes blobFloat { 0%{transform:translate(0,0) scale(1);} 100%{transform:translate(30px,-30px) scale(1.1);} }
+    .glass {
+      background:var(--glass); backdrop-filter:blur(20px) saturate(180%);
+      -webkit-backdrop-filter:blur(20px) saturate(180%); border:1px solid var(--glass-border); box-shadow:var(--shadow);
+    }
+    ::-webkit-scrollbar{width:8px;height:8px;} ::-webkit-scrollbar-track{background:transparent;}
+    ::-webkit-scrollbar-thumb{background:var(--text-secondary);border-radius:4px;} ::-webkit-scrollbar-thumb:hover{background:var(--primary);}
+    #loginPage {
+      position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+    }
+    .login-card {
+      width:100%; max-width:420px; padding:40px; background:rgba(255,255,255,0.95);
+      border-radius:var(--radius); box-shadow:0 25px 50px rgba(0,0,0,0.25); text-align:center; animation:slideUp 0.6s ease;
+    }
+    [data-theme="dark"] .login-card{background:rgba(15,23,42,0.95);}
+    .login-card .logo {
+      width:72px;height:72px;border-radius:50%; background:linear-gradient(135deg,var(--primary),var(--secondary));
+      display:flex;align-items:center;justify-content:center;margin:0 auto 20px; color:#fff;font-size:28px; box-shadow:0 10px 25px rgba(59,130,246,0.4);
+    }
+    .login-card h1 {font-size:1.5rem;font-weight:700;margin-bottom:6px;color:var(--text);}
+    .login-card p {color:var(--text-secondary);margin-bottom:28px;font-size:0.95rem;}
+    .input-group {position:relative;margin-bottom:18px;text-align:left;}
+    .input-group i {position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-secondary);}
+    .input-group input {
+      width:100%;padding:12px 14px 12px 42px;border:2px solid var(--border); border-radius:var(--radius-sm);
+      background:var(--surface-solid);color:var(--text); font-size:1rem;outline:none;transition:0.2s;font-family:inherit;
+    }
+    .input-group input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(59,130,246,0.15);}
+    .btn {
+      display:inline-flex;align-items:center;justify-content:center;gap:8px; padding:12px 24px;border:none;border-radius:var(--radius-sm);cursor:pointer;
+      font-size:0.95rem;font-weight:600;font-family:inherit;transition:all 0.2s;
+    }
+    .btn-primary {background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 4px 15px rgba(59,130,246,0.35);}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(59,130,246,0.45);}
+    .btn-success {background:var(--success);color:#fff;} .btn-danger {background:var(--danger);color:#fff;}
+    .btn-warning {background:var(--warning);color:#fff;} .btn-info {background:var(--info);color:#fff;}
+    .btn-secondary {background:var(--text-secondary);color:#fff;} .btn-sm {padding:8px 16px;font-size:0.85rem;}
+    .btn:disabled {opacity:0.6;cursor:not-allowed;transform:none!important;}
+    @keyframes slideUp {from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes fadeIn {from{opacity:0;}to{opacity:1;}} @keyframes scaleIn {from{opacity:0;transform:scale(0.95);}to{opacity:1;transform:scale(1);}}
+    #app {display:none;animation:fadeIn 0.4s ease;}
+    .layout {display:flex;min-height:100vh;}
+    .sidebar {
+      width:var(--sidebar-w);position:fixed;left:0;top:0;bottom:0;z-index:100; display:flex;flex-direction:column;transition:width 0.3s;
+    }
+    .sidebar-header { padding:20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border); }
+    .sidebar-header .brand-icon {
+      width:40px;height:40px;border-radius:12px; background:linear-gradient(135deg,var(--primary),var(--secondary));
+      display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;
+    }
+    .brand-text h2 {font-size:1.05rem;font-weight:700;line-height:1.2;} .brand-text span {font-size:0.75rem;color:var(--text-secondary);}
+    .sidebar-nav {flex:1;overflow-y:auto;padding:12px;}
+    .nav-item {
+      display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--radius-sm); color:var(--text-secondary);cursor:pointer;transition:0.2s;margin-bottom:4px;
+      text-decoration:none;border:none;background:transparent;width:100%;font-family:inherit;font-size:0.95rem;text-align:left;
+    }
+    .nav-item:hover, .nav-item.active {background:rgba(59,130,246,0.1);color:var(--primary);} .nav-item.active {font-weight:600;}
+    .nav-item i {width:22px;text-align:center;font-size:1rem;}
+    .sidebar-footer {padding:16px;border-top:1px solid var(--border);}
+    .user-mini {
+      display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--radius-sm); background:rgba(59,130,246,0.08);margin-bottom:10px;
+    }
+    .user-mini .avatar-fallback {
+      width:36px;height:36px;border-radius:50%; background:linear-gradient(135deg,var(--primary),var(--secondary));
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:14px;
+    }
+    .user-mini div {flex:1;min-width:0;} .user-mini .name {font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .user-mini .role {font-size:0.75rem;color:var(--text-secondary);}
+    .main { flex:1;margin-left:var(--sidebar-w);transition:margin-left 0.3s;min-height:100vh;display:flex;flex-direction:column; }
+    .topbar {
+      position:sticky;top:0;z-index:90;padding:16px 28px; display:flex;align-items:center;justify-content:space-between; border-bottom:1px solid var(--border);
+    }
+    .topbar h1 {font-size:1.25rem;font-weight:700;} .topbar-actions {display:flex;align-items:center;gap:10px;}
+    .icon-btn {
+      width:40px;height:40px;border-radius:50%;border:none;background:var(--surface); color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center; transition:0.2s;font-size:1rem;backdrop-filter:blur(10px);
+    }
+    .icon-btn:hover{background:var(--primary);color:#fff;}
+    .content {flex:1;padding:28px;position:relative;z-index:1;}
+    .card { border-radius:var(--radius);padding:24px; background:var(--surface);border:1px solid var(--glass-border); box-shadow:var(--shadow);transition:0.3s; }
+    .card:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(31,38,135,0.15);}
+    .card-header {display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .card-title {font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+    .stats-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:28px;}
+    .stat-card {
+      border-radius:var(--radius);padding:20px;position:relative;overflow:hidden; background:var(--surface);border:1px solid var(--glass-border);box-shadow:var(--shadow); transition:0.3s;
+    }
+    .stat-card:hover{transform:translateY(-3px);}
+    .stat-card .icon { width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center; font-size:1.25rem;color:#fff;margin-bottom:14px; }
+    .stat-card .value {font-size:1.6rem;font-weight:700;margin-bottom:4px;} .stat-card .label {font-size:0.85rem;color:var(--text-secondary);}
+    .stat-card .trend {position:absolute;top:16px;right:16px;font-size:0.75rem;padding:4px 8px;border-radius:20px;background:rgba(16,185,129,0.15);color:var(--success);font-weight:600;}
+    .activity-grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+    .activity-card {
+      border-radius:var(--radius);overflow:hidden;background:var(--surface); border:1px solid var(--glass-border);box-shadow:var(--shadow);transition:0.3s;display:flex;flex-direction:column;
+    }
+    .activity-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(31,38,135,0.18);}
+    .activity-img {
+      height:160px;background:linear-gradient(135deg,var(--primary),var(--secondary)); display:flex;align-items:center;justify-content:center;color:#fff;font-size:3rem;position:relative;
+    }
+    .activity-img .badge { position:absolute;top:12px;right:12px;padding:4px 10px;border-radius:20px; font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px; }
+    .badge-upcoming{background:var(--success);color:#fff;} .badge-ongoing{background:var(--warning);color:#fff;} .badge-closed{background:var(--text-secondary);color:#fff;} .badge-private{background:var(--danger);color:#fff;}
+    .activity-body {padding:18px;flex:1;display:flex;flex-direction:column;}
+    .activity-body h3 {font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+    .activity-meta {font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;display:flex;flex-direction:column;gap:4px;}
+    .activity-meta i {width:16px;} .activity-footer {display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;border-top:1px solid var(--border);}
+    .slots {font-size:0.8rem;color:var(--text-secondary);}
+    .table-wrap {overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border);}
+    table {width:100%;border-collapse:collapse;font-size:0.9rem;} thead {background:rgba(59,130,246,0.08);}
+    th, td {padding:12px 16px;text-align:left;} th {font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-secondary);}
+    tbody tr {border-bottom:1px solid var(--border);transition:0.15s;} tbody tr:hover {background:rgba(59,130,246,0.04);} tbody tr:last-child {border-bottom:none;}
+    .tag { display:inline-flex;align-items:center;padding:4px 10px;border-radius:20px; font-size:0.75rem;font-weight:600; }
+    .tag-green {background:rgba(16,185,129,0.15);color:var(--success);} .tag-red {background:rgba(239,68,68,0.15);color:var(--danger);}
+    .tag-blue {background:rgba(59,130,246,0.15);color:var(--primary);} .tag-orange {background:rgba(245,158,11,0.15);color:var(--warning);}
+    .leaderboard-list {display:flex;flex-direction:column;gap:10px;}
+    .lb-item { display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--radius-sm); background:var(--surface);border:1px solid var(--glass-border);transition:0.2s; }
+    .lb-item:hover{transform:translateX(4px);border-color:var(--primary);}
+    .lb-rank { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center; font-weight:700;font-size:0.9rem;flex-shrink:0; }
+    .lb-rank.gold{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;} .lb-rank.silver{background:linear-gradient(135deg,#e5e7eb,#9ca3af);color:#fff;} .lb-rank.bronze{background:linear-gradient(135deg,#fdba74,#ea580c);color:#fff;} .lb-rank.normal{background:var(--bg);color:var(--text);border:1px solid var(--border);}
+    .lb-info {flex:1;} .lb-info .name {font-weight:600;} .lb-info .sub {font-size:0.8rem;color:var(--text-secondary);} .lb-score {font-weight:700;color:var(--primary);font-size:1.1rem;}
+    .profile-header { border-radius:var(--radius);padding:32px;text-align:center;margin-bottom:24px; background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(139,92,246,0.15)); border:1px solid var(--glass-border); }
+    .profile-avatar { width:96px;height:96px;border-radius:50%;border:4px solid var(--surface-solid); box-shadow:var(--shadow);margin:0 auto 16px;object-fit:cover; background:linear-gradient(135deg,var(--primary),var(--secondary)); display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.5rem;font-weight:700; }
+    .profile-header h2 {font-size:1.4rem;margin-bottom:4px;} .profile-header p {color:var(--text-secondary);}
+    .id-card { max-width:400px;margin:0 auto 24px;padding:24px;border-radius:var(--radius); background:var(--surface-solid);border:1px solid var(--border);text-align:center; position:relative;overflow:hidden; }
+    .id-card::before { content:'';position:absolute;top:0;left:0;right:0;height:80px; background:linear-gradient(135deg,var(--primary),var(--secondary)); }
+    .id-card-content {position:relative;z-index:1;padding-top:40px;}
+    .id-card .id-avatar { width:80px;height:80px;border-radius:50%;border:4px solid var(--surface-solid); margin:0 auto 12px;background:var(--surface-solid);display:flex;align-items:center;justify-content:center; font-size:2rem;font-weight:700;color:var(--primary); }
+    .id-card h3 {font-size:1.2rem;margin-bottom:4px;} .id-card .id-number {font-family:monospace;background:var(--bg);padding:4px 12px;border-radius:20px;font-size:0.85rem;display:inline-block;margin-bottom:16px;}
+    #qrcode img, #qrcode canvas {margin:0 auto;display:block;}
+    .modal-overlay { position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5); display:none;align-items:center;justify-content:center;padding:20px; backdrop-filter:blur(4px); }
+    .modal-overlay.active {display:flex;animation:fadeIn 0.2s;}
+    .modal { width:100%;max-width:520px;max-height:90vh;overflow-y:auto; border-radius:var(--radius);background:var(--surface-solid); box-shadow:0 25px 50px rgba(0,0,0,0.3);animation:scaleIn 0.3s; border:1px solid var(--border); }
+    .modal-header {padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .modal-header h3 {font-size:1.15rem;} .modal-close {background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--text-secondary);} .modal-close:hover{color:var(--danger);}
+    .modal-body {padding:24px;} .modal-footer {padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+    .form-group {margin-bottom:18px;} .form-group label {display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;color:var(--text-secondary);}
+    .form-group input, .form-group select, .form-group textarea { width:100%;padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm); background:var(--surface-solid);color:var(--text);font-family:inherit;font-size:0.95rem;outline:none;transition:0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {border-color:var(--primary);} .form-group textarea {min-height:80px;resize:vertical;}
+    .toolbar {display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;align-items:center;}
+    .search-box {position:relative;flex:1;min-width:220px;} .search-box input {width:100%;padding:10px 14px 10px 38px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-solid);color:var(--text);outline:none;transition:0.2s;font-family:inherit;} .search-box input:focus{border-color:var(--primary);} .search-box i {position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-secondary);}
+    .toast-container {position:fixed;top:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:10px;}
+    .toast { padding:14px 20px;border-radius:var(--radius-sm);background:var(--surface-solid);color:var(--text); box-shadow:0 10px 30px rgba(0,0,0,0.2);border-left:4px solid var(--primary); display:flex;align-items:center;gap:10px;animation:slideInRight 0.3s;min-width:280px; }
+    .toast.success {border-left-color:var(--success);} .toast.error {border-left-color:var(--danger);} .toast.warning {border-left-color:var(--warning);}
+    @keyframes slideInRight {from{opacity:0;transform:translateX(100%);}to{opacity:1;transform:translateX(0);}}
+    .tabs {display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border);}
+    .tab {padding:10px 18px;border:none;background:transparent;color:var(--text-secondary);cursor:pointer;font-family:inherit;font-size:0.9rem;font-weight:600;border-bottom:2px solid transparent;margin-bottom:-2px;transition:0.2s;}
+    .tab:hover{color:var(--primary);} .tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+    @media (max-width:1024px){ .sidebar{width:var(--sidebar-collapsed);} .sidebar .brand-text,.sidebar .nav-item span,.sidebar .user-mini div,.sidebar-footer .btn span{display:none;} .sidebar-header{justify-content:center;padding:16px 0;} .sidebar-nav{padding:8px;} .nav-item{justify-content:center;padding:14px;} .nav-item i{margin:0;} .user-mini{justify-content:center;padding:8px;} .main{margin-left:var(--sidebar-collapsed);} .sidebar-footer{padding:10px;} .sidebar-footer .btn{justify-content:center;padding:10px;} .sidebar-footer .btn i{margin:0;} }
+    @media (max-width:768px){ .sidebar{transform:translateX(-100%);width:var(--sidebar-w);} .sidebar.open{transform:translateX(0);} .sidebar .brand-text,.sidebar .nav-item span,.sidebar .user-mini div,.sidebar-footer .btn span{display:block;} .nav-item{justify-content:flex-start;padding:12px 14px;} .main{margin-left:0;} .stats-grid{grid-template-columns:1fr;} .activity-grid{grid-template-columns:1fr;} .topbar{padding:12px 16px;} .content{padding:16px;} .mobile-menu-btn{display:flex!important;} }
+    .mobile-menu-btn {display:none;width:40px;height:40px;border-radius:50%;border:none;background:var(--surface);color:var(--text);align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;}
+    @media print { .sidebar,.topbar,.btn,.no-print{display:none!important;} .main{margin-left:0!important;} body{background:#fff!important;color:#000!important;} .card{box-shadow:none!important;border:1px solid #ddd!important;} }
+    .section {display:none;animation:fadeIn 0.3s;} .section.active {display:block;}
+    .empty-state {text-align:center;padding:60px 20px;color:var(--text-secondary);} .empty-state i {font-size:3rem;margin-bottom:16px;opacity:0.5;} .empty-state h3 {font-size:1.1rem;margin-bottom:8px;color:var(--text);}
+    .chart-container {position:relative;height:300px;width:100%;} .admin-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;}
+    .star-select {display:flex;gap:8px;font-size:1.5rem;} .star-select i {cursor:pointer;color:var(--border);transition:0.15s;} .star-select i.active {color:var(--warning);} .star-select i:hover {transform:scale(1.2);}
+  </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+<body>
+  <div class="bg-blob"></div><div class="bg-blob"></div><div class="bg-blob"></div>
+  <div class="toast-container" id="toastContainer"></div>
 
-    <!-- LOGIN VIEW (Overlay/Section) -->
-    <div id="login-view" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md transition-opacity duration-300">
-        <div class="glass-card p-8 rounded-2xl shadow-2xl w-full max-w-md mx-4 transform transition-all">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-lg shadow-brand-500/30 mb-4">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <h1 class="text-2xl font-bold">Activity Hub</h1>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">เข้าสู่ระบบเพื่อจัดการกิจกรรมและลงทะเบียน</p>
-            </div>
-            <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">รหัสนักศึกษา / ไอดีผู้ใช้</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-regular fa-user"></i></span>
-                        <input type="text" id="login-id" required class="w-full pl-10 pr-4 py-3 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm" placeholder="เช่น 6401001 หรือ admin">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">รหัสผ่าน</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-solid fa-lock"></i></span>
-                        <input type="password" id="login-pass" required class="w-full pl-10 pr-4 py-3 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm" placeholder="••••••••">
-                    </div>
-                </div>
-                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center space-x-2">
-                    <span>เข้าสู่ระบบ</span>
-                    <i class="fa-solid fa-arrow-right text-xs"></i>
-                </button>
-            </form>
-            <div class="mt-6 text-center text-xs text-slate-400">
-                <p>💡 ทดสอบระบบ: นักศึกษาพิมพ์รหัส เช่น <span class="text-brand-500 font-semibold">6401001</span> | แอดมินพิมพ์ <span class="text-brand-500 font-semibold">admin</span></p>
-            </div>
-        </div>
+  <!-- Login Page -->
+  <div id="loginPage">
+    <div class="login-card">
+      <div class="logo"><i class="fas fa-graduation-cap"></i></div>
+      <h1>Shabab Activity System</h1>
+      <p>ระบบบริหารกิจกรรมนักศึกษา</p>
+      <div class="input-group">
+        <i class="fas fa-id-card"></i>
+        <input type="text" id="loginStudentId" placeholder="รหัสนักศึกษา (เช่น sh01)" autocomplete="username">
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="loginPassword" placeholder="รหัสผ่าน" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" style="width:100%;" onclick="handleLogin()">
+        <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
+      </button>
+      <p style="margin-top:16px;font-size:0.8rem;color:var(--text-secondary);">
+        <i class="fas fa-shield-alt"></i> เข้าสู่ระบบอย่างปลอดภัยด้วย API Secret
+      </p>
     </div>
+  </div>
 
-    <!-- MAIN APP WRAPPER -->
-    <div id="app-wrapper" class="flex h-screen overflow-hidden hidden">
-        
-        <!-- SIDEBAR -->
-        <aside id="sidebar" class="w-64 glass border-r border-slate-200 dark:border-slate-800 flex flex-col transition-all duration-300 z-30">
-            <div class="p-6 flex items-center space-x-3 border-b border-slate-200/50 dark:border-slate-800/50">
-                <div class="w-10 h-10 bg-brand-600 text-white rounded-xl flex items-center justify-center font-bold shadow-md shadow-brand-500/20">
-                    <i class="fa-solid fa-bolt text-sm"></i>
-                </div>
-                <div>
-                    <span class="font-bold text-base tracking-tight block">Activity Hub</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400" id="user-role-badge">นักศึกษา</span>
-                </div>
-            </div>
-
-            <!-- Navigation Links -->
-            <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto" id="sidebar-nav">
-                <!-- Dynamically injected based on role -->
-            </nav>
-
-            <!-- Sidebar Footer / Logout -->
-            <div class="p-4 border-t border-slate-200/50 dark:border-slate-800/50">
-                <button onclick="logout()" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors text-sm font-medium">
-                    <i class="fa-solid fa-right-from-bracket w-5"></i>
-                    <span>ออกจากระบบ</span>
-                </button>
-            </div>
-        </aside>
-
-        <!-- CONTENT AREA -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
-            
-            <!-- TOPBAR -->
-            <header class="h-16 glass border-b border-slate-200/50 dark:border-slate-800/50 px-6 flex items-center justify-between z-20">
-                <div class="flex items-center space-x-4">
-                    <button onclick="toggleSidebar()" class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
-                        <i class="fa-solid fa-bars text-lg"></i>
-                    </button>
-                    <h2 id="page-title" class="text-lg font-bold">Dashboard</h2>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-slate-600 dark:text-slate-300 hover:scale-105 transition-transform">
-                        <i id="theme-icon" class="fa-solid fa-moon"></i>
-                    </button>
-                    <div class="flex items-center space-x-3 pl-3 border-l border-slate-200 dark:border-slate-800">
-                        <div class="w-9 h-9 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold text-sm" id="user-avatar-initial">
-                            U
-                        </div>
-                        <div class="hidden sm:block text-left">
-                            <span class="text-xs font-bold block" id="header-user-name">กำลังโหลด...</span>
-                            <span class="text-[10px] text-slate-500 dark:text-slate-400 block" id="header-user-id">-</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
-            <!-- MAIN VIEW CONTAINER -->
-            <main class="flex-1 overflow-y-auto p-6 relative" id="main-content">
-                <!-- Pages will be rendered here -->
-            </main>
+  <!-- App -->
+  <div id="app">
+    <div class="layout">
+      <aside class="sidebar glass" id="sidebar">
+        <div class="sidebar-header">
+          <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
+          <div class="brand-text"><h2>Shabab</h2><span>Activity System</span></div>
         </div>
-    </div>
-
-    <!-- GLOBAL MODAL -->
-    <div id="global-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-md hidden transition-opacity">
-        <div class="glass-card rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden transform transition-all" id="modal-content-wrapper">
-            <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                <h3 id="modal-title" class="font-bold text-lg">Modal Title</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <!-- Modal Body -->
-            <div class="p-6 max-h-[70vh] overflow-y-auto" id="modal-body">
-                <!-- Content -->
-            </div>
+        <nav class="sidebar-nav" id="sidebarNav"></nav>
+        <div class="sidebar-footer">
+          <div class="user-mini" id="userMini">
+            <div class="avatar-fallback" id="userMiniAvatar">U</div>
+            <div><div class="name" id="userMiniName">User</div><div class="role" id="userMiniRole">Member</div></div>
+          </div>
+          <button class="btn btn-secondary" style="width:100%;" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> <span>ออกจากระบบ</span>
+          </button>
         </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar glass">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleSidebar()">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1 id="pageTitle">Dashboard</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-btn" onclick="toggleTheme()" title="เปลี่ยนธีม (T)">
+              <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            <button class="icon-btn" onclick="refreshData()" title="รีเฟรชข้อมูล (R)">
+              <i class="fas fa-sync-alt" id="refreshIcon"></i>
+            </button>
+          </div>
+        </header>
+        <div class="content" id="mainContent">
+          <div class="section active" id="sec-dashboard"></div>
+          <div class="section" id="sec-activities"></div>
+          <div class="section" id="sec-profile"></div>
+          <div class="section" id="sec-leaderboard"></div>
+          <div class="section" id="sec-admin-students"></div>
+          <div class="section" id="sec-admin-activities"></div>
+          <div class="section" id="sec-admin-registrations"></div>
+          <div class="section" id="sec-admin-evaluations"></div>
+        </div>
+      </main>
     </div>
+  </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modalTitle">Title</h3>
+        <button class="modal-close" onclick="hideModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer" id="modalFooter"></div>
+    </div>
+  </div>
 
-    <!-- APPLICATION JAVASCRIPT -->
-    <script>
-        // ==========================================
-        // 1. CONFIG & STATE VARIABLES
-        // ==========================================
-        const CONFIG = {
-            PROXY_URL: "shababscanner.hem5426.workers.dev", // แทนที่ด้วย Apps Script Web App URL ของคุณ
-            API_SECRET: "MySuperSecretKey123!@#"
-        };
+  <script>
+    // ===================== CONFIG =====================
+    const CONFIG = {
+      PROXY_URL: 'https://shababscanner.hem5426.workers.dev', // เปลี่ยนเป็น URL Worker ของคุณ
+      API_SECRET: 'MySuperSecretKey123!@#',
+    };
 
-        let state = {
-            currentUser: null, // { student_id, name, role: 'student'|'admin', faculty, ... }
-            currentNav: 'dashboard',
-            theme: 'dark',
-            data: {
-                activities: [],
-                registrations: [],
-                leaderboard: [],
-                top7: []
-            },
-            loading: false
-        };
+    // ===================== STATE =====================
+    const state = {
+      currentUser: null, isAdmin: false,
+      allStudents: [], allActivities: [], allRegistrations: [],
+      registeredActivities: new Set(), visibleActivities: [],
+      currentPage: 'dashboard',
+      theme: localStorage.getItem('theme') || 'light',
+      isLoading: false,
+    };
 
-        // ==========================================
-        // 2. API WRAPPER
-        // ==========================================
-        async function apiCall(action, payload = {}) {
-            // โหมดจำลองข้อมูล (Mock Data) หากยังไม่ได้เชื่อมต่อ Google Apps Script จริง
-            if (CONFIG.PROXY_URL.includes("AKfycbz...")) {
-                console.warn("Using Mock API Data (Update PROXY_URL for real backend)");
-                return mockApiHandler(action, payload);
+    // ===================== UTILS =====================
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div'); div.textContent = text; return div.innerHTML;
+    }
+    function emptyState(msg, icon='fa-inbox') {
+      return `<div class="empty-state"><i class="fas ${icon}"></i><h3>${escapeHtml(msg)}</h3></div>`;
+    }
+    function renderTag(status) {
+      const map = { 'checked-in':'tag-green', 'registered':'tag-blue', 'absent':'tag-red', 'pending':'tag-orange' };
+      return `<span class="tag ${map[status]||'tag-orange'}">${escapeHtml(status||'pending')}</span>`;
+    }
+    function showToast(msg, type='info') {
+      const c = document.getElementById('toastContainer');
+      const t = document.createElement('div'); t.className = `toast ${type}`;
+      const icon = type==='success'?'fa-check-circle':type==='error'?'fa-exclamation-circle':type==='warning'?'fa-exclamation-triangle':'fa-info-circle';
+      t.innerHTML = `<i class="fas ${icon}"></i> <span>${escapeHtml(msg)}</span>`;
+      c.appendChild(t); setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';setTimeout(()=>t.remove(),300);},4000);
+    }
+    function setLoading(v) { state.isLoading=v; }
+
+    // ===================== API WRAPPER =====================
+    async function apiCall(endpoint, options={}) {
+      const url = `${CONFIG.PROXY_URL}${endpoint}`;
+      const defaults = {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Secret': CONFIG.API_SECRET,
+          ...(state.currentUser?{'X-Student-ID':state.currentUser.student_id}:{}),
+          ...options.headers,
+        },
+      };
+      try {
+        const res = await fetch(url, {...defaults, ...options});
+        const data = await res.json().catch(()=>({}));
+        if (!res.ok) throw new Error(data.message || data.error || `HTTP ${res.status}`);
+        return data;
+      } catch(err) {
+        showToast(err.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ', 'error');
+        throw err;
+      }
+    }
+
+    // ===================== AUTH =====================
+    async function handleLogin() {
+      const sid = document.getElementById('loginStudentId').value.trim();
+      const pw = document.getElementById('loginPassword').value.trim();
+      if (!sid || !pw) { showToast('กรุณากรอกรหัสนักศึกษาและรหัสผ่าน','warning'); return; }
+      try {
+        const data = await apiCall('/api/login', { method:'POST', body: JSON.stringify({student_id:sid, password:pw}) });
+        // Worker ของคุณตอบกลับด้วย { success: true, data: { ...student } }
+        if (data.success && data.data) {
+          const userData = data.data;
+          state.currentUser = {
+            student_id: userData.student_id,
+            full_name: userData.full_name || userData.name,
+            phone: userData.phone || userData.phone,
+            major: userData.major || userData.department,
+            status: userData.status || 'student',
+            total_attendance: userData.total_attendance || 0,
+            ...userData
+          };
+          state.isAdmin = userData.status === 'Admin' || userData.role === 'admin';
+          localStorage.setItem('shabab_user', JSON.stringify(state.currentUser));
+          showToast(`ยินดีต้อนรับ ${state.currentUser.full_name || state.currentUser.student_id}!`, 'success');
+          initApp();
+        } else {
+          showToast(data.message || data.error || 'เข้าสู่ระบบไม่สำเร็จ', 'error');
+        }
+      } catch(e){}
+    }
+    function logout() {
+      state.currentUser=null; state.isAdmin=false; localStorage.removeItem('shabab_user');
+      document.getElementById('app').style.display='none'; document.getElementById('loginPage').style.display='flex';
+      document.getElementById('loginStudentId').value=''; document.getElementById('loginPassword').value='';
+      showToast('ออกจากระบบแล้ว','success');
+    }
+    function restoreSession() {
+      const saved = localStorage.getItem('shabab_user');
+      if (saved) {
+        try {
+          const u = JSON.parse(saved);
+          state.currentUser = u;
+          state.isAdmin = u.status === 'Admin';
+          initApp();
+          return true;
+        } catch(e){localStorage.removeItem('shabab_user');}
+      }
+      return false;
+    }
+
+    // ===================== DATA LOADING =====================
+    async function loadAllData() {
+      setLoading(true);
+      try {
+        const [students, activities] = await Promise.all([
+          apiCall('/api/students'),
+          apiCall('/api/activities?type=public')
+        ]);
+        state.allStudents = students.data || students || [];
+        state.allActivities = activities.data || activities || [];
+
+        if (state.isAdmin) {
+          const [regs, allActs] = await Promise.all([
+            apiCall('/api/registrations'),
+            apiCall('/api/activities?type=all')
+          ]);
+          state.allRegistrations = regs.data || regs || [];
+          state.allActivities = allActs.data || allActs || [];
+          state.visibleActivities = state.allActivities;
+        } else {
+          if (state.currentUser) {
+            const profile = await apiCall(`/api/profile/${state.currentUser.student_id}`);
+            if (profile.data) {
+              state.currentUser = { ...state.currentUser, ...profile.data.student };
+              const regs = profile.data.registrations || [];
+              state.allRegistrations = regs;
+              state.registeredActivities = new Set(regs.map(r => r.act_id));
             }
-
-            try {
-                const response = await fetch(CONFIG.PROXY_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action, secret: CONFIG.API_SECRET, ...payload })
-                });
-                const result = await response.json();
-                if (!result.success) throw new Error(result.message || 'API Error');
-                return result.data;
-            } catch (error) {
-                showToast(error.message, 'error');
-                throw error;
-            }
+          }
+          state.visibleActivities = state.allActivities.filter(a => a.type !== 'private');
         }
+        renderAll();
+      } catch(e){ console.error('Load data error:',e); showToast('โหลดข้อมูลไม่สำเร็จ กรุณารีเฟรช','error'); }
+      finally { setLoading(false); }
+    }
+    function refreshData() {
+      const icon = document.getElementById('refreshIcon'); icon.classList.add('fa-spin');
+      loadAllData().finally(()=>setTimeout(()=>icon.classList.remove('fa-spin'),500));
+    }
 
-        // Mock Handler สำหรับการทดสอบโดยไม่ต้องมี Backend ทันที
-        function mockApiHandler(action, payload) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    if (action === 'login') {
-                        if (payload.student_id === 'admin') {
-                            resolve({ student_id: 'admin', name: 'System Admin', role: 'admin' });
-                        } else {
-                            resolve({ student_id: payload.student_id || '6401001', name: 'สมชาย ใจดี', role: 'student', faculty: 'วิศวกรรมศาสตร์', total_attendance: 5 });
-                        }
-                    } else if (action === 'loadAllData') {
-                        resolve({
-                            activities: [
-                                { act_id: 'ACT001', title: 'อบรม AI & Machine Learning เบื้องต้น', date: '2026-08-20', time: '13:00 - 16:00', location: 'ห้อง Lab 301', status: 'upcoming', max_slots: 50, current_registered: 35 },
-                                { act_id: 'ACT002', title: 'กิจกรรมจิตอาสาพัฒนาชุมชน', date: '2026-08-25', time: '08:00 - 12:00', location: 'ลานกิจกรรมกลางแจ้ง', status: 'upcoming', max_slots: 100, current_registered: 80 },
-                                { act_id: 'ACT003', title: 'สัมภาษณ์ทุนการศึกษา WAMY', date: '2026-06-15', time: '10:00 - 12:00', location: 'Online (Zoom)', status: 'closed', max_slots: 20, current_registered: 20 }
-                            ],
-                            registrations: [
-                                { reg_id: 'REG001', student_id: '6401001', student_name: 'สมชาย ใจดี', act_id: 'ACT001', act_title: 'อบรม AI & Machine Learning เบื้องต้น', attendance_status: 'registered', registered_at: '2026-08-10' },
-                                { reg_id: 'REG002', student_id: '6401002', student_name: 'สมหญิง รักเรียน', act_id: 'ACT001', act_title: 'อบรม AI & Machine Learning เบื้องต้น', attendance_status: 'checked-in', registered_at: '2026-08-10' }
-                            ],
-                            leaderboard: [
-                                { rank: 1, name: 'สมหญิง รักเรียน', faculty: 'วิทยาศาสตร์', total_attendance: 12 },
-                                { rank: 2, name: 'สมชาย ใจดี', faculty: 'วิศวกรรมศาสตร์', total_attendance: 10 },
-                                { rank: 3, name: 'กิตติ ศึกษา', faculty: 'บริหารธุรกิจ', total_attendance: 8 }
-                            ],
-                            top7: [
-                                { name: 'สมหญิง รักเรียน', total_attendance: 12 },
-                                { name: 'สมชาย ใจดี', total_attendance: 10 },
-                                { name: 'กิตติ ศึกษา', total_attendance: 8 },
-                                { name: 'มานี มีตา', total_attendance: 7 },
-                                { name: 'ปิติ ดีใจ', total_attendance: 6 },
-                                { name: 'ชูใจ ใฝ่รู้', total_attendance: 5 },
-                                { name: 'วีระ กล้าหาญ', total_attendance: 4 }
-                            ]
-                        });
-                    } else if (action === 'register') {
-                        resolve({ message: 'ลงทะเบียนสำเร็จ' });
-                    } else if (action === 'checkin') {
-                        resolve({ message: 'เช็คอินสำเร็จ' });
-                    } else {
-                        resolve({ message: 'Success' });
-                    }
-                }, 400);
-            });
-        }
+    // ===================== INIT APP =====================
+    function initApp() {
+      document.getElementById('loginPage').style.display='none';
+      document.getElementById('app').style.display='block';
+      applyTheme(state.theme);
+      loadAllData();
+    }
 
-        // ==========================================
-        // 3. AUTHENTICATION
-        // ==========================================
-        async function handleLogin(e) {
-            e.preventDefault();
-            const id = document.getElementById('login-id').value;
-            const pass = document.getElementById('login-pass').value;
+    // ===================== RENDER ALL =====================
+    function renderAll() {
+      renderSidebar(); renderDashboard(); renderActivities(); renderProfile(); renderLeaderboard();
+      if (state.isAdmin) { renderAdminStudents(); renderAdminActivities(); renderAdminRegistrations(); renderAdminEvaluations(); }
+    }
 
-            try {
-                const user = await apiCall('login', { student_id: id, password: pass });
-                state.currentUser = user;
-                localStorage.setItem('act_hub_user', JSON.stringify(user));
-                
-                document.getElementById('login-view').classList.add('opacity-0', 'pointer-events-none');
-                setTimeout(() => document.getElementById('login-view').style.display = 'none', 300);
-                document.getElementById('app-wrapper').classList.remove('hidden');
-                
-                initApp();
-                showToast('เข้าสู่ระบบสำเร็จ', 'success');
-            } catch (err) {
-                // handled in apiCall
-            }
-        }
+    // ===================== SIDEBAR & NAV =====================
+    function renderSidebar() {
+      const nav = document.getElementById('sidebarNav');
+      const u = state.currentUser||{};
+      document.getElementById('userMiniName').textContent = u.full_name || u.name || u.student_id || 'User';
+      document.getElementById('userMiniRole').textContent = state.isAdmin ? 'Admin' : 'Member';
+      document.getElementById('userMiniAvatar').textContent = (u.full_name || u.student_id || 'U').charAt(0).toUpperCase();
+      const common = [
+        {id:'dashboard',icon:'fa-home',label:'แดชบอร์ด'},
+        {id:'activities',icon:'fa-calendar-alt',label:'กิจกรรม'},
+        {id:'leaderboard',icon:'fa-trophy',label:'ลีดเดอร์บอร์ด'},
+        {id:'profile',icon:'fa-user',label:'โปรไฟล์'},
+      ];
+      const admin = [
+        {id:'admin-students',icon:'fa-users-cog',label:'จัดการนักศึกษา'},
+        {id:'admin-activities',icon:'fa-calendar-plus',label:'จัดการกิจกรรม'},
+        {id:'admin-registrations',icon:'fa-clipboard-check',label:'จัดการลงทะเบียน'},
+        {id:'admin-evaluations',icon:'fa-chart-bar',label:'จัดการประเมิน'},
+      ];
+      const items = state.isAdmin ? [...common, ...admin] : common;
+      nav.innerHTML = items.map(it=>`<button class="nav-item ${state.currentPage===it.id?'active':''}" onclick="navigateTo('${it.id}')"><i class="fas ${it.icon}"></i> <span>${it.label}</span></button>`).join('');
+    }
+    function navigateTo(page) {
+      state.currentPage=page;
+      document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+      const sec=document.getElementById('sec-'+page); if(sec)sec.classList.add('active');
+      const titles={dashboard:'แดชบอร์ด',activities:'กิจกรรม',leaderboard:'ลีดเดอร์บอร์ด',profile:'โปรไฟล์','admin-students':'จัดการนักศึกษา','admin-activities':'จัดการกิจกรรม','admin-registrations':'จัดการลงทะเบียน','admin-evaluations':'จัดการประเมิน'};
+      document.getElementById('pageTitle').textContent = titles[page]||page;
+      renderSidebar();
+      if (window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+      window.scrollTo(0,0);
+    }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
-        function logout() {
-            localStorage.removeItem('act_hub_user');
-            state.currentUser = null;
-            location.reload();
-        }
+    // ===================== THEME =====================
+    function toggleTheme() {
+      state.theme = state.theme==='light'?'dark':'light';
+      localStorage.setItem('theme', state.theme);
+      applyTheme(state.theme);
+    }
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      document.getElementById('themeIcon').className = t==='dark'?'fas fa-sun':'fas fa-moon';
+    }
 
-        function checkSession() {
-            const saved = localStorage.getItem('act_hub_user');
-            if (saved) {
-                state.currentUser = JSON.parse(saved);
-                document.getElementById('login-view').style.display = 'none';
-                document.getElementById('app-wrapper').classList.remove('hidden');
-                initApp();
-            }
-        }
+    // ===================== MODAL =====================
+    function showModal(title, bodyHtml, footerHtml='') {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = bodyHtml;
+      document.getElementById('modalFooter').innerHTML = footerHtml;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+    function hideModal() { document.getElementById('modalOverlay').classList.remove('active'); }
+    function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) hideModal(); }
 
-        // ==========================================
-        // 4. INIT & DATA LOADING
-        // ==========================================
-        async function initApp() {
-            setupNavigationMenu();
-            updateHeaderUserInfo();
-            await loadAllData();
-            navigate(state.currentUser.role === 'admin' ? 'admin-dashboard' : 'dashboard');
-        }
+    // ===================== DASHBOARD =====================
+    function renderDashboard() {
+      const el = document.getElementById('sec-dashboard');
+      const acts = state.isAdmin ? state.allActivities : state.visibleActivities;
+      const upcoming = acts.filter(a=>a.status==='upcoming').length;
+      const ongoing = acts.filter(a=>a.status==='ongoing').length;
+      const closed = acts.filter(a=>a.status==='closed').length;
+      const totalStudents = state.allStudents.length;
+      const totalRegs = state.allRegistrations.length;
 
-        async function loadAllData() {
-            try {
-                const result = await apiCall('loadAllData', { student_id: state.currentUser.student_id });
-                state.data.activities = result.activities || [];
-                state.data.registrations = result.registrations || [];
-                state.data.leaderboard = result.leaderboard || [];
-                state.data.top7 = result.top7 || [];
-                renderCurrentPage();
-            } catch (err) {
-                console.error(err);
-            }
-        }
+      const studentScores={}; state.allRegistrations.forEach(r=>{ if(r.attendance_status==='checked-in') studentScores[r.student_id]=(studentScores[r.student_id]||0)+1; });
+      const topStudents = Object.entries(studentScores).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([id,score],i)=>{
+        const s=state.allStudents.find(x=>x.student_id===id); return {rank:i+1,name:s?s.full_name||s.name:id,score:id};
+      });
+      const actCounts={}; state.allRegistrations.forEach(r=>{ actCounts[r.act_id]=(actCounts[r.act_id]||0)+1; });
+      const topActs = Object.entries(actCounts).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([id,count],i)=>{
+        const a=state.allActivities.find(x=>x.act_id===id); return {rank:i+1,name:a?a.title||a.name:'กิจกรรม',count:count};
+      });
 
-        // ==========================================
-        // 5. NAVIGATION & RENDER ROUTER
-        // ==========================================
-        function setupNavigationMenu() {
-            const nav = document.getElementById('sidebar-nav');
-            const role = state.currentUser.role;
-            document.getElementById('user-role-badge').innerText = role === 'admin' ? 'ผู้ดูแลระบบ (Admin)' : 'นักศึกษา';
+      el.innerHTML = `
+        <div class="stats-grid">
+          <div class="stat-card"><div class="icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);"><i class="fas fa-calendar"></i></div><div class="value">${acts.length}</div><div class="label">กิจกรรมทั้งหมด</div><div class="trend">+${upcoming} upcoming</div></div>
+          <div class="stat-card"><div class="icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i class="fas fa-users"></i></div><div class="value">${totalStudents}</div><div class="label">นักศึกษา</div></div>
+          <div class="stat-card"><div class="icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i class="fas fa-clipboard-list"></i></div><div class="value">${totalRegs}</div><div class="label">การลงทะเบียน</div></div>
+          <div class="stat-card"><div class="icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);"><i class="fas fa-check-circle"></i></div><div class="value">${ongoing}</div><div class="label">กิจกรรมกำลังดำเนินการ</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:28px;">
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม (Top 7)</div></div>
+            <div class="leaderboard-list">${topStudents.length?topStudents.map(s=>renderLBItem(s.rank,s.name,s.score+' กิจกรรม')).join(''):emptyState('ยังไม่มีข้อมูล')}</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fas fa-fire" style="color:var(--danger);"></i> กิจกรรมยอดนิยม (Top 7)</div></div>
+            <div class="leaderboard-list">${topActs.length?topActs.map(a=>renderLBItem(a.rank,a.name,a.count+' คน')).join(''):emptyState('ยังไม่มีข้อมูล')}</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title"><i class="fas fa-chart-pie" style="color:var(--primary);"></i> สถิติกิจกรรม</div></div>
+          <div class="chart-container"><canvas id="dashChart"></canvas></div>
+        </div>`;
+      setTimeout(()=>{
+        const ctx=document.getElementById('dashChart'); if(!ctx)return;
+        new Chart(ctx,{type:'bar',data:{labels:['Upcoming','Ongoing','Closed'],datasets:[{label:'จำนวนกิจกรรม',data:[upcoming,ongoing,closed],backgroundColor:['rgba(59,130,246,0.7)','rgba(245,158,11,0.7)','rgba(100,116,139,0.7)'],borderRadius:8}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}});
+      },0);
+    }
+    function renderLBItem(rank,name,sub) {
+      const rc = rank===1?'gold':rank===2?'silver':rank===3?'bronze':'normal';
+      return `<div class="lb-item"><div class="lb-rank ${rc}">${rank}</div><div class="lb-info"><div class="name">${escapeHtml(name)}</div><div class="sub">${escapeHtml(sub)}</div></div></div>`;
+    }
 
-            let html = '';
-            if (role === 'student') {
-                html = `
-                    <a href="#" onclick="navigate('dashboard')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="dashboard"><i class="fa-solid fa-house w-5"></i><span>หน้าหลัก</span></a>
-                    <a href="#" onclick="navigate('activities')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="activities"><i class="fa-solid fa-calendar-days w-5"></i><span>กิจกรรมทั้งหมด</span></a>
-                    <a href="#" onclick="navigate('my-regs')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="my-regs"><i class="fa-solid fa-ticket w-5"></i><span>ประวัติการลงทะเบียน</span></a>
-                    <a href="#" onclick="navigate('leaderboard')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="leaderboard"><i class="fa-solid fa-trophy w-5"></i><span>กระดานผู้นำ & Top 7</span></a>
-                    <a href="#" onclick="navigate('profile')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="profile"><i class="fa-solid fa-user-gear w-5"></i><span>โปรไฟล์ของฉัน</span></a>
-                `;
-            } else {
-                html = `
-                    <a href="#" onclick="navigate('admin-dashboard')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="admin-dashboard"><i class="fa-solid fa-chart-pie w-5"></i><span>ภาพรวมระบบ</span></a>
-                    <a href="#" onclick="navigate('admin-activities')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="admin-activities"><i class="fa-solid fa-calendar-plus w-5"></i><span>จัดการกิจกรรม</span></a>
-                    <a href="#" onclick="navigate('admin-regs')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="admin-regs"><i class="fa-solid fa-clipboard-check w-5"></i><span>จัดการลงทะเบียน/เช็คอิน</span></a>
-                    <a href="#" onclick="navigate('leaderboard')" class="nav-link flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors" data-page="leaderboard"><i class="fa-solid fa-trophy w-5"></i><span>กระดานผู้นำ</span></a>
-                `;
-            }
-            nav.innerHTML = html;
-        }
+    // ===================== ACTIVITIES =====================
+    function renderActivities() {
+      const el = document.getElementById('sec-activities');
+      const acts = state.isAdmin ? state.allActivities : state.visibleActivities;
+      el.innerHTML = `
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="actSearch" placeholder="ค้นหากิจกรรม..." oninput="filterActivities()"></div>
+          <select id="actFilter" onchange="filterActivities()" style="padding:10px 14px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-solid);color:var(--text);font-family:inherit;">
+            <option value="">ทั้งหมด</option><option value="upcoming">Upcoming</option><option value="ongoing">Ongoing</option><option value="closed">Closed</option>
+          </select>
+          ${state.isAdmin?`<button class="btn btn-success btn-sm" onclick="openActivityModal()"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</button>`:''}
+        </div>
+        <div class="activity-grid" id="activityGrid">${acts.map(a=>renderActivityCard(a)).join('')}</div>`;
+    }
+    function renderActivityCard(a) {
+      const isReg = state.registeredActivities.has(a.act_id);
+      const isFull = a.max_slots && (a.registered_count||0) >= a.max_slots;
+      const canReg = a.status==='upcoming' && !isReg && !isFull && !state.isAdmin;
+      const badge = a.status==='upcoming'?'badge-upcoming':a.status==='ongoing'?'badge-ongoing':'badge-closed';
+      const typeBadge = a.type==='private'?'<span class="badge badge-private" style="position:static;margin-left:8px;font-size:0.6rem;">PRIVATE</span>':'';
+      const regCount = a.registered_count || state.allRegistrations.filter(r=>r.act_id===a.act_id).length || 0;
+      return `<div class="activity-card">
+        <div class="activity-img"><i class="fas fa-star"></i><span class="badge ${badge}">${a.status}</span></div>
+        <div class="activity-body">
+          <h3>${escapeHtml(a.title||a.name)} ${typeBadge}</h3>
+          <div class="activity-meta">
+            <span><i class="fas fa-calendar"></i> ${escapeHtml(a.datetime||a.date||'-')}</span>
+            <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(a.location||'-')}</span>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:12px;line-height:1.5;">${escapeHtml(a.description||'')}</p>
+          <div class="activity-footer">
+            <span class="slots"><i class="fas fa-chair"></i> ${regCount}/${a.max_slots||'ไม่จำกัด'}</span>
+            ${canReg?`<button class="btn btn-primary btn-sm" onclick="registerActivity('${a.act_id}')"><i class="fas fa-plus"></i> ลงทะเบียน</button>`:''}
+            ${isReg?`<span class="tag tag-green"><i class="fas fa-check"></i> จองแล้ว</span>`:''}
+            ${isFull&&!isReg?`<span class="tag tag-red">เต็ม</span>`:''}
+            ${state.isAdmin?`<button class="btn btn-sm" style="background:var(--info);color:#fff;" onclick="openActivityModal('${a.act_id}')"><i class="fas fa-edit"></i></button>`:''}
+          </div>
+        </div>
+      </div>`;
+    }
+    function filterActivities() {
+      const q = document.getElementById('actSearch').value.toLowerCase();
+      const f = document.getElementById('actFilter').value;
+      const acts = state.isAdmin?state.allActivities:state.visibleActivities;
+      const filtered = acts.filter(a=>{ const mq=!q||(a.title||a.name||'').toLowerCase().includes(q)||(a.description||'').toLowerCase().includes(q); const mf=!f||a.status===f; return mq&&mf; });
+      document.getElementById('activityGrid').innerHTML = filtered.map(a=>renderActivityCard(a)).join('');
+    }
+    async function registerActivity(actId) {
+      if (!state.currentUser) return;
+      try {
+        await apiCall('/api/register', {method:'POST', body:JSON.stringify({student_id:state.currentUser.student_id, act_id:actId})});
+        state.registeredActivities.add(actId); showToast('ลงทะเบียนสำเร็จ!','success'); await loadAllData();
+      } catch(e){}
+    }
 
-        function navigate(page) {
-            state.currentNav = page;
-            document.querySelectorAll('.nav-link').forEach(el => {
-                if (el.dataset.page === page) {
-                    el.classList.add('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-500/20');
-                    el.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800/50');
-                } else {
-                    el.classList.remove('bg-brand-600', 'text-white', 'shadow-md', 'shadow-brand-500/20');
-                    el.classList.add('text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800/50');
-                }
-            });
-            renderCurrentPage();
-        }
+    // ===================== PROFILE =====================
+    function renderProfile() {
+      const el = document.getElementById('sec-profile');
+      const u = state.currentUser||{};
+      const myRegs = state.allRegistrations.filter(r=>r.student_id===u.student_id);
+      const checkedIn = myRegs.filter(r=>r.attendance_status==='checked-in');
+      const evaluable = checkedIn.filter(r=>!r.evaluation_score || r.evaluation_score===0);
+      el.innerHTML = `
+        <div class="profile-header">
+          <div class="profile-avatar">${(u.full_name||u.name||u.student_id||'U').charAt(0).toUpperCase()}</div>
+          <h2>${escapeHtml(u.full_name||u.name||u.student_id||'นักศึกษา')}</h2>
+          <p>${escapeHtml(u.student_id||'')} · ${escapeHtml(u.major||u.department||'')}</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:24px;">
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fas fa-id-card" style="color:var(--primary);"></i> บัตรสมาชิก</div></div>
+            <div class="id-card" id="idCard">
+              <div class="id-card-content">
+                <div class="id-avatar">${(u.full_name||u.student_id||'U').charAt(0).toUpperCase()}</div>
+                <h3>${escapeHtml(u.full_name||'นักศึกษา')}</h3>
+                <div class="id-number">${escapeHtml(u.student_id||'-')}</div>
+                <div id="qrcode"></div>
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:8px;">Shabab Activity System</p>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;justify-content:center;" class="no-print">
+              <button class="btn btn-primary btn-sm" onclick="downloadQR()"><i class="fas fa-download"></i> ดาวน์โหลด QR</button>
+              <button class="btn btn-secondary btn-sm" onclick="printIDCard()"><i class="fas fa-print"></i> พิมพ์บัตร (PDF)</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fas fa-history" style="color:var(--info);"></i> ประวัติการเข้าร่วม</div></div>
+            <div class="table-wrap">
+              <table><thead><tr><th>กิจกรรม</th><th>สถานะ</th><th>คะแนน</th></tr></thead>
+              <tbody>${myRegs.length?myRegs.map(r=>{ const act=state.allActivities.find(a=>a.act_id===r.act_id); return `<tr><td>${escapeHtml(act?act.title||act.name:r.act_id)}</td><td>${renderTag(r.attendance_status)}</td><td>${r.evaluation_score||'-'}</td></tr>`;}).join(''):`<tr><td colspan="3" style="text-align:center;color:var(--text-secondary);">ยังไม่มีประวัติ</td></tr>`}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        ${evaluable.length?`<div class="card"><div class="card-header"><div class="card-title"><i class="fas fa-star" style="color:var(--warning);"></i> ประเมินผลกิจกรรม</div></div><div id="evalList">${evaluable.map(r=>renderEvalForm(r)).join('')}</div></div>`:''}`;
+      setTimeout(()=>{ if(u.student_id) new QRCode(document.getElementById('qrcode'), {text:u.student_id, width:150, height:150, colorDark:'#1e293b', colorLight:'#ffffff'}); },0);
+    }
+    function renderEvalForm(r) {
+      const act = state.allActivities.find(a=>a.act_id===r.act_id);
+      return `<div style="padding:16px;border-bottom:1px solid var(--border);" id="eval-${r.reg_id||r.id}">
+        <div style="font-weight:600;margin-bottom:8px;">${escapeHtml(act?act.title||act.name:r.act_id)}</div>
+        <div class="star-select" id="stars-${r.reg_id||r.id}" style="margin-bottom:8px;">
+          ${[1,2,3,4,5].map(i=>`<i class="fas fa-star" onclick="setStar('${r.reg_id||r.id}',${i})"></i>`).join('')}
+        </div>
+        <textarea id="comment-${r.reg_id||r.id}" placeholder="ความคิดเห็นเพิ่มเติม..." style="width:100%;padding:8px 12px;border:2px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-solid);color:var(--text);font-family:inherit;margin-bottom:8px;"></textarea>
+        <button class="btn btn-primary btn-sm" onclick="submitEvaluation('${r.reg_id||r.id}')"><i class="fas fa-paper-plane"></i> ส่งประเมิน</button>
+      </div>`;
+    }
+    function setStar(regId, score) {
+      const stars = document.querySelectorAll(`#stars-${regId} i`);
+      stars.forEach((s,i)=>{ if(i<score) s.classList.add('active'); else s.classList.remove('active'); });
+      const container = document.getElementById(`eval-${regId}`);
+      container.dataset.score = score;
+    }
+    async function submitEvaluation(regId) {
+      const container = document.getElementById(`eval-${regId}`);
+      const score = parseInt(container.dataset.score||0);
+      const comment = document.getElementById(`comment-${regId}`).value.trim();
+      if (!score) { showToast('กรุณาเลือกคะแนน','warning'); return; }
+      try {
+        await apiCall('/api/evaluate', {method:'POST', body:JSON.stringify({reg_id:regId, score:score, comment:comment})});
+        showToast('ประเมินสำเร็จ!','success'); await loadAllData();
+      } catch(e){}
+    }
+    function downloadQR() {
+      const canvas = document.querySelector('#qrcode canvas'); if(!canvas) return;
+      const c2 = document.createElement('canvas'); c2.width=300; c2.height=300;
+      const ctx=c2.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,300,300);
+      ctx.drawImage(canvas,75,75,150,150);
+      const a=document.createElement('a'); a.href=c2.toDataURL('image/png'); a.download='qrcode-'+state.currentUser.student_id+'.png'; a.click();
+    }
+    async function printIDCard() {
+      const card = document.getElementById('idCard');
+      const canvas = await html2canvas(card, {scale:2, backgroundColor:'#fff'});
+      const {jsPDF} = window.jspdf;
+      const pdf = new jsPDF('p','mm','a4');
+      const imgData = canvas.toDataURL('image/png');
+      const pw=210, ph=297, iw=canvas.width, ih=canvas.height;
+      const scale = Math.min((pw-40)/iw, (ph-40)/ih);
+      const w=iw*scale, h=ih*scale, x=(pw-w)/2, y=(ph-h)/2;
+      pdf.addImage(imgData,'PNG',x,y,w,h); pdf.save('idcard-'+state.currentUser.student_id+'.pdf');
+    }
 
-        function renderCurrentPage() {
-            const container = document.getElementById('main-content');
-            const page = state.currentNav;
-            
-            // ตั้งชื่อ Title ด้านบน
-            const titles = {
-                'dashboard': 'หน้าหลัก / แดชบอร์ด',
-                'activities': 'รายการกิจกรรมทั้งหมด',
-                'my-regs': 'ประวัติการลงทะเบียนของฉัน',
-                'leaderboard': 'กระดานผู้นำกิจกรรม & Top 7',
-                'profile': 'โปรไฟล์ผู้ใช้งาน',
-                'admin-dashboard': 'ภาพรวมระบบบริหารจัดการ',
-                'admin-activities': 'จัดการข้อมูลกิจกรรม',
-                'admin-regs': 'จัดการการลงทะเบียน & เช็คอิน'
-            };
-            document.getElementById('page-title').innerText = titles[page] || 'Dashboard';
+    // ===================== LEADERBOARD =====================
+    function renderLeaderboard() {
+      const el = document.getElementById('sec-leaderboard');
+      const studentScores={}; state.allRegistrations.forEach(r=>{ if(r.attendance_status==='checked-in') studentScores[r.student_id]=(studentScores[r.student_id]||0)+1; });
+      const topStudents = Object.entries(studentScores).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([id,score],i)=>{ const s=state.allStudents.find(x=>x.student_id===id); return {rank:i+1,name:s?s.full_name||s.name:id,score:score}; });
+      const actCounts={}; state.allRegistrations.forEach(r=>{ actCounts[r.act_id]=(actCounts[r.act_id]||0)+1; });
+      const topActs = Object.entries(actCounts).sort((a,b)=>b[1]-a[1]).slice(0,7).map(([id,count],i)=>{ const a=state.allActivities.find(x=>x.act_id===id); return {rank:i+1,name:a?a.title||a.name:'กิจกรรม',count:count}; });
+      el.innerHTML = `
+        <div class="admin-grid">
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fas fa-trophy" style="color:var(--accent);"></i> นักสู้ยอดเยี่ยม (Top 7)</div></div>
+            <div class="leaderboard-list">${topStudents.length?topStudents.map(s=>renderLBItem(s.rank,s.name,s.score+' กิจกรรม')).join(''):emptyState('ยังไม่มีข้อมูล')}</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div class="card-title"><i class="fas fa-fire" style="color:var(--danger);"></i> กิจกรรมยอดนิยม (Top 7)</div></div>
+            <div class="leaderboard-list">${topActs.length?topActs.map(a=>renderLBItem(a.rank,a.name,a.count+' คน')).join(''):emptyState('ยังไม่มีข้อมูล')}</div>
+          </div>
+        </div>`;
+    }
 
-            if (page === 'dashboard') renderStudentDashboard(container);
-            else if (page === 'activities') renderActivitiesPage(container);
-            else if (page === 'my-regs') renderMyRegistrations(container);
-            else if (page === 'leaderboard') renderLeaderboardPage(container);
-            else if (page === 'profile') renderProfilePage(container);
-            else if (page === 'admin-dashboard') renderAdminDashboard(container);
-            else if (page === 'admin-activities') renderAdminActivities(container);
-            else if (page === 'admin-regs') renderAdminRegistrations(container);
-        }
+    // ===================== ADMIN: STUDENTS =====================
+    function renderAdminStudents() {
+      const el = document.getElementById('sec-admin-students');
+      el.innerHTML = `
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="stuSearch" placeholder="ค้นหานักศึกษา..." oninput="filterStudents()"></div>
+          <button class="btn btn-success btn-sm" onclick="openStudentModal()"><i class="fas fa-plus"></i> เพิ่มนักศึกษา</button>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th>รหัส</th><th>ชื่อ</th><th>คณะ/สาขา</th><th>คะแนนรวม</th><th>จัดการ</th></tr></thead>
+          <tbody id="stuTable">${state.allStudents.map(s=>renderStudentRow(s)).join('')}</tbody>
+          </table>
+        </div>`;
+    }
+    function renderStudentRow(s) {
+      const score = state.allRegistrations.filter(r=>r.student_id===s.student_id&&r.attendance_status==='checked-in').length;
+      return `<tr><td>${escapeHtml(s.student_id)}</td><td>${escapeHtml(s.full_name||s.name)}</td><td>${escapeHtml(s.major||s.department||'-')}</td><td>${score}</td>
+        <td><button class="btn btn-sm" style="background:var(--info);color:#fff;" onclick="openStudentModal('${s.student_id}')"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-sm btn-danger" onclick="deleteStudent('${s.student_id}')"><i class="fas fa-trash"></i></button></td></tr>`;
+    }
+    function filterStudents() {
+      const q = document.getElementById('stuSearch').value.toLowerCase();
+      const filtered = state.allStudents.filter(s=>!q||(s.full_name||s.name||'').toLowerCase().includes(q)||(s.student_id||'').toLowerCase().includes(q)||(s.major||s.department||'').toLowerCase().includes(q));
+      document.getElementById('stuTable').innerHTML = filtered.map(s=>renderStudentRow(s)).join('');
+    }
+    function openStudentModal(id) {
+      const s = id?state.allStudents.find(x=>x.student_id===id):{};
+      showModal(id?'แก้ไขนักศึกษา':'เพิ่มนักศึกษา', `
+        <div class="form-group"><label>รหัสนักศึกษา</label><input type="text" id="mStuId" value="${escapeHtml(s.student_id||'')}" ${id?'readonly':''}></div>
+        <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="mStuName" value="${escapeHtml(s.full_name||s.name||'')}"></div>
+        <div class="form-group"><label>คณะ/สาขา</label><input type="text" id="mStuDept" value="${escapeHtml(s.major||s.department||'')}"></div>
+        <div class="form-group"><label>รหัสผ่าน</label><input type="password" id="mStuPass" placeholder="${id?'เว้นว่างหากไม่ต้องการเปลี่ยน':'ตั้งรหัสผ่าน'}"></div>
+      `, `<button class="btn btn-primary" onclick="saveStudent('${id||''}')">บันทึก</button><button class="btn btn-secondary" onclick="hideModal()">ยกเลิก</button>`);
+    }
+    async function saveStudent(id) {
+      const payload = {
+        student_id: document.getElementById('mStuId').value.trim(),
+        full_name: document.getElementById('mStuName').value.trim(),
+        major: document.getElementById('mStuDept').value.trim(),
+      };
+      const pass = document.getElementById('mStuPass').value.trim();
+      if (pass) payload.password = pass;
+      try {
+        await apiCall(id?'/api/students/'+id:'/api/students', {method:id?'PUT':'POST', body:JSON.stringify(payload)});
+        showToast('บันทึกสำเร็จ','success'); hideModal(); await loadAllData();
+      } catch(e){}
+    }
+    async function deleteStudent(id) {
+      if (!confirm('ยืนยันการลบนักศึกษา '+id+'?')) return;
+      try { await apiCall('/api/students/'+id, {method:'DELETE'}); showToast('ลบสำเร็จ','success'); await loadAllData(); } catch(e){}
+    }
 
-        // ==========================================
-        // 6. RENDER FUNCTIONS (UI Components)
-        // ==========================================
-        function renderStudentDashboard(container) {
-            const upcomingActs = state.data.activities.filter(a => a.status === 'upcoming').slice(0, 3);
-            container.innerHTML = `
-                <div class="space-y-6">
-                    <!-- Welcome Banner -->
-                    <div class="glass-card p-6 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between shadow-sm">
-                        <div class="relative z-10 mb-4 md:mb-0">
-                            <span class="px-3 py-1 bg-brand-500/10 text-brand-600 dark:text-brand-400 rounded-full text-xs font-semibold">ยินดีต้อนรับกลับมา</span>
-                            <h3 class="text-2xl font-bold mt-2">${state.currentUser.name}</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">รหัสนักศึกษา: ${state.currentUser.student_id} | สะสมการเข้าร่วมแล้ว <span class="text-brand-600 font-bold">${state.currentUser.total_attendance || 5}</span> กิจกรรม</p>
-                        </div>
-                        <button onclick="navigate('activities')" class="px-5 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl shadow-lg shadow-brand-600/30 transition-all text-sm">
-                            <i class="fa-solid fa-compass mr-2"></i>สำรวจกิจกรรมใหม่
-                        </button>
-                    </div>
+    // ===================== ADMIN: ACTIVITIES =====================
+    function renderAdminActivities() {
+      const el = document.getElementById('sec-admin-activities');
+      el.innerHTML = `
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="adminActSearch" placeholder="ค้นหากิจกรรม..." oninput="filterAdminActivities()"></div>
+          <button class="btn btn-success btn-sm" onclick="openActivityModal()"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</button>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th>ชื่อ</th><th>วันที่</th><th>สถานะ</th><th>ประเภท</th><th>จำนวน</th><th>จัดการ</th></tr></thead>
+          <tbody id="adminActTable">${state.allActivities.map(a=>renderAdminActivityRow(a)).join('')}</tbody>
+          </table>
+        </div>`;
+    }
+    function renderAdminActivityRow(a) {
+      const regCount = state.allRegistrations.filter(r=>r.act_id===a.act_id).length;
+      return `<tr><td>${escapeHtml(a.title||a.name)}</td><td>${escapeHtml(a.datetime||a.date||'-')}</td><td>${renderTag(a.status)}</td><td>${a.type==='private'?'<span class="tag tag-red">Private</span>':'<span class="tag tag-green">Public</span>'}</td><td>${regCount}/${a.max_slots||'∞'}</td>
+        <td><button class="btn btn-sm" style="background:var(--info);color:#fff;" onclick="openActivityModal('${a.act_id}')"><i class="fas fa-edit"></i></button>
+        <button class="btn btn-sm btn-danger" onclick="deleteActivity('${a.act_id}')"><i class="fas fa-trash"></i></button></td></tr>`;
+    }
+    function filterAdminActivities() {
+      const q = document.getElementById('adminActSearch').value.toLowerCase();
+      const filtered = state.allActivities.filter(a=>!q||(a.title||a.name||'').toLowerCase().includes(q));
+      document.getElementById('adminActTable').innerHTML = filtered.map(a=>renderAdminActivityRow(a)).join('');
+    }
+    function openActivityModal(id) {
+      const a = id?state.allActivities.find(x=>x.act_id===id):{};
+      showModal(id?'แก้ไขกิจกรรม':'เพิ่มกิจกรรม', `
+        <div class="form-group"><label>ชื่อกิจกรรม</label><input type="text" id="mActName" value="${escapeHtml(a.title||a.name||'')}"></div>
+        <div class="form-group"><label>รายละเอียด</label><textarea id="mActDesc">${escapeHtml(a.description||'')}</textarea></div>
+        <div class="form-group"><label>วันที่จัด</label><input type="date" id="mActDate" value="${escapeHtml(a.datetime||a.date||'')}"></div>
+        <div class="form-group"><label>สถานที่</label><input type="text" id="mActLoc" value="${escapeHtml(a.location||'')}"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group"><label>สถานะ</label><select id="mActStatus"><option value="upcoming" ${a.status==='upcoming'?'selected':''}>Upcoming</option><option value="ongoing" ${a.status==='ongoing'?'selected':''}>Ongoing</option><option value="closed" ${a.status==='closed'?'selected':''}>Closed</option></select></div>
+          <div class="form-group"><label>ประเภท</label><select id="mActType"><option value="public" ${a.type!=='private'?'selected':''}>Public</option><option value="private" ${a.type==='private'?'selected':''}>Private</option></select></div>
+        </div>
+        <div class="form-group"><label>จำนวนที่นั่งสูงสุด</label><input type="number" id="mActSlots" value="${a.max_slots||''}" placeholder="ไม่จำกัด = เว้นว่าง"></div>
+      `, `<button class="btn btn-primary" onclick="saveActivity('${id||''}')">บันทึก</button><button class="btn btn-secondary" onclick="hideModal()">ยกเลิก</button>`);
+    }
+    async function saveActivity(id) {
+      const payload = {
+        title: document.getElementById('mActName').value.trim(),
+        description: document.getElementById('mActDesc').value.trim(),
+        datetime: document.getElementById('mActDate').value,
+        location: document.getElementById('mActLoc').value.trim(),
+        status: document.getElementById('mActStatus').value,
+        type: document.getElementById('mActType').value,
+        max_slots: document.getElementById('mActSlots').value?parseInt(document.getElementById('mActSlots').value):null,
+      };
+      try {
+        await apiCall(id?'/api/activities/'+id:'/api/activities', {method:id?'PUT':'POST', body:JSON.stringify(payload)});
+        showToast('บันทึกสำเร็จ','success'); hideModal(); await loadAllData();
+      } catch(e){}
+    }
+    async function deleteActivity(id) {
+      if (!confirm('ยืนยันการลบกิจกรรม?')) return;
+      try { await apiCall('/api/activities/'+id, {method:'DELETE'}); showToast('ลบสำเร็จ','success'); await loadAllData(); } catch(e){}
+    }
 
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <div class="glass-card p-6 rounded-2xl">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-slate-500">กิจกรรมที่ลงทะเบียน</span>
-                                <div class="w-10 h-10 bg-blue-500/10 text-blue-500 rounded-xl flex items-center justify-center"><i class="fa-solid fa-ticket"></i></div>
-                            </div>
-                            <h4 class="text-2xl font-bold mt-4">2</h4>
-                        </div>
-                        <div class="glass-card p-6 rounded-2xl">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-slate-500">เข้าร่วมสำเร็จ (Check-in)</span>
-                                <div class="w-10 h-10 bg-emerald-500/10 text-emerald-500 rounded-xl flex items-center justify-center"><i class="fa-solid fa-check-circle"></i></div>
-                            </div>
-                            <h4 class="text-2xl font-bold mt-4">${state.currentUser.total_attendance || 5}</h4>
-                        </div>
-                        <div class="glass-card p-6 rounded-2xl">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm font-medium text-slate-500">อันดับในคณะ</span>
-                                <div class="w-10 h-10 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center"><i class="fa-solid fa-trophy"></i></div>
-                            </div>
-                            <h4 class="text-2xl font-bold mt-4">#2</h4>
-                        </div>
-                    </div>
+    // ===================== ADMIN: REGISTRATIONS =====================
+    function renderAdminRegistrations() {
+      const el = document.getElementById('sec-admin-registrations');
+      el.innerHTML = `
+        <div class="toolbar">
+          <div class="search-box"><i class="fas fa-search"></i><input type="text" id="regSearch" placeholder="ค้นหาการลงทะเบียน..." oninput="filterRegistrations()"></div>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr><th>รหัส</th><th>นักศึกษา</th><th>กิจกรรม</th><th>สถานะ</th><th>จัดการ</th></tr></thead>
+          <tbody id="regTable">${state.allRegistrations.map(r=>renderRegRow(r)).join('')}</tbody>
+          </table>
+        </div>`;
+    }
+    function renderRegRow(r) {
+      const stu = state.allStudents.find(s=>s.student_id===r.student_id);
+      const act = state.allActivities.find(a=>a.act_id===r.act_id);
+      return `<tr><td>${escapeHtml(r.reg_id||r.id||'')}</td><td>${escapeHtml(stu?stu.full_name||stu.name:r.student_id)}</td><td>${escapeHtml(act?act.title||act.name:r.act_id)}</td><td>${renderTag(r.attendance_status)}</td>
+        <td>
+          ${r.attendance_status!=='checked-in'?`<button class="btn btn-sm btn-success" onclick="checkIn('${r.reg_id||r.id}')"><i class="fas fa-check"></i> เช็คอิน</button>`:''}
+          <button class="btn btn-sm btn-danger" onclick="deleteRegistration('${r.reg_id||r.id}')"><i class="fas fa-trash"></i></button>
+        </td></tr>`;
+    }
+    function filterRegistrations() {
+      const q = document.getElementById('regSearch').value.toLowerCase();
+      const filtered = state.allRegistrations.filter(r=>{
+        const stu = state.allStudents.find(s=>s.student_id===r.student_id);
+        const act = state.allActivities.find(a=>a.act_id===r.act_id);
+        return !q || (r.student_id||'').toLowerCase().includes(q) || (stu&&(stu.full_name||stu.name)||'').toLowerCase().includes(q) || (act&&(act.title||act.name)||'').toLowerCase().includes(q);
+      });
+      document.getElementById('regTable').innerHTML = filtered.map(r=>renderRegRow(r)).join('');
+    }
+    async function checkIn(regId) {
+      try {
+        await apiCall('/api/checkin', {method:'POST', body:JSON.stringify({reg_id:regId, status:'checked-in'})});
+        showToast('เช็คอินสำเร็จ','success'); await loadAllData();
+      } catch(e){}
+    }
+    async function deleteRegistration(regId) {
+      if (!confirm('ยืนยันการลบการลงทะเบียน?')) return;
+      try { await apiCall('/api/registrations/'+regId, {method:'DELETE'}); showToast('ลบสำเร็จ','success'); await loadAllData(); } catch(e){}
+    }
 
-                    <!-- Upcoming Activities Preview -->
-                    <div>
-                        <div class="flex items-center justify-between mb-4">
-                            <h4 class="font-bold text-lg">กิจกรรมที่กำลังจะมาถึง</h4>
-                            <button onclick="navigate('activities')" class="text-sm text-brand-600 hover:underline font-medium">ดูทั้งหมด</button>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            ${upcomingActs.map(act => `
-                                <div class="glass-card rounded-2xl p-5 flex flex-col justify-between">
-                                    <div>
-                                        <span class="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 text-xs font-semibold rounded-lg">เปิดลงทะเบียน</span>
-                                        <h5 class="font-bold text-base mt-3">${act.title}</h5>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2"><i class="fa-regular fa-calendar mr-1.5"></i>${act.date} | ${act.time}</p>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1.5"></i>${act.location}</p>
-                                    </div>
-                                    <button onclick="registerActivity('${act.act_id}')" class="mt-5 w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium transition-all shadow-md shadow-brand-500/20">
-                                        ลงทะเบียนเข้าร่วม
-                                    </button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderActivitiesPage(container) {
-            container.innerHTML = `
-                <div class="space-y-6">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="relative w-full sm:w-80">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400"><i class="fa-solid fa-search"></i></span>
-                            <input type="text" id="search-act" oninput="filterActivities()" placeholder="ค้นหากิจกรรม..." class="w-full pl-10 pr-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="activities-grid">
-                        ${state.data.activities.map(act => `
-                            <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
-                                <div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="px-2.5 py-1 ${act.status === 'upcoming' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-slate-500/10 text-slate-500'} text-xs font-semibold rounded-lg">${act.status === 'upcoming' ? 'เปิดลงทะเบียน' : 'ปิดแล้ว'}</span>
-                                        <span class="text-xs text-slate-400">ที่นั่ง: ${act.current_registered}/${act.max_slots}</span>
-                                    </div>
-                                    <h4 class="font-bold text-lg mt-3">${act.title}</h4>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2"><i class="fa-regular fa-calendar mr-1.5"></i>${act.date} (${act.time})</p>
-                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1"><i class="fa-solid fa-location-dot mr-1.5"></i>${act.location}</p>
-                                </div>
-                                <div class="mt-6 flex space-x-2">
-                                    ${act.status === 'upcoming' ? `
-                                        <button onclick="registerActivity('${act.act_id}')" class="flex-1 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium transition-all shadow-md shadow-brand-500/20">ลงทะเบียน</button>
-                                    ` : `
-                                        <button disabled class="flex-1 py-2.5 bg-slate-300 dark:bg-slate-800 text-slate-500 rounded-xl text-sm font-medium cursor-not-allowed">ปิดรับสมัคร</button>
-                                    `}
-                                    <button onclick="openQRModal('${act.act_id}', '${act.title}')" class="px-3 py-2.5 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-xl text-sm transition-all" title="QR Code กิจกรรม"><i class="fa-solid fa-qrcode"></i></button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderMyRegistrations(container) {
-            const myRegs = state.data.registrations.filter(r => r.student_id === state.currentUser.student_id);
-            container.innerHTML = `
-                <div class="glass-card rounded-2xl overflow-hidden shadow-sm">
-                    <div class="p-6 border-b border-slate-200 dark:border-slate-800"><h3 class="font-bold text-lg">ประวัติการลงทะเบียนกิจกรรม</h3></div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 uppercase text-xs">
-                                    <th class="p-4">รหัสลงทะเบียน</th>
-                                    <th class="p-4">ชื่อกิจกรรม</th>
-                                    <th class="p-4">วันที่ลงทะเบียน</th>
-                                    <th class="p-4">สถานะการเข้าร่วม</th>
-                                    <th class="p-4 text-center">จัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
-                                ${myRegs.length ? myRegs.map(reg => `
-                                    <tr>
-                                        <td class="p-4 font-semibold">${reg.reg_id}</td>
-                                        <td class="p-4">${reg.act_title}</td>
-                                        <td class="p-4 text-slate-500">${reg.registered_at}</td>
-                                        <td class="p-4"><span class="px-2.5 py-1 ${reg.attendance_status === 'checked-in' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-amber-500/10 text-amber-600'} text-xs font-semibold rounded-lg">${reg.attendance_status === 'checked-in' ? 'เช็คอินแล้ว' : 'ลงทะเบียนแล้ว'}</span></td>
-                                        <td class="p-4 text-center">
-                                            <button onclick="generateCertificatePDF('${reg.reg_id}', '${reg.act_title}')" class="px-3 py-1.5 bg-brand-500/10 hover:bg-brand-500/20 text-brand-600 rounded-lg text-xs font-medium transition-colors"><i class="fa-solid fa-file-pdf mr-1"></i>เกียรติบัตร</button>
-                                        </td>
-                                    </tr>
-                                `).join('') : `<tr><td colspan="5" class="p-8 text-center text-slate-400">ยังไม่มีประวัติการลงทะเบียน</td></tr>`}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderLeaderboardPage(container) {
-            container.innerHTML = `
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 glass-card rounded-2xl p-6 shadow-sm">
-                        <h3 class="font-bold text-lg mb-4 flex items-center"><i class="fa-solid fa-trophy text-amber-500 mr-2"></i>กระดานผู้นำการเข้าร่วมกิจกรรม</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse text-sm">
-                                <thead>
-                                    <tr class="bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 uppercase text-xs">
-                                        <th class="p-4">อันดับ</th>
-                                        <th class="p-4">ชื่อ - นามสกุล</th>
-                                        <th class="p-4">คณะ</th>
-                                        <th class="p-4 text-center">กิจกรรมที่เข้าร่วม</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
-                                    ${state.data.leaderboard.map(item => `
-                                        <tr>
-                                            <td class="p-4 font-bold ${item.rank === 1 ? 'text-amber-500 text-base' : ''}">#${item.rank}</td>
-                                            <td class="p-4 font-medium">${item.name}</td>
-                                            <td class="p-4 text-slate-500">${item.faculty}</td>
-                                            <td class="p-4 text-center font-bold text-brand-600">${item.total_attendance}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="glass-card rounded-2xl p-6 shadow-sm">
-                        <h3 class="font-bold text-lg mb-4 flex items-center"><i class="fa-solid fa-medal text-brand-500 mr-2"></i>Top 7 ประจำเดือน</h3>
-                        <div class="space-y-3">
-                            ${state.data.top7.map((user, idx) => `
-                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-100/50 dark:bg-slate-800/30">
-                                    <div class="flex items-center space-x-3">
-                                        <span class="w-7 h-7 rounded-lg bg-brand-500/10 text-brand-600 font-bold text-xs flex items-center justify-center">${idx + 1}</span>
-                                        <span class="font-medium text-sm">${user.name}</span>
-                                    </div>
-                                    <span class="text-xs font-bold text-slate-500">${user.total_attendance} ครั้ง</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderProfilePage(container) {
-            container.innerHTML = `
-                <div class="glass-card rounded-2xl p-8 max-w-xl mx-auto shadow-sm">
-                    <div class="text-center mb-6">
-                        <div class="w-20 h-20 bg-brand-600 text-white rounded-2xl flex items-center justify-center text-3xl mx-auto font-bold shadow-lg shadow-brand-500/30 mb-4">
-                            ${state.currentUser.name.charAt(0)}
-                        </div>
-                        <h3 class="text-xl font-bold">${state.currentUser.name}</h3>
-                        <p class="text-xs text-slate-500 mt-1">${state.currentUser.student_id} | ${state.currentUser.faculty || 'วิศวกรรมศาสตร์'}</p>
-                    </div>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">อีเมลติดต่อ</label>
-                            <input type="email" value="${state.currentUser.email || 'student@university.ac.th'}" class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm" disabled>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold uppercase text-slate-400 mb-1">เบอร์โทรศัพท์</label>
-                            <input type="text" value="089-123-4567" class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-sm" disabled>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Admin Views
-        function renderAdminDashboard(container) {
-            container.innerHTML = `
-                <div class="space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        <div class="glass-card p-6 rounded-2xl">
-                            <span class="text-sm font-medium text-slate-500">กิจกรรมทั้งหมด</span>
-                            <h4 class="text-3xl font-bold mt-2">${state.data.activities.length}</h4>
-                        </div>
-                        <div class="glass-card p-6 rounded-2xl">
-                            <span class="text-sm font-medium text-slate-500">การลงทะเบียนรวม</span>
-                            <h4 class="text-3xl font-bold mt-2">${state.data.registrations.length}</h4>
-                        </div>
-                        <div class="glass-card p-6 rounded-2xl">
-                            <span class="text-sm font-medium text-slate-500">เช็คอินแล้ว</span>
-                            <h4 class="text-3xl font-bold mt-2 text-emerald-500">${state.data.registrations.filter(r => r.attendance_status === 'checked-in').length}</h4>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderAdminActivities(container) {
-            container.innerHTML = `
-                <div class="glass-card rounded-2xl overflow-hidden shadow-sm">
-                    <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                        <h3 class="font-bold text-lg">จัดการข้อมูลกิจกรรม</h3>
-                        <button onclick="openCreateActivityModal()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-sm font-medium shadow-md shadow-brand-500/20"><i class="fa-solid fa-plus mr-2"></i>เพิ่มกิจกรรมใหม่</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 uppercase text-xs">
-                                    <th class="p-4">รหัส</th>
-                                    <th class="p-4">ชื่อกิจกรรม</th>
-                                    <th class="p-4">วันที่</th>
-                                    <th class="p-4">สถานะ</th>
-                                    <th class="p-4 text-center">จัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
-                                ${state.data.activities.map(act => `
-                                    <tr>
-                                        <td class="p-4 font-semibold">${act.act_id}</td>
-                                        <td class="p-4">${act.title}</td>
-                                        <td class="p-4 text-slate-500">${act.date}</td>
-                                        <td class="p-4"><span class="px-2.5 py-1 ${act.status === 'upcoming' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-slate-500/10 text-slate-500'} text-xs font-semibold rounded-lg">${act.status}</span></td>
-                                        <td class="p-4 text-center space-x-2">
-                                            <button onclick="deleteActivity('${act.act_id}')" class="p-2 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg"><i class="fa-solid fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderAdminRegistrations(container) {
-            container.innerHTML = `
-                <div class="glass-card rounded-2xl overflow-hidden shadow-sm">
-                    <div class="p-6 border-b border-slate-200 dark:border-slate-800"><h3 class="font-bold text-lg">จัดการลงทะเบียน & เช็คอินนักศึกษา</h3></div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead>
-                                <tr class="bg-slate-100/50 dark:bg-slate-800/50 text-slate-500 uppercase text-xs">
-                                    <th class="p-4">รหัส นศ.</th>
-                                    <th class="p-4">ชื่อ นศ.</th>
-                                    <th class="p-4">กิจกรรม</th>
-                                    <th class="p-4">สถานะ</th>
-                                    <th class="p-4 text-center">เช็คอิน</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
-                                ${state.data.registrations.map(reg => `
-                                    <tr>
-                                        <td class="p-4 font-semibold">${reg.student_id}</td>
-                                        <td class="p-4">${reg.student_name}</td>
-                                        <td class="p-4">${reg.act_title}</td>
-                                        <td class="p-4"><span class="px-2.5 py-1 ${reg.attendance_status === 'checked-in' ? 'bg-emerald-500/10 text-emerald-600' : 'bg-amber-500/10 text-amber-600'} text-xs font-semibold rounded-lg">${reg.attendance_status}</span></td>
-                                        <td class="p-4 text-center">
-                                            ${reg.attendance_status !== 'checked-in' ? `
-                                                <button onclick="checkinStudent('${reg.reg_id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-medium shadow-md shadow-emerald-500/20">เช็คอิน</button>
-                                            ` : `
-                                                <span class="text-xs text-emerald-600 font-semibold">สำเร็จแล้ว</span>
-                                            `}
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ==========================================
-        // 7. ACTIONS & USE CASE FUNCTIONS
-        // ==========================================
-        async function registerActivity(act_id) {
-            try {
-                await apiCall('register', { student_id: state.currentUser.student_id, act_id });
-                showToast('ลงทะเบียนสำเร็จ!', 'success');
-                await loadAllData();
-            } catch (err) {
-                // handled
-            }
-        }
-
-        async function checkinStudent(reg_id) {
-            try {
-                await apiCall('checkin', { reg_id, status: 'checked-in' });
-                showToast('เช็คอินนักศึกษาสำเร็จ', 'success');
-                await loadAllData();
-            } catch (err) {
-                // handled
-            }
-        }
-
-        // ==========================================
-        // 8. QR, PDF & MODAL HELPERS
-        // ==========================================
-        function openQRModal(act_id, title) {
-            openModal(`QR Code สำหรับเช็คอิน: ${title}`, `<div id="qrcode-container" class="flex flex-col items-center justify-center p-4"><canvas id="qr-canvas"></canvas><p class="text-xs text-slate-500 mt-4">สแกนเพื่อเช็คอินเข้าร่วมกิจกรรม</p></div>`);
-            setTimeout(() => {
-                QRCode.toCanvas(document.getElementById('qr-canvas'), `CHECKIN:${act_id}`, { width: 200, margin: 2 }, function (error) {
-                    if (error) console.error(error);
-                });
-            }, 100);
-        }
-
-        function generateCertificatePDF(reg_id, act_title) {
-            openModal('เกียรติบัตรออนไลน์', `
-                <div class="p-8 border-4 border-amber-500/50 rounded-2xl text-center glass relative overflow-hidden">
-                    <h4 class="text-xs uppercase tracking-widest text-slate-400 font-bold">Certificate of Completion</h4>
-                    <h2 class="text-2xl font-bold mt-4 text-brand-600">เกียรติบัตรฉบับนี้มอบให้แก่</h2>
-                    <h1 class="text-3xl font-extrabold mt-2 underline decoration-amber-500/50">${state.currentUser.name}</h1>
-                    <p class="text-sm text-slate-500 mt-4">เข้าร่วมและผ่านกิจกรรมหลักสูตร</p>
-                    <h3 class="text-lg font-bold mt-1">${act_title}</h3>
-                    <div class="mt-8 flex justify-between items-center text-xs text-slate-400">
-                        <span>รหัสอ้างอิง: ${reg_id}</span>
-                        <span>ออกโดยระบบ Activity Hub</span>
-                    </div>
-                </div>
-                <div class="mt-6 flex justify-end">
-                    <button onclick="window.print()" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-medium">พิมพ์ / บันทึก PDF</button>
-                </div>
-            `);
-        }
-
-        function openModal(title, htmlContent) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-body').innerHTML = htmlContent;
-            document.getElementById('global-modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('global-modal').classList.add('hidden');
-        }
-
-        function openCreateActivityModal() {
-            openModal('สร้างกิจกรรมใหม่', `
-                <form onsubmit="createActivitySubmit(event)" class="space-y-4">
-                    <div><label class="block text-xs font-semibold mb-1">ชื่อกิจกรรม</label><input type="text" id="new-act-title" required class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border rounded-xl text-sm"></div>
-                    <div><label class="block text-xs font-semibold mb-1">วันที่</label><input type="date" id="new-act-date" required class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border rounded-xl text-sm"></div>
-                    <div><label class="block text-xs font-semibold mb-1">สถานที่</label><input type="text" id="new-act-loc" required class="w-full px-4 py-2.5 bg-slate-100 dark:bg-slate-800/50 border rounded-xl text-sm"></div>
-                    <button type="submit" class="w-full py-3 bg-brand-600 text-white rounded-xl text-sm font-medium">บันทึกกิจกรรม</button>
-                </form>
-            `);
-        }
-
-        async function createActivitySubmit(e) {
-            e.preventDefault();
-            closeModal();
-            showToast('สร้างกิจกรรมสำเร็จ', 'success');
-            await loadAllData();
-        }
-
-        async function deleteActivity(act_id) {
-            if (confirm('ต้องการลบกิจกรรมนี้ใช่หรือไม่?')) {
-                showToast('ลบกิจกรรมสำเร็จ', 'success');
-                await loadAllData();
-            }
-        }
-
-        // ==========================================
-        // 9. UI HELPERS (Theme, Sidebar, Toast)
-        // ==========================================
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('w-64');
-            sidebar.classList.toggle('w-20');
-        }
-
-        function toggleTheme() {
-            state.theme = state.theme === 'dark' ? 'light' : 'dark';
-            document.documentElement.classList.toggle('dark', state.theme === 'dark');
-            document.getElementById('theme-icon').className = state.theme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-        }
-
-        function updateHeaderUserInfo() {
-            if (!state.currentUser) return;
-            document.getElementById('header-user-name').innerText = state.currentUser.name;
-            document.getElementById('header-user-id').innerText = state.currentUser.student_id;
-            document.getElementById('user-avatar-initial').innerText = state.currentUser.name.charAt(0);
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `glass-card px-4 py-3 rounded-xl shadow-lg text-sm flex items-center space-x-2 transform translate-y-2 opacity-0 transition-all duration-300 pointer-events-auto ${type === 'error' ? 'border-red-500/50 text-red-500' : 'border-emerald-500/50 text-emerald-500'}`;
-            toast.innerHTML = `<i class="fa-solid ${type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'}"></i><span>${message}</span>`;
-            container.appendChild(toast);
-            setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // ==========================================
-        // 10. KEYBOARD SHORTCUTS & INIT
-        // ==========================================
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+    // ===================== ADMIN: EVALUATIONS =====================
+    function renderAdminEvaluations() {
+      const el = document.getElementById('sec-admin-evaluations');
+      const evals = state.allRegistrations.filter(r=>r.evaluation_score && r.evaluation_score>0);
+      const byAct = {};
+      evals.forEach(r=>{ const key=r.act_id; if(!byAct[key])byAct[key]=[]; byAct[key].push(r); });
+      el.innerHTML = `
+        <div class="admin-grid">
+          ${Object.entries(byAct).map(([actId, regs])=>{
+            const act = state.allActivities.find(a=>a.act_id===actId);
+            const scores = regs.map(r=>parseInt(r.evaluation_score)||0);
+            const avg = (scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(2);
+            const dist = {1:0,2:0,3:0,4:0,5:0}; scores.forEach(s=>dist[s]=(dist[s]||0)+1);
+            return `<div class="card">
+              <div class="card-header"><div class="card-title"><i class="fas fa-chart-bar" style="color:var(--primary);"></i> ${escapeHtml(act?act.title||act.name:actId)}</div><span class="tag tag-blue">เฉลี่ย ${avg}</span></div>
+              <div class="chart-container" style="height:200px;"><canvas id="evalChart-${actId}"></canvas></div>
+              <div class="table-wrap" style="margin-top:12px;">
+                <table><thead><tr><th>นักศึกษา</th><th>คะแนน</th><th>ความคิดเห็น</th></tr></thead>
+                <tbody>${regs.map(r=>{ const s=state.allStudents.find(x=>x.student_id===r.student_id); return `<tr><td>${escapeHtml(s?s.full_name||s.name:r.student_id)}</td><td>${r.evaluation_score}</td><td>${escapeHtml(r.evaluation_comment||'-')}</td></tr>`; }).join('')}</tbody>
+                </table>
+              </div>
+            </div>`;
+          }).join('')}
+          ${!Object.keys(byAct).length?emptyState('ยังไม่มีข้อมูลการประเมิน'):''}
+        </div>`;
+      setTimeout(()=>{
+        Object.entries(byAct).forEach(([actId, regs])=>{
+          const scores = regs.map(r=>parseInt(r.evaluation_score)||0);
+          const dist = [0,0,0,0,0]; scores.forEach(s=>dist[s-1]++);
+          const ctx = document.getElementById(`evalChart-${actId}`); if(!ctx)return;
+          new Chart(ctx, {type:'bar', data:{labels:['1','2','3','4','5'], datasets:[{label:'จำนวน',data:dist,backgroundColor:['rgba(239,68,68,0.7)','rgba(245,158,11,0.7)','rgba(59,130,246,0.7)','rgba(16,185,129,0.7)','rgba(139,92,246,0.7)'],borderRadius:6}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}});
         });
+      },0);
+    }
 
-        console.info("%c Activity Hub Loaded Successfully! ", "background: #3b82f6; color: #fff; padding: 4px 8px; border-radius: 4px; font-weight: bold;");
-        
-        // Start app
-        checkSession();
-    </script>
+    // ===================== KEYBOARD SHORTCUTS =====================
+    document.addEventListener('keydown', e=>{
+      if (e.key==='Escape') hideModal();
+      if (e.key.toLowerCase()==='t' && !e.ctrlKey && !e.metaKey && e.target.tagName!=='INPUT' && e.target.tagName!=='TEXTAREA') toggleTheme();
+      if (e.key.toLowerCase()==='r' && !e.ctrlKey && !e.metaKey && e.target.tagName!=='INPUT' && e.target.tagName!=='TEXTAREA') refreshData();
+      if (e.key==='Enter' && document.getElementById('loginPage').style.display!=='none') handleLogin();
+    });
+
+    // ===================== CONSOLE INFO =====================
+    console.log('%c Shabab Activity Management System ', 'background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:700;');
+    console.log('%c Version 1.0 | Vanilla JS + Glassmorphism ', 'color:#64748b;font-size:12px;');
+    console.log('%c Shortcuts: T = Theme | R = Refresh | Esc = Close Modal ', 'color:#64748b;font-size:12px;');
+
+    // ===================== INIT =====================
+    if (!restoreSession()) {
+      document.getElementById('loginPage').style.display='flex';
+    }
+  </script>
 </body>
 </html>
