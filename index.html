@@ -1868,6 +1868,416 @@
     }
 
     /* ============================================================
+       FOOTBALL PAGE — PREMIUM DESIGN (เพิ่มใหม่)
+       ============================================================ */
+    #page-football .stat-card {
+      background: linear-gradient(145deg, var(--bg-card), var(--bg-card-hover));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      height: 135px;
+      min-height: 135px;
+      max-height: 135px;
+      justify-content: center;
+    }
+    #page-football .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.03), transparent 70%);
+      pointer-events: none;
+    }
+    #page-football .stat-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+    }
+    #page-football .stat-card .num {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text-primary), var(--primary-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .football-match-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .football-match-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: var(--shadow-hover);
+    }
+    .football-match-card .match-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .football-match-card .match-header .match-week {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-body);
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+    .football-match-card .match-header .match-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .football-match-card .match-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    .football-match-card .match-body .team {
+      flex: 1;
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+    .football-match-card .match-body .team.home {
+      color: var(--primary);
+    }
+    .football-match-card .match-body .team.away {
+      color: var(--text-secondary);
+    }
+    .football-match-card .match-body .score {
+      font-size: 28px;
+      font-weight: 900;
+      min-width: 60px;
+      text-align: center;
+      color: var(--primary);
+      background: var(--bg-body);
+      padding: 2px 12px;
+      border-radius: 8px;
+      letter-spacing: -1px;
+    }
+    .football-match-card .match-body .score.finished {
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--success);
+    }
+    .football-match-card .match-body .score.drawn {
+      background: rgba(245, 158, 11, 0.08);
+      color: var(--warning);
+    }
+    .football-match-card .match-body .score.lost {
+      background: rgba(239, 68, 68, 0.08);
+      color: var(--danger);
+    }
+    .football-match-card .match-body .score.vs {
+      background: var(--bg-body);
+      color: var(--text-muted);
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .football-match-card .match-scorers {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      background: var(--bg-body);
+      border-radius: 6px;
+      margin-top: 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+    }
+    .football-match-card .match-scorers .scorer-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(245, 158, 11, 0.06);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+    .football-match-card .match-scorers .scorer-tag .goals {
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .football-match-card .match-status {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .football-match-card .match-status .badge-status.finished {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--success);
+    }
+    .football-match-card .match-status .badge-status.upcoming {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--info);
+    }
+    .football-match-card .match-status .badge-status.win {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+    }
+    .football-match-card .match-status .badge-status.draw {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning);
+    }
+    .football-match-card .match-status .badge-status.loss {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+    }
+
+    .standings-table-wrap {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .standings-table-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .standings-table-wrap table thead {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+    }
+    .standings-table-wrap table thead th {
+      padding: 10px 14px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.8);
+      border: none;
+    }
+    .standings-table-wrap table tbody td {
+      padding: 8px 12px;
+      text-align: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      font-size: 13px;
+    }
+    .standings-table-wrap table tbody tr {
+      transition: all 0.3s;
+    }
+    .standings-table-wrap table tbody tr:hover td {
+      background: rgba(15, 59, 94, 0.04);
+    }
+    .standings-table-wrap table tbody tr:nth-child(even) td {
+      background: rgba(0, 0, 0, 0.01);
+    }
+    .standings-table-wrap table tbody tr:nth-child(even):hover td {
+      background: rgba(15, 59, 94, 0.04);
+    }
+    .standings-table-wrap table tbody tr.top-1 td {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.08), transparent);
+      border-left: 3px solid var(--gold);
+    }
+    .standings-table-wrap table tbody tr.top-2 td {
+      background: linear-gradient(90deg, rgba(156, 163, 175, 0.08), transparent);
+      border-left: 3px solid #9ca3af;
+    }
+    .standings-table-wrap table tbody tr.top-3 td {
+      background: linear-gradient(90deg, rgba(205, 127, 50, 0.08), transparent);
+      border-left: 3px solid #cd7f32;
+    }
+    .standings-table-wrap table .rank-num {
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .standings-table-wrap table .rank-num.gold {
+      color: var(--gold);
+    }
+    .standings-table-wrap table .rank-num.silver {
+      color: #9ca3af;
+    }
+    .standings-table-wrap table .rank-num.bronze {
+      color: #cd7f32;
+    }
+    .standings-table-wrap table .team-name {
+      font-weight: 600;
+      text-align: left;
+    }
+    .standings-table-wrap table .points {
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--primary);
+    }
+    .standings-table-wrap table .points.gold {
+      color: var(--gold);
+    }
+    .standings-table-wrap table .points.silver {
+      color: #9ca3af;
+    }
+    .standings-table-wrap table .points.bronze {
+      color: #cd7f32;
+    }
+    .standings-table-wrap table .gd {
+      font-weight: 600;
+    }
+    .standings-table-wrap table .gd.positive {
+      color: var(--success);
+    }
+    .standings-table-wrap table .gd.negative {
+      color: var(--danger);
+    }
+
+    .top-scorers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .top-scorer-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-md);
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .top-scorer-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: var(--shadow-hover);
+    }
+    .top-scorer-card .scorer-medal {
+      font-size: 36px;
+      display: block;
+      margin-bottom: 2px;
+      filter: drop-shadow(0 2px 12px rgba(245, 158, 11, 0.2));
+    }
+    .top-scorer-card .scorer-medal.gold {
+      animation: medalGlow 2s ease-in-out infinite alternate;
+    }
+    .top-scorer-card .scorer-medal.silver {
+      animation: medalGlow 2s ease-in-out infinite alternate 0.3s;
+    }
+    .top-scorer-card .scorer-medal.bronze {
+      animation: medalGlow 2s ease-in-out infinite alternate 0.6s;
+    }
+    .top-scorer-card .scorer-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 2px;
+    }
+    .top-scorer-card .scorer-team {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .top-scorer-card .scorer-goals {
+      font-size: 28px;
+      font-weight: 800;
+      margin-top: 4px;
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .top-scorer-card .scorer-badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .top-scorer-card .scorer-badge.gold {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--gold);
+    }
+    .top-scorer-card .scorer-badge.silver {
+      background: rgba(156, 163, 175, 0.15);
+      color: #9ca3af;
+    }
+    .top-scorer-card .scorer-badge.bronze {
+      background: rgba(205, 127, 50, 0.15);
+      color: #cd7f32;
+    }
+    .top-scorer-card .scorer-badge.normal {
+      background: rgba(59, 130, 246, 0.08);
+      color: var(--info);
+    }
+    .top-scorer-card .scorer-rank {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .top-scorer-card.gold {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.10), rgba(245, 158, 11, 0.02));
+      border-color: rgba(245, 158, 11, 0.2);
+    }
+    .top-scorer-card.silver {
+      background: linear-gradient(135deg, rgba(156, 163, 175, 0.08), rgba(156, 163, 175, 0.02));
+      border-color: rgba(156, 163, 175, 0.15);
+    }
+    .top-scorer-card.bronze {
+      background: linear-gradient(135deg, rgba(205, 127, 50, 0.08), rgba(205, 127, 50, 0.02));
+      border-color: rgba(205, 127, 50, 0.15);
+    }
+
+    .fb-encouragement {
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      margin: 12px 0 8px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(59, 130, 246, 0.06));
+      border: 1px solid rgba(245, 158, 11, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .fb-encouragement .enc-emoji {
+      font-size: 28px;
+    }
+    .fb-encouragement .enc-text {
+      flex: 1;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .fb-encouragement .enc-text strong {
+      color: var(--primary);
+    }
+    .fb-encouragement .enc-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      color: #fff;
+    }
+
+    /* ============================================================
        RESPONSIVE
        ============================================================ */
     .sidebar-overlay {
@@ -1937,6 +2347,9 @@
       }
       .lb-podium-item.pos-3 {
         transform: scale(0.95);
+      }
+      #page-football .stat-card .num {
+        font-size: 22px;
       }
     }
     @media (max-width: 768px) {
@@ -2039,6 +2452,39 @@
       }
       .lb-encouragement .enc-text {
         font-size: 13px;
+      }
+      #page-football .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      #page-football .stat-card .num {
+        font-size: 20px;
+      }
+      .football-match-card .match-body .team {
+        font-size: 13px;
+      }
+      .football-match-card .match-body .score {
+        font-size: 20px;
+        min-width: 40px;
+        padding: 0 8px;
+      }
+      .top-scorers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+      }
+      .top-scorer-card .scorer-name {
+        font-size: 14px;
+      }
+      .top-scorer-card .scorer-goals {
+        font-size: 22px;
+      }
+      .standings-table-wrap table {
+        font-size: 11px;
+        min-width: 400px;
+      }
+      .standings-table-wrap table th,
+      .standings-table-wrap table td {
+        padding: 4px 6px;
       }
     }
     @media (max-width: 480px) {
@@ -2186,6 +2632,73 @@
       .lb-encouragement .enc-text {
         font-size: 12px;
       }
+      #page-football .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      #page-football .stat-card {
+        padding: 10px 12px;
+        min-height: 80px;
+        height: 90px;
+      }
+      #page-football .stat-card .num {
+        font-size: 17px;
+      }
+      #page-football .stat-card .label {
+        font-size: 9px;
+      }
+      #page-football .stat-card .stat-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+      }
+      .football-match-card {
+        padding: 12px 14px;
+      }
+      .football-match-card .match-body .team {
+        font-size: 12px;
+      }
+      .football-match-card .match-body .score {
+        font-size: 18px;
+        min-width: 35px;
+      }
+      .football-match-card .match-scorers {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+      .top-scorers-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .top-scorer-card {
+        padding: 10px 8px;
+      }
+      .top-scorer-card .scorer-medal {
+        font-size: 28px;
+      }
+      .top-scorer-card .scorer-name {
+        font-size: 12px;
+      }
+      .top-scorer-card .scorer-goals {
+        font-size: 18px;
+      }
+      .standings-table-wrap table {
+        font-size: 10px;
+        min-width: 320px;
+      }
+      .standings-table-wrap table th,
+      .standings-table-wrap table td {
+        padding: 3px 4px;
+      }
+      .standings-table-wrap table .points {
+        font-size: 14px;
+      }
+      .fb-encouragement .enc-emoji {
+        font-size: 20px;
+      }
+      .fb-encouragement .enc-text {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -2257,11 +2770,10 @@
       <button class="nav-item" data-page="leaderboard" onclick="switchTab('leaderboard')">
         <i class="fas fa-trophy"></i> <span>ลีดเดอร์บอร์ด</span>
       </button>
-      <!-- ===== เพิ่มปุ่มฟุตบอล (เริ่ม) ===== -->
+      <!-- ===== ฟุตบอล ===== -->
       <button class="nav-item" data-page="football" onclick="switchTab('football')">
         <i class="fas fa-futbol"></i> <span>⚽ ฟุตบอล</span>
       </button>
-      <!-- ===== เพิ่มปุ่มฟุตบอล (จบ) ===== -->
       <!-- Admin -->
       <button class="nav-item" data-page="admin-students" onclick="switchTab('admin-students')" id="adminNav" style="display:none;">
         <i class="fas fa-user-graduate"></i> <span>จัดการนักศึกษา</span>
@@ -2444,7 +2956,7 @@
       </div>
     </div>
 
-    <!-- ===== PAGE: FOOTBALL (เพิ่มใหม่) ===== -->
+    <!-- ===== PAGE: FOOTBALL (ปรับปรุง) ===== -->
     <div id="page-football" class="page-section">
       <!-- Top Controls -->
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
@@ -2491,7 +3003,7 @@
         <div class="card-header">
           <h3><i class="fas fa-list"></i> โปรแกรมการแข่งขัน <span class="badge" id="fbMatchBadge">0</span></h3>
         </div>
-        <div id="footballMatches" class="grid" style="grid-template-columns:1fr;"></div>
+        <div id="footballMatches" style="display:grid;grid-template-columns:1fr;gap:12px;"></div>
       </div>
 
       <!-- Standings -->
@@ -2499,7 +3011,7 @@
         <div class="card-header">
           <h3><i class="fas fa-trophy"></i> 🏆 ตารางคะแนนลีก <span class="badge" id="fbStandingsBadge">0</span></h3>
         </div>
-        <div class="table-wrap">
+        <div class="standings-table-wrap">
           <table>
             <thead>
               <tr>
@@ -2520,15 +3032,20 @@
         </div>
       </div>
 
-      <!-- Top Scorers -->
+      <!-- Top Scorers — แสดงทั้งหมด -->
       <div class="card-panel">
         <div class="card-header">
-          <h3><i class="fas fa-star"></i> ⚽ ดาวซัลโว (สัปดาห์นี้) <span class="badge" id="fbScorerBadge">0</span></h3>
+          <h3><i class="fas fa-star" style="color:var(--accent);"></i> ⚽ ดาวซัลโวทั้งหมด <span class="badge" id="fbScorerBadge">0</span></h3>
+          <span style="font-size:11px;color:var(--text-muted);">เรียงตามจำนวนประตูจากมากไปน้อย</span>
         </div>
-        <div id="footballScorers" class="grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));"></div>
+        <div id="footballScorers" class="top-scorers-grid"></div>
+        <div id="fbScorerEncouragement" class="fb-encouragement" style="display:none;">
+          <span class="enc-emoji">⚽</span>
+          <span class="enc-text" id="fbScorerMsg">ดาวซัลโวแห่งสัปดาห์นี้!</span>
+          <span class="enc-badge">🔥 แรงบันดาลใจ</span>
+        </div>
       </div>
     </div>
-    <!-- ===== END PAGE: FOOTBALL ===== -->
 
     <!-- ADMIN: STUDENTS -->
     <div id="page-admin-students" class="page-section">
@@ -3761,6 +4278,144 @@
     }
 
     // ================================================================
+    //  FOOTBALL (ปรับปรุง: แสดงดาวซัลโวทั้งหมด)
+    // ================================================================
+    async function loadFootball() {
+      const week = document.getElementById('footballWeekSelect').value;
+      showLoading();
+      try {
+        const res = await apiCall(`/api/football?week=${week}`);
+        if (res && res.success !== false) {
+          footballData = res;
+          renderFootball(res);
+        } else {
+          showToast('❌ ' + (res?.error || 'โหลดข้อมูลฟุตบอลไม่สำเร็จ'), 'error');
+        }
+      } catch (e) {
+        showToast('❌ ' + e.message, 'error');
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderFootball(data) {
+      // Stats
+      const summary = data.weekSummary || {};
+      document.getElementById('fbTotalMatches').textContent = summary.total_matches || 0;
+      document.getElementById('fbFinishedMatches').textContent = summary.finished || 0;
+      document.getElementById('fbUpcomingMatches').textContent = summary.upcoming || 0;
+      document.getElementById('fbTopTeam').textContent = summary.top_team ? `${summary.top_team} (${summary.top_team_points} คะแนน)` : '-';
+      document.getElementById('fbMatchBadge').textContent = data.matches.length;
+
+      // Matches
+      const matchesContainer = document.getElementById('footballMatches');
+      matchesContainer.innerHTML = data.matches.map(m => {
+        const isFinished = m.status === 'finished';
+        const scoreDisplay = isFinished ? `${m.home_score} - ${m.away_score}` : 'vs';
+        let scoreClass = 'vs';
+        if (isFinished) {
+          if (m.home_score > m.away_score) scoreClass = 'finished';
+          else if (m.home_score < m.away_score) scoreClass = 'lost';
+          else scoreClass = 'drawn';
+        }
+        const statusIcon = isFinished ? (m.home_score > m.away_score ? '🟢' : m.home_score < m.away_score ? '🔴' : '🟡') : '⏳';
+        const statusText = isFinished ? 'จบแล้ว' : 'รอแข่งขัน';
+        const scorersDisplay = m.home_scorers ? `<span class="scorer-tag">⚽ ${m.home_scorers}</span>` : '';
+        const awayScorersDisplay = m.away_scorers ? `<span class="scorer-tag">⚽ ${m.away_scorers}</span>` : '';
+        let statusBadgeClass = isFinished ? 'finished' : 'upcoming';
+        if (isFinished) {
+          if (m.home_score > m.away_score) statusBadgeClass = 'win';
+          else if (m.home_score < m.away_score) statusBadgeClass = 'loss';
+          else statusBadgeClass = 'draw';
+        }
+        return `
+          <div class="football-match-card">
+            <div class="match-header">
+              <span class="match-week">สัปดาห์ที่ ${m.week}</span>
+              <span class="match-date"><i class="fas fa-calendar-day"></i> ${formatDate(m.date)} ${m.time ? '⏰ '+m.time : ''}</span>
+            </div>
+            <div class="match-body">
+              <div class="team home">${m.home_team}</div>
+              <div class="score ${scoreClass}">${scoreDisplay}</div>
+              <div class="team away">${m.away_team}</div>
+            </div>
+            ${(m.home_scorers || m.away_scorers) ? `<div class="match-scorers">${scorersDisplay} ${awayScorersDisplay}</div>` : ''}
+            <div class="match-status">
+              <span class="badge-status ${statusBadgeClass}">${statusIcon} ${statusText}</span>
+            </div>
+          </div>
+        `;
+      }).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ไม่มีข้อมูลการแข่งขันในสัปดาห์นี้</p>';
+
+      // Standings
+      const standings = data.standings || [];
+      document.getElementById('fbStandingsBadge').textContent = standings.length;
+      const tbody = document.getElementById('footballStandingsBody');
+      tbody.innerHTML = standings.map((s, idx) => {
+        const rank = idx + 1;
+        let rankClass = '';
+        if (rank === 1) rankClass = 'gold';
+        else if (rank === 2) rankClass = 'silver';
+        else if (rank === 3) rankClass = 'bronze';
+        const rowClass = rank === 1 ? 'top-1' : rank === 2 ? 'top-2' : rank === 3 ? 'top-3' : '';
+        const gd = s.gf - s.ga;
+        const gdClass = gd > 0 ? 'positive' : gd < 0 ? 'negative' : '';
+        return `
+          <tr class="${rowClass}">
+            <td><span class="rank-num ${rankClass}">${rank}</span></td>
+            <td class="team-name">${s.team}</td>
+            <td>${s.played}</td>
+            <td style="color:var(--success);">${s.won}</td>
+            <td style="color:var(--warning);">${s.drawn}</td>
+            <td style="color:var(--danger);">${s.lost}</td>
+            <td class="gd ${gdClass}">${s.gf} - ${s.ga}</td>
+            <td><span class="points ${rankClass}">${s.points}</span></td>
+          </tr>
+        `;
+      }).join('') || '<tr><td colspan="8" class="empty-row">ยังไม่มีข้อมูลตารางคะแนน</td></tr>';
+
+      // Scorers — แสดงทั้งหมด (ไม่จำกัด)
+      const scorers = data.scorers || [];
+      document.getElementById('fbScorerBadge').textContent = scorers.length;
+      const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+      const rankClasses = ['gold', 'silver', 'bronze', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal'];
+      const badgeClasses = ['gold', 'silver', 'bronze', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal', 'normal'];
+
+      const scorerContainer = document.getElementById('footballScorers');
+      if (scorers.length === 0) {
+        scorerContainer.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ยังไม่มีข้อมูลผู้ทำประตู</p>';
+        document.getElementById('fbScorerEncouragement').style.display = 'none';
+      } else {
+        scorerContainer.innerHTML = scorers.map((s, idx) => {
+          const rank = idx + 1;
+          const medal = medals[idx] || '⚽';
+          const cls = rankClasses[idx] || 'normal';
+          const badgeCls = badgeClasses[idx] || 'normal';
+          const isTop3 = idx < 3;
+          const topLabel = isTop3 ? ['🥇 แชมป์', '🥈 รองแชมป์', '🥉 ที่สาม'][idx] || '' : 'ผู้เล่น';
+          return `
+            <div class="top-scorer-card ${isTop3 ? cls : ''}">
+              <span class="scorer-medal ${isTop3 ? cls : ''}">${medal}</span>
+              <div class="scorer-rank">#${rank}</div>
+              <div class="scorer-name">${s.name}</div>
+              <div class="scorer-team">${s.team || '-'}</div>
+              <div class="scorer-goals">${s.goals} ประตู</div>
+              <span class="scorer-badge ${badgeCls}">${isTop3 ? topLabel : 'ผู้เล่น'}</span>
+            </div>
+          `;
+        }).join('');
+
+        // Encouragement
+        const encContainer = document.getElementById('fbScorerEncouragement');
+        encContainer.style.display = 'flex';
+        const topScorer = scorers[0];
+        const totalGoals = scorers.reduce((sum, s) => sum + s.goals, 0);
+        const msg = `⚽ ดาวซัลโวสูงสุดคือ <strong>${topScorer.name}</strong> ด้วย ${topScorer.goals} ประตู! (รวม ${totalGoals} ประตูจาก ${scorers.length} คน)`;
+        document.getElementById('fbScorerMsg').innerHTML = msg;
+      }
+    }
+
+    // ================================================================
     //  STAT MODAL
     // ================================================================
     function openStatModal(type) {
@@ -3806,97 +4461,6 @@
       $('statModalBody').innerHTML = html;
       $('statModal').classList.add('show');
       $('statModal').style.display = 'flex';
-    }
-
-    // ================================================================
-    //  FOOTBALL MODULE (NEW)
-    // ================================================================
-    async function loadFootball() {
-      const week = document.getElementById('footballWeekSelect').value;
-      showLoading();
-      try {
-        const res = await apiCall(`/api/football?week=${week}`);
-        if (res && res.success !== false) {
-          footballData = res;
-          renderFootball(res);
-        } else {
-          showToast('❌ ' + (res?.error || 'โหลดข้อมูลฟุตบอลไม่สำเร็จ'), 'error');
-        }
-      } catch (e) {
-        showToast('❌ ' + e.message, 'error');
-      } finally {
-        hideLoading();
-      }
-    }
-
-    function renderFootball(data) {
-      // Stats
-      const summary = data.weekSummary || {};
-      document.getElementById('fbTotalMatches').textContent = summary.total_matches || 0;
-      document.getElementById('fbFinishedMatches').textContent = summary.finished || 0;
-      document.getElementById('fbUpcomingMatches').textContent = summary.upcoming || 0;
-      document.getElementById('fbTopTeam').textContent = summary.top_team ? `${summary.top_team} (${summary.top_team_points} คะแนน)` : '-';
-      document.getElementById('fbMatchBadge').textContent = data.matches.length;
-
-      // Matches
-      const matchesContainer = document.getElementById('footballMatches');
-      matchesContainer.innerHTML = data.matches.map(m => {
-        const isFinished = m.status === 'finished';
-        const scoreDisplay = isFinished ? `${m.home_score} - ${m.away_score}` : 'vs';
-        const statusIcon = isFinished ? (m.home_score > m.away_score ? '🟢' : m.home_score < m.away_score ? '🔴' : '🟡') : '⏳';
-        const statusText = isFinished ? 'จบแล้ว' : 'รอแข่งขัน';
-        const scorersDisplay = m.home_scorers ? `<div style="font-size:11px;color:var(--text-muted);">⚽ ${m.home_scorers}</div>` : '';
-        const awayScorersDisplay = m.away_scorers ? `<div style="font-size:11px;color:var(--text-muted);">⚽ ${m.away_scorers}</div>` : '';
-        return `
-          <div class="activity-card" style="border-left-color: ${isFinished ? (m.home_score > m.away_score ? 'var(--success)' : m.home_score < m.away_score ? 'var(--danger)' : 'var(--warning)') : 'var(--primary)'};">
-            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
-              <span style="font-size:13px;color:var(--text-muted);"><i class="fas fa-calendar-day"></i> ${formatDate(m.date)} ${m.time ? '⏰ '+m.time : ''}</span>
-              <span style="font-size:12px;color:var(--text-muted);">สัปดาห์ที่ ${m.week}</span>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;">
-              <div style="flex:1;text-align:center;font-weight:700;font-size:16px;">${m.home_team}</div>
-              <div style="font-size:24px;font-weight:800;color:var(--primary);">${scoreDisplay}</div>
-              <div style="flex:1;text-align:center;font-weight:700;font-size:16px;">${m.away_team}</div>
-            </div>
-            ${scorersDisplay}
-            ${awayScorersDisplay}
-            <div style="display:flex;justify-content:space-between;margin-top:8px;">
-              <span class="badge-status ${isFinished ? 'closed' : 'upcoming'}">${statusIcon} ${statusText}</span>
-            </div>
-          </div>
-        `;
-      }).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ไม่มีข้อมูลการแข่งขันในสัปดาห์นี้</p>';
-
-      // Standings
-      const standings = data.standings || [];
-      document.getElementById('fbStandingsBadge').textContent = standings.length;
-      const tbody = document.getElementById('footballStandingsBody');
-      tbody.innerHTML = standings.map((s, idx) => `
-        <tr>
-          <td style="font-weight:800;color:${idx === 0 ? 'var(--accent)' : 'var(--text-primary)'};">${idx + 1}</td>
-          <td style="font-weight:600;">${s.team}</td>
-          <td>${s.played}</td>
-          <td style="color:var(--success);">${s.won}</td>
-          <td style="color:var(--warning);">${s.drawn}</td>
-          <td style="color:var(--danger);">${s.lost}</td>
-          <td>${s.gf} - ${s.ga}</td>
-          <td style="font-weight:800;font-size:18px;color:var(--primary);">${s.points}</td>
-        </tr>
-      `).join('') || '<tr><td colspan="8" class="empty-row">ยังไม่มีข้อมูลตารางคะแนน</td></tr>';
-
-      // Scorers
-      const scorers = data.scorers || [];
-      document.getElementById('fbScorerBadge').textContent = scorers.length;
-      const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
-      const scorerContainer = document.getElementById('footballScorers');
-      scorerContainer.innerHTML = scorers.slice(0, 10).map((s, idx) => `
-        <div class="card-panel" style="text-align:center;padding:12px;margin:0;">
-          <div style="font-size:32px;">${medals[idx] || '⚽'}</div>
-          <div style="font-size:18px;font-weight:700;">${s.name}</div>
-          <div style="font-size:13px;color:var(--text-muted);">${s.team || '-'}</div>
-          <div style="font-size:24px;font-weight:800;color:var(--accent);">${s.goals} ประตู</div>
-        </div>
-      `).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ยังไม่มีข้อมูลผู้ทำประตู</p>';
     }
 
     // ================================================================
@@ -4310,11 +4874,6 @@
           el.classList.remove('show');
           el.style.display = 'none';
         });
-        closeRegisterModal('registerModal');
-        closeRegisterModal('activityModal');
-        closeRegisterModal('editStudentModal');
-        closeRegisterModal('profileSettingsModal');
-        closeModal('statModal');
       }
     });
 
@@ -4323,7 +4882,7 @@
     console.log('👤 Student: sh01 / 1234');
     console.log('⌨️ Ctrl+R = รีเฟรช (ล้าง Cache และโหลดใหม่)');
     console.log('📅 รองรับวันที่: 23/8/2569 → 23 ส.ค. 2569');
-    console.log('⚽ ฟุตบอล: ไปที่เมนู "ฟุตบอล" เพื่อดูโปรแกรมและตารางคะแนน');
+    console.log('⚽ ฟุตบอล: แสดงดาวซัลโวทั้งหมด (ไม่จำกัด) + CSS พรีเมียม');
   </script>
 </body>
 </html>
