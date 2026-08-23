@@ -106,6 +106,46 @@
       background: var(--primary);
     }
 
+    /* ============================================================
+       LOADING OVERLAY (เพิ่มเข้ามาใหม่)
+       ============================================================ */
+    #loadingOverlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-body);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      transition: opacity 0.5s ease;
+    }
+    #loadingOverlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .spinner {
+      width: 64px;
+      height: 64px;
+      border: 6px solid rgba(15, 59, 94, 0.1);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .loading-sub {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--text-muted);
+      opacity: 0.8;
+    }
+
     /* ===== SIDEBAR ===== */
     .app-sidebar {
       position: fixed;
@@ -684,472 +724,6 @@
       transform: none !important;
       box-shadow: var(--shadow-sm) !important;
     }
-    .btn-warning {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #fff;
-    }
-    .btn-warning:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.25);
-    }
-    .btn-download {
-      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-      color: #fff;
-    }
-    .btn-download:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.25);
-    }
-    .btn-pdf {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: #fff;
-    }
-    .btn-pdf:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
-    }
-
-    /* ============================================================
-       LEADERBOARD — Premium Interactive Design
-       ============================================================ */
-    .lb-podium {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 20px;
-      padding: 20px 0 30px;
-      min-height: 260px;
-    }
-    .lb-podium-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      cursor: default;
-      position: relative;
-      padding: 0 8px;
-    }
-    .lb-podium-item:hover {
-      transform: translateY(-8px) scale(1.02);
-    }
-    .lb-podium-item .podium-rank {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1;
-      margin-bottom: 4px;
-      background: linear-gradient(135deg, var(--gold), #fbbf24);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: none;
-      filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.2));
-    }
-    .lb-podium-item .podium-rank.silver {
-      background: linear-gradient(135deg, #d1d5db, #9ca3af);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .lb-podium-item .podium-rank.bronze {
-      background: linear-gradient(135deg, #cd7f32, #b45309);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .lb-podium-item .podium-medal {
-      font-size: 44px;
-      line-height: 1;
-      margin-bottom: 2px;
-      animation: medalGlow 2s ease-in-out infinite alternate;
-    }
-    .lb-podium-item .podium-medal.gold {
-      animation-delay: 0s;
-    }
-    .lb-podium-item .podium-medal.silver {
-      animation-delay: 0.3s;
-    }
-    .lb-podium-item .podium-medal.bronze {
-      animation-delay: 0.6s;
-    }
-    @keyframes medalGlow {
-      0% {
-        transform: scale(1) rotate(0deg);
-        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.3));
-      }
-      100% {
-        transform: scale(1.08) rotate(4deg);
-        filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.5));
-      }
-    }
-    .lb-podium-item .podium-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 22px;
-      border: 3px solid var(--bg-surface);
-      box-shadow: var(--shadow-md);
-      margin-bottom: 6px;
-      transition: all 0.3s;
-    }
-    .lb-podium-item .podium-avatar.gold {
-      border-color: var(--gold);
-      box-shadow: 0 0 30px rgba(245, 158, 11, 0.25);
-    }
-    .lb-podium-item .podium-avatar.silver {
-      border-color: #9ca3af;
-    }
-    .lb-podium-item .podium-avatar.bronze {
-      border-color: #cd7f32;
-    }
-    .lb-podium-item .podium-name {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-      max-width: 100px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .lb-podium-item .podium-count {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .lb-podium-item .podium-title {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 12px;
-      border-radius: 30px;
-      margin-top: 4px;
-      background: rgba(245, 158, 11, 0.12);
-      color: var(--gold);
-      border: 1px solid rgba(245, 158, 11, 0.15);
-    }
-    .lb-podium-item .podium-title.silver {
-      background: rgba(156, 163, 175, 0.12);
-      color: #9ca3af;
-      border-color: rgba(156, 163, 175, 0.15);
-    }
-    .lb-podium-item .podium-title.bronze {
-      background: rgba(205, 127, 50, 0.12);
-      color: #cd7f32;
-      border-color: rgba(205, 127, 50, 0.15);
-    }
-    .lb-podium-item .podium-base {
-      width: 100%;
-      height: 4px;
-      border-radius: 4px;
-      margin-top: 6px;
-      background: linear-gradient(90deg, var(--gold), #fbbf24);
-      opacity: 0.4;
-      transition: all 0.3s;
-    }
-    .lb-podium-item:hover .podium-base {
-      opacity: 1;
-      height: 6px;
-    }
-    .lb-podium-item .podium-base.silver {
-      background: linear-gradient(90deg, #d1d5db, #9ca3af);
-    }
-    .lb-podium-item .podium-base.bronze {
-      background: linear-gradient(90deg, #cd7f32, #b45309);
-    }
-
-    /* Podium positions */
-    .lb-podium-item.pos-1 {
-      transform: scale(1.05);
-    }
-    .lb-podium-item.pos-1 .podium-avatar {
-      width: 76px;
-      height: 76px;
-      font-size: 26px;
-    }
-    .lb-podium-item.pos-1 .podium-name {
-      font-size: 17px;
-    }
-    .lb-podium-item.pos-2 {
-      transform: scale(0.95);
-    }
-    .lb-podium-item.pos-3 {
-      transform: scale(0.92);
-    }
-    .lb-podium-item.pos-2 .podium-avatar {
-      width: 60px;
-      height: 60px;
-      font-size: 20px;
-    }
-    .lb-podium-item.pos-3 .podium-avatar {
-      width: 56px;
-      height: 56px;
-      font-size: 18px;
-    }
-    .lb-podium-item.pos-1:hover {
-      transform: scale(1.08) translateY(-6px);
-    }
-    .lb-podium-item.pos-2:hover {
-      transform: scale(0.98) translateY(-6px);
-    }
-    .lb-podium-item.pos-3:hover {
-      transform: scale(0.95) translateY(-6px);
-    }
-
-    .lb-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 12px;
-    }
-    .lb-list-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-card);
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      cursor: default;
-      position: relative;
-      overflow: hidden;
-    }
-    .lb-list-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 3px;
-      height: 100%;
-      border-radius: 0 3px 3px 0;
-      background: var(--primary);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .lb-list-item:hover {
-      transform: translateX(6px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--primary-light);
-    }
-    .lb-list-item:hover::before {
-      opacity: 1;
-    }
-    .lb-list-item .list-rank {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-      flex-shrink: 0;
-      background: var(--bg-body);
-      color: var(--text-secondary);
-      border: 1px solid var(--border);
-      transition: all 0.3s;
-    }
-    .lb-list-item:hover .list-rank {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-    .lb-list-item .list-rank.top-1 {
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: #fff;
-      border-color: #f59e0b;
-      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.25);
-    }
-    .lb-list-item .list-rank.top-2 {
-      background: linear-gradient(135deg, #e5e7eb, #9ca3af);
-      color: #fff;
-      border-color: #9ca3af;
-      box-shadow: 0 2px 12px rgba(156, 163, 175, 0.2);
-    }
-    .lb-list-item .list-rank.top-3 {
-      background: linear-gradient(135deg, #fdba74, #ea580c);
-      color: #fff;
-      border-color: #cd7f32;
-      box-shadow: 0 2px 12px rgba(205, 127, 50, 0.2);
-    }
-    .lb-list-item .list-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary-light), var(--secondary));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 600;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-    .lb-list-item .list-info {
-      flex: 1;
-      min-width: 0;
-    }
-    .lb-list-item .list-info .list-name {
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--text-primary);
-    }
-    .lb-list-item .list-info .list-major {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .lb-list-item .list-score {
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .lb-list-item .list-score i {
-      font-size: 13px;
-      opacity: 0.6;
-    }
-    .lb-list-item .list-badge {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 10px;
-      border-radius: 30px;
-      background: rgba(16, 185, 129, 0.1);
-      color: var(--success);
-      border: 1px solid rgba(16, 185, 129, 0.15);
-    }
-    .lb-list-item .list-badge.you {
-      background: rgba(59, 130, 246, 0.1);
-      color: var(--primary);
-      border-color: rgba(59, 130, 246, 0.2);
-      font-weight: 700;
-    }
-    .lb-list-item .list-badge.streak {
-      background: rgba(245, 158, 11, 0.1);
-      color: var(--warning);
-      border-color: rgba(245, 158, 11, 0.15);
-    }
-
-    /* Encouragement banner */
-    .lb-encouragement {
-      padding: 14px 20px;
-      border-radius: var(--radius-md);
-      margin: 16px 0 8px;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(59, 130, 246, 0.08));
-      border: 1px solid rgba(245, 158, 11, 0.1);
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      animation: fadeSlide 0.5s ease;
-    }
-    .lb-encouragement .enc-emoji {
-      font-size: 32px;
-      flex-shrink: 0;
-    }
-    .lb-encouragement .enc-text {
-      flex: 1;
-      font-weight: 600;
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-    .lb-encouragement .enc-text strong {
-      color: var(--primary);
-    }
-    .lb-encouragement .enc-text .highlight {
-      color: var(--accent);
-    }
-    .lb-encouragement .enc-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 14px;
-      border-radius: 30px;
-      background: linear-gradient(135deg, var(--accent), #d97706);
-      color: #fff;
-      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.2);
-      flex-shrink: 0;
-    }
-    .lb-encouragement .enc-badge.streak {
-      background: linear-gradient(135deg, #ec4899, #db2777);
-      box-shadow: 0 2px 12px rgba(236, 72, 153, 0.2);
-    }
-
-    /* Activity leaderboard cards */
-    .lb-activity-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .lb-activity-item {
-      background: var(--bg-card);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      cursor: default;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
-    .lb-activity-item:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--primary-light);
-    }
-    .lb-activity-item .act-rank {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 2px;
-    }
-    .lb-activity-item .act-rank.top {
-      background: linear-gradient(135deg, var(--gold), #fbbf24);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .lb-activity-item .act-name {
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .lb-activity-item .act-count {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-    .lb-activity-item .act-bar {
-      width: 100%;
-      height: 4px;
-      border-radius: 4px;
-      background: var(--bg-body);
-      margin-top: 8px;
-      overflow: hidden;
-    }
-    .lb-activity-item .act-bar .fill {
-      height: 100%;
-      border-radius: 4px;
-      background: linear-gradient(90deg, var(--primary-light), var(--secondary));
-      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-      width: 0%;
-    }
-    .lb-activity-item .act-bar .fill.top1 {
-      background: linear-gradient(90deg, #f59e0b, #fbbf24);
-    }
-    .lb-activity-item .act-bar .fill.top2 {
-      background: linear-gradient(90deg, #9ca3af, #d1d5db);
-    }
-    .lb-activity-item .act-bar .fill.top3 {
-      background: linear-gradient(90deg, #cd7f32, #fdba74);
-    }
 
     /* ===== TABLE ===== */
     .table-wrap {
@@ -1271,9 +845,6 @@
       font-size: 13px;
       margin: 4px 0;
     }
-    .activity-card .register-btn {
-      margin-top: 10px;
-    }
 
     /* ===== TOP 7 ===== */
     .top7-grid {
@@ -1361,18 +932,6 @@
       background: rgba(205, 127, 50, 0.2);
       color: #8b5a2b;
       border-color: rgba(205, 127, 50, 0.3);
-    }
-    .top7-item.rank-4 {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
-    }
-    .top7-item.rank-5 {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.02));
-    }
-    .top7-item.rank-6 {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(139, 92, 246, 0.02));
-    }
-    .top7-item.rank-7 {
-      background: linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(236, 72, 153, 0.02));
     }
     .top7-encouragement {
       padding: 12px 16px;
@@ -1528,27 +1087,392 @@
     }
 
     /* ===== LEADERBOARD ===== */
-    .leaderboard-item {
+    .lb-podium {
       display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      justify-content: center;
+      align-items: flex-end;
+      gap: 20px;
+      padding: 20px 0 30px;
+      min-height: 260px;
     }
-    .leaderboard-item .rank {
+    .lb-podium-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      position: relative;
+      padding: 0 8px;
+    }
+    .lb-podium-item:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+    .lb-podium-item .podium-rank {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.2));
+    }
+    .lb-podium-item .podium-rank.silver {
+      background: linear-gradient(135deg, #d1d5db, #9ca3af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lb-podium-item .podium-rank.bronze {
+      background: linear-gradient(135deg, #cd7f32, #b45309);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lb-podium-item .podium-medal {
+      font-size: 44px;
+      line-height: 1;
+      margin-bottom: 2px;
+      animation: medalGlow 2s ease-in-out infinite alternate;
+    }
+    .lb-podium-item .podium-medal.gold {
+      animation-delay: 0s;
+    }
+    .lb-podium-item .podium-medal.silver {
+      animation-delay: 0.3s;
+    }
+    .lb-podium-item .podium-medal.bronze {
+      animation-delay: 0.6s;
+    }
+    @keyframes medalGlow {
+      0% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.3));
+      }
+      100% {
+        transform: scale(1.08) rotate(4deg);
+        filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.5));
+      }
+    }
+    .lb-podium-item .podium-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
       font-weight: 700;
-      color: var(--primary);
+      font-size: 22px;
+      border: 3px solid var(--bg-surface);
+      box-shadow: var(--shadow-md);
+      margin-bottom: 6px;
+      transition: all 0.3s;
     }
-    .leaderboard-item .rank.gold {
-      color: #f59e0b;
+    .lb-podium-item .podium-avatar.gold {
+      border-color: var(--gold);
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.25);
     }
-    .leaderboard-item .rank.silver {
-      color: #94a3b8;
+    .lb-podium-item .podium-avatar.silver {
+      border-color: #9ca3af;
     }
-    .leaderboard-item .rank.bronze {
+    .lb-podium-item .podium-avatar.bronze {
+      border-color: #cd7f32;
+    }
+    .lb-podium-item .podium-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lb-podium-item .podium-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .lb-podium-item .podium-title {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 12px;
+      border-radius: 30px;
+      margin-top: 4px;
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--gold);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+    }
+    .lb-podium-item .podium-title.silver {
+      background: rgba(156, 163, 175, 0.12);
+      color: #9ca3af;
+      border-color: rgba(156, 163, 175, 0.15);
+    }
+    .lb-podium-item .podium-title.bronze {
+      background: rgba(205, 127, 50, 0.12);
       color: #cd7f32;
+      border-color: rgba(205, 127, 50, 0.15);
+    }
+    .lb-podium-item .podium-base {
+      width: 100%;
+      height: 4px;
+      border-radius: 4px;
+      margin-top: 6px;
+      background: linear-gradient(90deg, var(--gold), #fbbf24);
+      opacity: 0.4;
+      transition: all 0.3s;
+    }
+    .lb-podium-item:hover .podium-base {
+      opacity: 1;
+      height: 6px;
+    }
+    .lb-podium-item .podium-base.silver {
+      background: linear-gradient(90deg, #d1d5db, #9ca3af);
+    }
+    .lb-podium-item .podium-base.bronze {
+      background: linear-gradient(90deg, #cd7f32, #b45309);
+    }
+    .lb-podium-item.pos-1 {
+      transform: scale(1.05);
+    }
+    .lb-podium-item.pos-1 .podium-avatar {
+      width: 76px;
+      height: 76px;
+      font-size: 26px;
+    }
+    .lb-podium-item.pos-2 {
+      transform: scale(0.95);
+    }
+    .lb-podium-item.pos-3 {
+      transform: scale(0.92);
     }
 
-    /* ===== REGISTRATION / EVALUATION ===== */
+    .lb-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .lb-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .lb-list-item:hover {
+      transform: translateX(6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    .lb-list-item .list-rank {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+      background: var(--bg-body);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .lb-list-item:hover .list-rank {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .lb-list-item .list-rank.top-1 {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #fff;
+      border-color: #f59e0b;
+      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.25);
+    }
+    .lb-list-item .list-rank.top-2 {
+      background: linear-gradient(135deg, #e5e7eb, #9ca3af);
+      color: #fff;
+      border-color: #9ca3af;
+      box-shadow: 0 2px 12px rgba(156, 163, 175, 0.2);
+    }
+    .lb-list-item .list-rank.top-3 {
+      background: linear-gradient(135deg, #fdba74, #ea580c);
+      color: #fff;
+      border-color: #cd7f32;
+      box-shadow: 0 2px 12px rgba(205, 127, 50, 0.2);
+    }
+    .lb-list-item .list-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .lb-list-item .list-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .lb-list-item .list-info .list-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+    .lb-list-item .list-info .list-major {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .lb-list-item .list-score {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lb-list-item .list-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 30px;
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+    }
+    .lb-list-item .list-badge.you {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--primary);
+      border-color: rgba(59, 130, 246, 0.2);
+      font-weight: 700;
+    }
+
+    .lb-encouragement {
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      margin: 16px 0 8px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(59, 130, 246, 0.08));
+      border: 1px solid rgba(245, 158, 11, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeSlide 0.5s ease;
+    }
+    .lb-encouragement .enc-emoji {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+    .lb-encouragement .enc-text {
+      flex: 1;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .lb-encouragement .enc-text strong {
+      color: var(--primary);
+    }
+    .lb-encouragement .enc-text .highlight {
+      color: var(--accent);
+    }
+    .lb-encouragement .enc-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      color: #fff;
+      box-shadow: 0 2px 12px rgba(245, 158, 11, 0.2);
+      flex-shrink: 0;
+    }
+
+    .lb-activity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .lb-activity-item {
+      background: var(--bg-card);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .lb-activity-item:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-light);
+    }
+    .lb-activity-item .act-rank {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 2px;
+    }
+    .lb-activity-item .act-rank.top {
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lb-activity-item .act-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lb-activity-item .act-count {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .lb-activity-item .act-bar {
+      width: 100%;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--bg-body);
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .lb-activity-item .act-bar .fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--primary-light), var(--secondary));
+      transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: 0%;
+    }
+    .lb-activity-item .act-bar .fill.top1 {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+    .lb-activity-item .act-bar .fill.top2 {
+      background: linear-gradient(90deg, #9ca3af, #d1d5db);
+    }
+    .lb-activity-item .act-bar .fill.top3 {
+      background: linear-gradient(90deg, #cd7f32, #fdba74);
+    }
+
+    /* ===== REGISTRATION CARD ===== */
     .reg-card {
       background: var(--bg-card);
       border-radius: var(--radius-md);
@@ -1574,9 +1498,6 @@
       font-size: 15px;
       color: var(--primary);
     }
-    .reg-card .reg-header .reg-status {
-      font-size: 12px;
-    }
     .reg-card .reg-detail {
       color: var(--text-secondary);
       font-size: 13px;
@@ -1586,16 +1507,6 @@
       margin-right: 4px;
       width: 16px;
       text-align: center;
-    }
-    .reg-card .reg-meta {
-      margin-top: 6px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .reg-card .reg-eval {
-      margin-top: 6px;
-      padding-top: 6px;
-      border-top: 1px solid rgba(0, 0, 0, 0.04);
     }
 
     /* ===== MODAL ===== */
@@ -1695,10 +1606,6 @@
       border-color: var(--primary);
       outline: none;
       box-shadow: 0 0 0 3px rgba(15, 59, 94, 0.10);
-    }
-    .modal-box .form-group textarea {
-      resize: vertical;
-      min-height: 60px;
     }
     .modal-box .btn-submit {
       width: 100%;
@@ -1960,148 +1867,6 @@
       color: #0f172a;
     }
 
-    /* ===== TAB BAR ===== */
-    .tab-bar {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 14px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-    }
-    .tab-bar button {
-      padding: 8px 18px;
-      border: none;
-      background: transparent;
-      font-weight: 600;
-      font-size: 13px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all var(--transition);
-      border-bottom: 2px solid transparent;
-      border-radius: 0;
-    }
-    .tab-bar button:hover {
-      color: var(--text-primary);
-    }
-    .tab-bar button.active {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
-    }
-    .hidden {
-      display: none !important;
-    }
-
-    /* ===== HOUSE CARD ===== */
-    .house-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      box-shadow: var(--shadow-sm);
-      transition: all var(--transition);
-    }
-    .house-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-    .house-card .house-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .house-card .house-header .house-name {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .house-card .house-header .house-count {
-      font-size: 12px;
-      color: var(--text-muted);
-      background: var(--bg-body);
-      padding: 2px 12px;
-      border-radius: 30px;
-    }
-    .house-card .house-members {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-    .house-card .house-members .member-tag {
-      background: var(--bg-body);
-      padding: 2px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-    }
-    .house-card .house-members .member-tag.missing {
-      color: var(--danger);
-      border-color: rgba(239, 68, 68, 0.15);
-      background: rgba(239, 68, 68, 0.04);
-    }
-
-    /* ===== EVALUATION BY ACTIVITY ===== */
-    .eval-activity-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-      box-shadow: var(--shadow-sm);
-      transition: all var(--transition);
-    }
-    .eval-activity-card:hover {
-      box-shadow: var(--shadow-md);
-    }
-    .eval-activity-card .eval-act-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-      padding-bottom: 8px;
-      margin-bottom: 8px;
-    }
-    .eval-activity-card .eval-act-header .act-title {
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--primary);
-    }
-    .eval-activity-card .eval-act-header .act-avg {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .eval-activity-card .eval-list {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .eval-activity-card .eval-list .eval-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 4px 0;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.02);
-    }
-    .eval-activity-card .eval-list .eval-row .student-name {
-      font-weight: 500;
-    }
-    .eval-activity-card .eval-list .eval-row .score {
-      font-weight: 700;
-    }
-    .eval-activity-card .eval-list .eval-row .score.good {
-      color: var(--success);
-    }
-    .eval-activity-card .eval-list .eval-row .score.mid {
-      color: var(--warning);
-    }
-    .eval-activity-card .eval-list .eval-row .score.low {
-      color: var(--danger);
-    }
-
     /* ============================================================
        RESPONSIVE
        ============================================================ */
@@ -2130,17 +1895,6 @@
       }
       .stat-card .num {
         font-size: 22px;
-      }
-      .stat-card .stat-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 15px;
-      }
-      .stat-card .label {
-        font-size: 11px;
-      }
-      .stat-card .stat-sub {
-        font-size: 10px;
       }
       .app-sidebar {
         transform: translateX(100%);
@@ -2199,25 +1953,11 @@
       .stat-card .num {
         font-size: 19px;
       }
-      .stat-card .stat-icon {
-        width: 30px;
-        height: 30px;
-        font-size: 13px;
-      }
-      .stat-card .label {
-        font-size: 10px;
-      }
-      .stat-card .stat-sub {
-        font-size: 9px;
-      }
       .grid {
         grid-template-columns: 1fr;
       }
       .topbar .topbar-left .page-title h2 {
         font-size: 18px;
-      }
-      .topbar .topbar-left .page-title p {
-        font-size: 12px;
       }
       .modal-box {
         padding: 24px 20px;
@@ -2227,15 +1967,8 @@
         font-size: 11px;
         min-width: 380px;
       }
-      .table-wrap table th,
-      .table-wrap table td {
-        padding: 4px 8px;
-      }
       .top7-grid {
         grid-template-columns: repeat(3, 1fr);
-      }
-      .top7-item .top7-name {
-        font-size: 12px;
       }
       .student-id-card .card-body .card-qr {
         width: 64px;
@@ -2247,9 +1980,6 @@
       }
       .modal-box .form-row {
         grid-template-columns: 1fr;
-      }
-      .modal-box .modal-stats {
-        grid-template-columns: 1fr 1fr;
       }
       .lb-podium {
         gap: 8px;
@@ -2328,17 +2058,6 @@
       .stat-card .num {
         font-size: 16px;
       }
-      .stat-card .stat-icon {
-        width: 26px;
-        height: 26px;
-        font-size: 11px;
-      }
-      .stat-card .label {
-        font-size: 9px;
-      }
-      .stat-card .stat-sub {
-        font-size: 8px;
-      }
       .card-panel {
         padding: 10px 12px;
       }
@@ -2361,17 +2080,9 @@
         font-size: 10px;
         min-width: 300px;
       }
-      .table-wrap table th,
-      .table-wrap table td {
-        padding: 3px 6px;
-      }
       .btn {
         padding: 4px 10px;
         font-size: 10px;
-      }
-      .btn-sm {
-        padding: 2px 6px;
-        font-size: 8px;
       }
       .top7-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -2386,9 +2097,6 @@
       }
       .top7-item .top7-name {
         font-size: 11px;
-      }
-      .top7-item .top7-count {
-        font-size: 10px;
       }
       .student-id-card {
         padding: 14px 16px;
@@ -2424,10 +2132,6 @@
       .lb-podium-item .podium-count {
         font-size: 9px;
       }
-      .lb-podium-item .podium-title {
-        font-size: 8px;
-        padding: 1px 8px;
-      }
       .lb-podium-item.pos-1 .podium-avatar {
         width: 48px !important;
         height: 48px !important;
@@ -2462,10 +2166,6 @@
       .lb-list-item .list-score {
         font-size: 11px;
       }
-      .lb-list-item .list-badge {
-        font-size: 8px;
-        padding: 1px 6px;
-      }
       .lb-activity-grid {
         grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
         gap: 8px;
@@ -2475,9 +2175,6 @@
       }
       .lb-activity-item .act-name {
         font-size: 12px;
-      }
-      .lb-activity-item .act-rank {
-        font-size: 16px;
       }
       .lb-encouragement {
         padding: 10px 14px;
@@ -2489,14 +2186,17 @@
       .lb-encouragement .enc-text {
         font-size: 12px;
       }
-      .lb-encouragement .enc-badge {
-        font-size: 9px;
-        padding: 2px 10px;
-      }
     }
   </style>
 </head>
 <body>
+
+  <!-- ===== LOADING OVERLAY (เพิ่มใหม่) ===== -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text">⏳ กำลังโหลดข้อมูล...</div>
+    <div class="loading-sub">กรุณารอสักครู่</div>
+  </div>
 
   <!-- LOGIN -->
   <div id="loginPage">
@@ -2566,9 +2266,6 @@
       </button>
       <button class="nav-item" data-page="admin-registrations" onclick="switchTab('admin-registrations')" id="adminRegNav" style="display:none;">
         <i class="fas fa-clipboard-list"></i> <span>จัดการลงทะเบียน</span>
-      </button>
-      <button class="nav-item" data-page="admin-evaluations" onclick="switchTab('admin-evaluations')" id="adminEvalNav" style="display:none;">
-        <i class="fas fa-star"></i> <span>จัดการประเมิน</span>
       </button>
     </nav>
     <div class="sidebar-footer">
@@ -2650,7 +2347,7 @@
         <div class="card-header">
           <h3><i class="fas fa-list"></i> กิจกรรมล่าสุด <span class="badge" id="recentBadge">0</span></h3>
         </div>
-        <div id="recentActivities" class="grid" style="grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));"></div>
+        <div id="recentActivities" class="grid"></div>
       </div>
     </div>
 
@@ -2698,8 +2395,6 @@
             <div>@<span id="cardIdShort">-</span></div>
           </div>
         </div>
-
-        <!-- ปุ่มดาวน์โหลด QR และพิมพ์ PDF -->
         <div class="card-actions-row">
           <button class="btn btn-download btn-sm" onclick="downloadQR()"><i class="fas fa-qrcode"></i> ดาวน์โหลด QR</button>
           <button class="btn btn-pdf btn-sm" onclick="printCardPDF()"><i class="fas fa-file-pdf"></i> พิมพ์บัตร (PDF)</button>
@@ -2716,9 +2411,8 @@
       </div>
     </div>
 
-    <!-- LEADERBOARD — ดีไซน์ใหม่สวยงามพร้อมกำลังใจ -->
+    <!-- LEADERBOARD -->
     <div id="page-leaderboard" class="page-section">
-      <!-- นักสู้ยอดเยี่ยม -->
       <div class="card-panel">
         <div class="card-header">
           <h2><i class="fas fa-trophy" style="color:var(--accent);"></i> 🏆 นักสู้ยอดเยี่ยม <span class="badge" id="lbStudentCount">0</span></h2>
@@ -2727,7 +2421,6 @@
         <div id="studentLeaderboardContainer">
           <div style="text-align:center;padding:30px 0;color:var(--text-muted);">กำลังโหลด...</div>
         </div>
-        <!-- Encouragement -->
         <div id="lbEncouragement" class="lb-encouragement" style="display:none;">
           <span class="enc-emoji" id="encEmoji">💪</span>
           <span class="enc-text" id="encText">กำลังใจสำหรับคุณ...</span>
@@ -2735,7 +2428,6 @@
         </div>
       </div>
 
-      <!-- กิจกรรมยอดนิยม -->
       <div class="card-panel">
         <div class="card-header">
           <h2><i class="fas fa-fire" style="color:var(--danger);"></i> กิจกรรมยอดนิยม (7 อันดับ)</h2>
@@ -2803,44 +2495,9 @@
         </div>
       </div>
     </div>
-
-    <!-- ADMIN: EVALUATIONS -->
-    <div id="page-admin-evaluations" class="page-section">
-      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="stat-card" onclick="openStatModal('eval-summary')">
-          <div class="stat-top"><div class="stat-icon purple"><i class="fas fa-star"></i></div></div>
-          <div class="num" id="evalTotal">-</div>
-          <div class="label">การประเมินทั้งหมด</div>
-        </div>
-        <div class="stat-card" onclick="openStatModal('eval-avg')">
-          <div class="stat-top"><div class="stat-icon green"><i class="fas fa-calculator"></i></div></div>
-          <div class="num" id="evalAvg">-</div>
-          <div class="label">คะแนนเฉลี่ย</div>
-        </div>
-        <div class="stat-card" onclick="openStatModal('eval-dist')">
-          <div class="stat-top"><div class="stat-icon amber"><i class="fas fa-chart-pie"></i></div></div>
-          <div class="num" id="evalDist">-</div>
-          <div class="label">แจกแจงคะแนน</div>
-        </div>
-      </div>
-      <div class="card-panel">
-        <div class="card-header">
-          <h3><i class="fas fa-list"></i> การประเมินแยกตามกิจกรรม <span class="badge" id="evalListCount">0</span></h3>
-        </div>
-        <div id="evalByActivityContainer"></div>
-      </div>
-      <div class="card-panel">
-        <div class="card-header">
-          <h3><i class="fas fa-chart-line"></i> กราฟคะแนนประเมิน</h3>
-        </div>
-        <div style="height:220px;max-width:100%;">
-          <canvas id="evalChart"></canvas>
-        </div>
-      </div>
-    </div>
   </main>
 
-  <!-- STAT MODAL -->
+  <!-- MODALS -->
   <div class="modal-overlay" id="statModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -2851,91 +2508,79 @@
     </div>
   </div>
 
-  <!-- EDIT STUDENT MODAL -->
   <div class="modal-overlay" id="editStudentModal">
     <div class="modal-box">
       <div class="modal-header">
         <h3><i class="fas fa-user-edit"></i> แก้ไขข้อมูลนักศึกษา</h3>
         <button class="close" onclick="closeModal('editStudentModal')">&times;</button>
       </div>
-      <div class="form-group"><label>รหัสนักศึกษา</label><input type="text" id="editStudentId" readonly style="background:rgba(15,59,94,0.04);" /></div>
+      <div class="form-group"><label>รหัสนักศึกษา</label><input type="text" id="editStudentId" readonly /></div>
       <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="editFullName" /></div>
       <div class="form-group"><label>ที่อยู่</label><input type="text" id="editAddress" /></div>
       <div class="form-group"><label>ชื่อวงฮาลาเกาะห์</label><input type="text" id="editHalaqah" /></div>
       <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="text" id="editPhone" /></div>
       <div class="form-group"><label>Facebook</label><input type="text" id="editFacebook" /></div>
-      <div class="form-group"><label>สถานะ</label>
-        <select id="editStatus"><option value="นักเรียน">นักเรียน</option><option value="Admin">Admin</option></select>
-      </div>
+      <div class="form-group"><label>สถานะ</label><select id="editStatus"><option value="นักเรียน">นักเรียน</option><option value="Admin">Admin</option></select></div>
       <div class="form-group"><label>ระดับการศึกษา</label><input type="text" id="editMajor" /></div>
       <button class="btn btn-success btn-submit" onclick="saveEditStudent()"><i class="fas fa-save"></i> บันทึก</button>
       <div id="editStudentResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
     </div>
   </div>
 
-  <!-- PROFILE SETTINGS MODAL -->
   <div class="modal-overlay" id="profileSettingsModal">
     <div class="modal-box" style="max-width:550px;">
       <div class="modal-header">
         <h3><i class="fas fa-user-cog"></i> ตั้งค่าโปรไฟล์</h3>
         <button class="close" onclick="closeModal('profileSettingsModal')">&times;</button>
       </div>
-      <div class="form-group"><label>ที่อยู่</label><input type="text" id="psAddress" placeholder="ที่อยู่" /></div>
-      <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="text" id="psPhone" placeholder="เบอร์โทร" /></div>
-      <div class="form-group"><label>Facebook</label><input type="text" id="psFacebook" placeholder="Facebook" /></div>
-      <div class="form-group"><label>ชื่อวงฮาลาเกาะห์</label><input type="text" id="psHalaqah" placeholder="ชื่อวงฮาลาเกาะห์" /></div>
-      <div class="form-group"><label>เปลี่ยนรหัสผ่าน</label>
-        <input type="password" id="psNewPassword" placeholder="รหัสผ่านใหม่ (เว้นว่างไว้ถ้าไม่เปลี่ยน)" />
-      </div>
+      <div class="form-group"><label>ที่อยู่</label><input type="text" id="psAddress" /></div>
+      <div class="form-group"><label>เบอร์โทรศัพท์</label><input type="text" id="psPhone" /></div>
+      <div class="form-group"><label>Facebook</label><input type="text" id="psFacebook" /></div>
+      <div class="form-group"><label>ชื่อวงฮาลาเกาะห์</label><input type="text" id="psHalaqah" /></div>
+      <div class="form-group"><label>เปลี่ยนรหัสผ่าน</label><input type="password" id="psNewPassword" placeholder="เว้นว่างไว้ถ้าไม่เปลี่ยน" /></div>
       <button class="btn btn-success btn-submit" onclick="saveProfileSettings()"><i class="fas fa-save"></i> บันทึก</button>
       <div id="psResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
     </div>
   </div>
 
-  <!-- REGISTER STUDENT MODAL -->
   <div class="modal-overlay" id="registerModal">
     <div class="modal-box">
       <div class="modal-header">
         <h3><i class="fas fa-user-plus"></i> ลงทะเบียนนักศึกษาใหม่</h3>
         <button class="close" onclick="closeModal('registerModal')">&times;</button>
       </div>
-      <div class="form-group"><label>รหัสนักศึกษา <span style="color:var(--danger);">*</span></label><input type="text" id="regStudentId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" /></div>
-      <div class="form-group"><label>ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label><input type="text" id="regFullName" placeholder="เช่น สมชาย ใจดี" /></div>
+      <div class="form-group"><label>รหัสนักศึกษา <span style="color:var(--danger);">*</span></label><input type="text" id="regStudentId" readonly /></div>
+      <div class="form-group"><label>ชื่อ-นามสกุล <span style="color:var(--danger);">*</span></label><input type="text" id="regFullName" /></div>
       <div class="form-row">
-        <div class="form-group"><label>เบอร์โทร</label><input type="text" id="regPhone" placeholder="0812345678" /></div>
-        <div class="form-group"><label>สาขาวิชา</label><input type="text" id="regMajor" placeholder="เช่น วิศวกรรมศาสตร์" /></div>
+        <div class="form-group"><label>เบอร์โทร</label><input type="text" id="regPhone" /></div>
+        <div class="form-group"><label>สาขาวิชา</label><input type="text" id="regMajor" /></div>
       </div>
-      <div class="form-group"><label>รหัสผ่าน <span style="color:var(--danger);">*</span></label><input type="text" id="regPassword" placeholder="อย่างน้อย 4 ตัว" /></div>
+      <div class="form-group"><label>รหัสผ่าน <span style="color:var(--danger);">*</span></label><input type="text" id="regPassword" /></div>
       <button class="btn btn-success btn-submit" onclick="registerStudent()"><i class="fas fa-save"></i> ลงทะเบียน</button>
       <div id="regResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
     </div>
   </div>
 
-  <!-- ACTIVITY MODAL -->
   <div class="modal-overlay" id="activityModal">
     <div class="modal-box">
       <div class="modal-header">
         <h3 id="activityModalTitle"><i class="fas fa-plus"></i> เพิ่มกิจกรรม</h3>
         <button class="close" onclick="closeModal('activityModal')">&times;</button>
       </div>
-      <div class="form-group"><label>รหัสกิจกรรม</label><input type="text" id="actId" readonly style="background:rgba(15,59,94,0.04);font-weight:700;" /></div>
-      <div class="form-group"><label>ชื่อกิจกรรม <span style="color:var(--danger);">*</span></label><input type="text" id="actTitle" placeholder="ชื่อกิจกรรม" /></div>
-      <div class="form-group"><label>รายละเอียด</label><textarea id="actDesc" placeholder="รายละเอียดกิจกรรม"></textarea></div>
+      <div class="form-group"><label>รหัสกิจกรรม</label><input type="text" id="actId" readonly /></div>
+      <div class="form-group"><label>ชื่อกิจกรรม <span style="color:var(--danger);">*</span></label><input type="text" id="actTitle" /></div>
+      <div class="form-group"><label>รายละเอียด</label><textarea id="actDesc"></textarea></div>
       <div class="form-row">
         <div class="form-group"><label>วันที่จัด <span style="color:var(--danger);">*</span></label><input type="date" id="actDate" /></div>
         <div class="form-group"><label>เวลาเริ่ม</label><input type="time" id="actTime" value="08:00" /></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>สถานที่</label><input type="text" id="actLocation" placeholder="สถานที่" /></div>
-        <div class="form-group"><label>จำนวนที่รับ</label><input type="number" id="actSlots" placeholder="50" value="50" /></div>
+        <div class="form-group"><label>สถานที่</label><input type="text" id="actLocation" /></div>
+        <div class="form-group"><label>จำนวนที่รับ</label><input type="number" id="actSlots" value="50" /></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>สถานะ</label>
-          <select id="actStatus"><option value="upcoming">กำลังจะมา</option><option value="ongoing">กำลังจัด</option><option value="closed">ปิดแล้ว</option></select>
-        </div>
-        <div class="form-group"><label>ประเภท</label>
-          <select id="actType"><option value="public">สาธารณะ (Public)</option><option value="private">ส่วนตัว (Private)</option></select>
-        </div>
+        <div class="form-group"><label>สถานะ</label><select id="actStatus"><option value="upcoming">กำลังจะมา</option><option value="ongoing">กำลังจัด</option><option value="closed">ปิดแล้ว</option></select></div>
+        <div class="form-group"><label>ประเภท</label><select id="actType"><option value="public">สาธารณะ</option><option value="private">ส่วนตัว</option></select></div>
       </div>
       <button class="btn btn-success btn-submit" onclick="saveActivity()"><i class="fas fa-save"></i> บันทึก</button>
       <div id="actResult" style="margin-top:12px;text-align:center;font-weight:600;"></div>
@@ -2949,7 +2594,7 @@
     // ================================================================
     //  CONFIG
     // ================================================================
-    const PROXY_URL = 'https://shababscanner.hem5426.workers.dev';
+    const PROXY_URL = 'https://shababscanner.hem5426.workers.dev'; // เปลี่ยนเป็น URL ของคุณ
     const API_SECRET = 'MySuperSecretKey123!@#';
 
     // ================================================================
@@ -2986,30 +2631,39 @@
     };
 
     // ================================================================
-    //  API
+    //  LOADING OVERLAY
+    // ================================================================
+    function showLoading() {
+      document.getElementById('loadingOverlay').classList.remove('hidden');
+    }
+    function hideLoading() {
+      document.getElementById('loadingOverlay').classList.add('hidden');
+    }
+
+    // ================================================================
+    //  API (แก้ไข: เติม ?t= ทุกครั้งเพื่อ bypass cache)
     // ================================================================
     async function apiCall(endpoint, options = {}, retries = 2) {
       const isMutation = options.method && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(options.method.toUpperCase());
-      const cacheKey = endpoint + (options.body ? '_' + JSON.stringify(options.body).slice(0, 50) : '');
+      const sep = endpoint.includes('?') ? '&' : '?';
+      const finalEndpoint = endpoint + sep + 't=' + Date.now();
+
+      const cacheKey = finalEndpoint + (options.body ? '_' + JSON.stringify(options.body).slice(0, 50) : '');
+
       if (isMutation) {
-        const baseEndpoint = endpoint.split('?')[0];
+        const baseEndpoint = finalEndpoint.split('?')[0];
         CACHE.invalidatePattern(baseEndpoint);
-        if (baseEndpoint.includes('/activities') || baseEndpoint.includes('/registrations')) {
-          CACHE.invalidatePattern('/api/leaderboard');
-          CACHE.invalidatePattern('/api/activities');
-          CACHE.invalidatePattern('/api/registrations');
-        }
-        if (baseEndpoint.includes('/students')) CACHE.invalidatePattern('/api/students');
-        return await fetchAPI(endpoint, options, retries);
+        return await fetchAPI(finalEndpoint, options, retries);
       }
-      const ttl = CACHE.TTL[endpoint.split('?')[0]] || CACHE.TTL.default;
+
+      const ttl = CACHE.TTL[finalEndpoint.split('?')[0]] || CACHE.TTL.default;
       const cached = CACHE.get(cacheKey);
       if (cached) {
-        refreshInBackground(endpoint, options, cacheKey);
+        refreshInBackground(finalEndpoint, options, cacheKey);
         return cached;
       }
       try {
-        const data = await fetchAPI(endpoint, options, retries);
+        const data = await fetchAPI(finalEndpoint, options, retries);
         if (data && data.success !== false) CACHE.set(cacheKey, data, ttl);
         return data;
       } catch (e) {
@@ -3020,10 +2674,9 @@
     }
 
     async function fetchAPI(endpoint, options = {}, retries = 2) {
-      const finalEndpoint = endpoint.includes('?') ? endpoint + '&t=' + Date.now() : endpoint + '?t=' + Date.now();
       for (let attempt = 0; attempt <= retries; attempt++) {
         try {
-          const res = await fetch(`${PROXY_URL}${finalEndpoint}`, {
+          const res = await fetch(`${PROXY_URL}${endpoint}`, {
             ...options,
             headers: {
               'Content-Type': 'application/json',
@@ -3063,44 +2716,31 @@
     }
 
     // ================================================================
-    //  STATE
+    //  DATE HELPERS (รองรับ 23/8/2569 และ 23-8-2569)
     // ================================================================
-    let allStudents = [];
-    let allActivities = [];
-    let allRegistrations = [];
-    let currentUser = null;
-    let isAdmin = false;
-    let isDark = localStorage.getItem('theme') === 'dark';
-    let evalChartInstance = null;
-    let registeredActivities = new Set();
-    let visibleActivities = [];
-
-    // ================================================================
-    //  HELPERS
-    // ================================================================
-    function $(id) { return document.getElementById(id); }
-
-    function showToast(msg, type = 'info') {
-      const container = $('toastContainer');
-      const el = document.createElement('div');
-      el.className = `toast-item ${type}`;
-      const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-triangle-exclamation',
-        info: 'fa-info-circle' };
-      el.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${msg}`;
-      container.appendChild(el);
-      requestAnimationFrame(() => el.classList.add('show'));
-      setTimeout(() => { el.classList.remove('show');
-        setTimeout(() => el.remove(), 500); }, 4000);
-    }
-
-    function getTodayStr() {
-      return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
+    function normalizeDate(dateStr) {
+      if (!dateStr) return '';
+      const s = String(dateStr).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+      const parts = s.split(/[\/\-]/);
+      if (parts.length === 3) {
+        let year = parseInt(parts[2]);
+        let month = parseInt(parts[1]);
+        let day = parseInt(parts[0]);
+        if (year > 2500) year -= 543;
+        if (!isNaN(year) && !isNaN(month) && !isNaN(day) && month >= 1 && month <= 12) {
+          return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        }
+      }
+      const d = new Date(s);
+      if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
+      return '';
     }
 
     function formatDate(dateStr) {
       if (!dateStr) return '-';
       try {
-        const d = new Date(dateStr);
+        const d = new Date(normalizeDate(dateStr));
         if (isNaN(d.getTime())) return dateStr;
         return d.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
       } catch { return dateStr; }
@@ -3122,6 +2762,41 @@
         if (isNaN(d.getTime())) return dateStr;
         return d.toLocaleDateString('th-TH', { month: 'long', year: 'numeric' });
       } catch { return dateStr; }
+    }
+
+    function getTodayStr() {
+      return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Bangkok' });
+    }
+
+    // ================================================================
+    //  STATE
+    // ================================================================
+    let allStudents = [];
+    let allActivities = [];
+    let allRegistrations = [];
+    let currentUser = null;
+    let isAdmin = false;
+    let isDark = localStorage.getItem('theme') === 'dark';
+    let isLoading = false;
+    let registeredActivities = new Set();
+    let visibleActivities = [];
+
+    // ================================================================
+    //  HELPERS
+    // ================================================================
+    function $(id) { return document.getElementById(id); }
+
+    function showToast(msg, type = 'info') {
+      const container = $('toastContainer');
+      const el = document.createElement('div');
+      el.className = `toast-item ${type}`;
+      const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-triangle-exclamation',
+        info: 'fa-info-circle' };
+      el.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${msg}`;
+      container.appendChild(el);
+      requestAnimationFrame(() => el.classList.add('show'));
+      setTimeout(() => { el.classList.remove('show');
+        setTimeout(() => el.remove(), 500); }, 4000);
     }
 
     // ================================================================
@@ -3190,7 +2865,7 @@
         sidebarUser.textContent = 'Admin';
         sidebarRole.textContent = 'ผู้ดูแลระบบ';
         avatar.textContent = 'A';
-        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav')
+        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav')
           .forEach(el => el.style.display = 'flex');
         document.getElementById('profileNav').style.display = 'none';
         document.getElementById('navCount').textContent = '👑';
@@ -3198,7 +2873,7 @@
         sidebarUser.textContent = currentUser.full_name || 'นักศึกษา';
         sidebarRole.textContent = 'นักศึกษา';
         avatar.textContent = (currentUser.full_name || 'S').charAt(0).toUpperCase();
-        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav, #adminEvalNav')
+        document.querySelectorAll('#adminNav, #adminActNav, #adminRegNav')
           .forEach(el => el.style.display = 'none');
         document.getElementById('profileNav').style.display = 'flex';
         document.getElementById('navCount').textContent = '0';
@@ -3217,7 +2892,6 @@
         allActivities = [];
         allRegistrations = [];
         visibleActivities = [];
-        registeredActivities = new Set();
         showToast('👋 ออกจากระบบแล้ว', 'info');
       }
     }
@@ -3239,13 +2913,12 @@
     })();
 
     // ================================================================
-    //  LOAD DATA
+    //  LOAD ALL DATA (พร้อม Loading Animation)
     // ================================================================
-    let isLoading = false;
-
     async function loadAllData() {
       if (isLoading) return;
       isLoading = true;
+      showLoading();
 
       try {
         const [studentsResult, activitiesResult] = await Promise.allSettled([
@@ -3305,7 +2978,6 @@
           loadAdminStudents();
           loadAdminActivities();
           loadAdminRegistrations();
-          loadAdminEvaluations();
         }
         $('updateTime').textContent = '🕐 ' + new Date().toLocaleString('th-TH');
         $('statusDot').style.background = '#34a853';
@@ -3313,10 +2985,14 @@
         showToast('❌ โหลดข้อมูลไม่สำเร็จ: ' + e.message, 'error');
         $('statusDot').style.background = '#ea4335';
       } finally {
+        hideLoading();
         isLoading = false;
       }
     }
 
+    // ================================================================
+    //  REFRESH DATA (ล้าง Cache และโหลดใหม่)
+    // ================================================================
     function refreshData() {
       CACHE.invalidate();
       loadAllData();
@@ -3334,15 +3010,13 @@
       $('dashUpcoming').textContent = upcoming;
 
       const now = new Date();
-      const recent = visibleActivities
-        .filter(a => {
-          if (a.status !== 'closed') return true;
-          if (!a.datetime) return false;
-          const d = new Date(a.datetime);
-          const diffMonths = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
-          return diffMonths <= 2;
-        })
-        .slice(0, 3);
+      const recent = visibleActivities.filter(a => {
+        if (a.status !== 'closed') return true;
+        if (!a.datetime) return false;
+        const d = new Date(a.datetime);
+        const diffMonths = (now.getFullYear() - d.getFullYear()) * 12 + (now.getMonth() - d.getMonth());
+        return diffMonths <= 2;
+      }).slice(0, 3);
 
       $('recentBadge').textContent = recent.length;
       $('recentActivities').innerHTML = recent.map(a => {
@@ -3350,16 +3024,15 @@
         const isRegistered = registeredActivities.has(a.act_id);
         const btnClass = isRegistered ? 'btn-booked' : 'btn-success';
         const btnText = isRegistered ? 'จองแล้ว' : 'ลงทะเบียน';
-        const btnDisabled = isRegistered ? 'disabled' : '';
         let registerBtn = '';
         if (a.status === 'upcoming' && currentUser && !isAdmin) {
           registerBtn =
-            `<button class="btn ${btnClass} btn-sm register-btn" onclick="registerActivity('${a.act_id}')" ${btnDisabled}><i class="fas ${isRegistered ? 'fa-check-circle' : 'fa-user-plus'}"></i> ${btnText}</button>`;
+            `<button class="btn ${btnClass} btn-sm" onclick="registerActivity('${a.act_id}')" ${isRegistered ? 'disabled' : ''}><i class="fas ${isRegistered ? 'fa-check-circle' : 'fa-user-plus'}"></i> ${btnText}</button>`;
         }
         return `
             <div class="activity-card">
               <div class="title">${a.title}</div>
-              <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
+              <div class="meta"><i class="fas fa-calendar-day"></i> ${formatDate(a.datetime) || 'ไม่ระบุ'}</div>
               <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || '-'}</div>
               <span class="badge-status ${a.status}">${statusMap[a.status] || a.status}</span>
               ${registerBtn}
@@ -3414,12 +3087,8 @@
       $('top7Count').textContent = sorted.length;
 
       if (sorted.length === 0) {
-        container.innerHTML = `
-            <div style="text-align:center;padding:20px 0;color:var(--text-muted);">
-              <i class="fas fa-inbox" style="font-size:28px;display:block;margin-bottom:10px;"></i>
-              ยังไม่มีข้อมูลการเข้าร่วม
-            </div>
-          `;
+        container.innerHTML =
+          `<div style="text-align:center;padding:20px 0;color:var(--text-muted);"><i class="fas fa-inbox" style="font-size:28px;display:block;margin-bottom:10px;"></i>ยังไม่มีข้อมูลการเข้าร่วม</div>`;
         $('top7Encouragement').textContent = '💪 เริ่มต้นเข้าร่วมกิจกรรมเพื่อเป็นนักสู้!';
         return;
       }
@@ -3479,17 +3148,16 @@
         const isRegistered = registeredActivities.has(a.act_id);
         const btnClass = isRegistered ? 'btn-booked' : 'btn-success';
         const btnText = isRegistered ? 'จองแล้ว' : 'ลงทะเบียน';
-        const btnDisabled = isRegistered ? 'disabled' : '';
         let registerBtn = '';
         if (a.status === 'upcoming' && currentUser && !isAdmin) {
           registerBtn =
-            `<button class="btn ${btnClass} btn-sm register-btn" onclick="registerActivity('${a.act_id}')" ${btnDisabled}><i class="fas ${isRegistered ? 'fa-check-circle' : 'fa-user-plus'}"></i> ${btnText}</button>`;
+            `<button class="btn ${btnClass} btn-sm" onclick="registerActivity('${a.act_id}')" ${isRegistered ? 'disabled' : ''}><i class="fas ${isRegistered ? 'fa-check-circle' : 'fa-user-plus'}"></i> ${btnText}</button>`;
         }
         const timeDisplay = a.start_time ? formatTime(a.start_time) : '';
         return `
             <div class="activity-card">
               <div class="title">${a.title}</div>
-              <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'} ${timeDisplay ? ' ⏰ '+timeDisplay : ''}</div>
+              <div class="meta"><i class="fas fa-calendar-day"></i> ${formatDate(a.datetime) || 'ไม่ระบุ'} ${timeDisplay ? ' ⏰ '+timeDisplay : ''}</div>
               <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || 'ไม่ระบุ'}</div>
               <div class="meta"><i class="fas fa-users"></i> รับสูงสุด ${a.max_slots || 'ไม่จำกัด'} คน</div>
               <span class="badge-status ${a.status}">${statusMap[a.status] || a.status}</span>
@@ -3656,20 +3324,17 @@
     function renderRegistrations(registrations) {
       const container = $('registrationsTab');
       const statusMap = { 'registered': '🟡 รอเข้าร่วม', 'checked-in': '🟢 เข้าร่วมแล้ว', 'absent': '🔴 ขาด' };
-      const statusClass = { 'registered': 'waiting', 'checked-in': 'checked', 'absent': 'absent' };
       container.innerHTML = registrations.map(r => {
-        const cls = statusClass[r.attendance_status] || '';
         const statusText = statusMap[r.attendance_status] || r.attendance_status;
         return `
             <div class="reg-card">
               <div class="reg-header">
                 <span class="reg-title"><i class="fas fa-calendar-check"></i> ${r.activity_title || 'ไม่ระบุ'}</span>
-                <span class="badge-status ${cls}">${statusText}</span>
+                <span class="badge-status ${r.attendance_status === 'checked-in' ? 'checked' : r.attendance_status === 'registered' ? 'waiting' : 'absent'}">${statusText}</span>
               </div>
-              <div class="reg-detail"><i class="fas fa-calendar-day"></i> ${r.activity_datetime || ''}</div>
+              <div class="reg-detail"><i class="fas fa-calendar-day"></i> ${formatDate(r.activity_datetime) || ''}</div>
               <div class="reg-detail"><i class="fas fa-map-marker-alt"></i> ${r.activity_location || ''}</div>
-              ${r.evaluation_score ? `<div class="reg-eval">⭐ คะแนน: ${r.evaluation_score}/5</div>` : ''}
-              ${r.evaluation_comment ? `<div class="reg-eval" style="color:var(--text-muted);">💬 ${r.evaluation_comment}</div>` : ''}
+              ${r.evaluation_score ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,0,0,0.04);">⭐ คะแนน: ${r.evaluation_score}/5</div>` : ''}
             </div>
           `;
       }).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ไม่มีประวัติการลงทะเบียน</p>';
@@ -3689,7 +3354,7 @@
             <div class="reg-card">
               <div class="reg-header">
                 <span class="reg-title"><i class="fas fa-star"></i> ${r.activity_title}</span>
-                <span style="font-size:12px;color:var(--text-muted);">${r.activity_datetime}</span>
+                <span style="font-size:12px;color:var(--text-muted);">${formatDate(r.activity_datetime)}</span>
               </div>
               <div class="evaluation-form" data-regid="${r.reg_id}" style="margin-top:8px;">
                 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px;">
@@ -3779,7 +3444,6 @@
         showToast('⚠️ ไม่พบบัตร', 'error');
         return;
       }
-
       html2canvas(card, {
         scale: 2,
         backgroundColor: null,
@@ -3807,11 +3471,10 @@
     }
 
     // ================================================================
-    //  LEADERBOARD — ดีไซน์ใหม่สวยงามพร้อมกำลังใจ
+    //  LEADERBOARD
     // ================================================================
     async function renderLeaderboards() {
       try {
-        // ===== 1. STUDENT LEADERBOARD =====
         const studentRes = await apiCall('/api/leaderboard/students');
         let studentData = [];
         if (studentRes && studentRes.success) {
@@ -3824,22 +3487,15 @@
         document.getElementById('lbMonthLabel').textContent = getThaiMonth(getTodayStr());
 
         if (totalStudents === 0) {
-          container.innerHTML = `
-              <div class="empty-state" style="padding:30px 0;">
-                <i class="fas fa-inbox" style="font-size:2.5rem;opacity:0.3;"></i>
-                <h3 style="margin-top:8px;">ยังไม่มีข้อมูลการเข้าร่วม</h3>
-                <p style="color:var(--text-muted);">เริ่มเข้าร่วมกิจกรรมเพื่อเป็นนักสู้!</p>
-              </div>
-            `;
+          container.innerHTML =
+            `<div style="text-align:center;padding:30px 0;color:var(--text-muted);"><i class="fas fa-inbox" style="font-size:2.5rem;opacity:0.3;"></i><h3 style="margin-top:8px;">ยังไม่มีข้อมูลการเข้าร่วม</h3></div>`;
           document.getElementById('lbEncouragement').style.display = 'none';
           return;
         }
 
-        // Top 3 for podium
         const top3 = studentData.slice(0, 3);
-        const rest = studentData.slice(3, 12); // ต่อไปอีก 9 คน รวมเป็น 12
+        const rest = studentData.slice(3, 12);
 
-        // หาอันดับของ user ปัจจุบัน
         const currentUserRank = studentData.findIndex(item => item.student_id === currentUser?.student_id) + 1;
 
         let podiumHtml = '';
@@ -3849,19 +3505,13 @@
             { pos: 2, data: top3[1] || null, cls: 'silver', label: '🥈' },
             { pos: 3, data: top3[2] || null, cls: 'bronze', label: '🥉' }
           ];
-
           podiumHtml = `<div class="lb-podium">`;
-          // เรียงลำดับ: อันดับ2, อันดับ1, อันดับ3 (เพื่อให้ดูเหมือนแท่น podium)
           const order = [1, 0, 2];
           order.forEach(idx => {
             const item = podiumData[idx];
             if (!item.data) {
-              podiumHtml += `<div class="lb-podium-item pos-${idx+1}" style="opacity:0.3;min-width:70px;">
-                  <div class="podium-rank ${item.cls}">${idx+1}</div>
-                  <div class="podium-medal ${item.cls}">${item.label}</div>
-                  <div class="podium-avatar ${item.cls}" style="background:var(--bg-card);border:2px dashed var(--border);color:var(--text-muted);font-size:12px;">?</div>
-                  <div class="podium-name" style="color:var(--text-muted);">ว่าง</div>
-                </div>`;
+              podiumHtml +=
+                `<div class="lb-podium-item pos-${idx+1}" style="opacity:0.3;min-width:70px;"><div class="podium-rank ${item.cls}">${idx+1}</div><div class="podium-medal ${item.cls}">${item.label}</div><div class="podium-avatar ${item.cls}" style="background:var(--bg-card);border:2px dashed var(--border);color:var(--text-muted);font-size:12px;">?</div><div class="podium-name" style="color:var(--text-muted);">ว่าง</div></div>`;
               return;
             }
             const student = allStudents.find(s => s.student_id === item.data.student_id);
@@ -3885,7 +3535,6 @@
           podiumHtml += `</div>`;
         }
 
-        // รายชื่อที่เหลือ (อันดับ 4-12)
         let listHtml = `<div class="lb-list">`;
         rest.forEach((item, idx) => {
           const rank = idx + 4;
@@ -3912,16 +3561,12 @@
             `;
         });
         listHtml += `</div>`;
-
         container.innerHTML = podiumHtml + listHtml;
 
-        // ===== 2. ENCOURAGEMENT =====
         const encContainer = document.getElementById('lbEncouragement');
         let encMsg = '';
         let encEmoji = '💪';
         let encBadge = '🔥 แรงบันดาลใจ';
-        let encBadgeClass = '';
-
         if (currentUserRank > 0 && currentUserRank <= totalStudents) {
           const userScore = studentData[currentUserRank - 1]?.count || 0;
           if (currentUserRank === 1) {
@@ -3929,13 +3574,11 @@
               `<strong>👑 คุณคือ <span class="highlight">ราชาแห่งกิจกรรม</span> ประจำเดือนนี้!</strong> เข้าร่วมถึง <strong>${userScore}</strong> ครั้ง! ยอดเยี่ยมที่สุด! 🏆`;
             encEmoji = '👑';
             encBadge = '🏆 ราชา';
-            encBadgeClass = '';
           } else if (currentUserRank <= 3) {
             encMsg =
               `🔥 คุณคือ <strong>สุดยอดนักสู้</strong> อันดับ <strong>#${currentUserRank}</strong>! เข้าร่วม ${userScore} ครั้ง! เก่งมาก! 💪`;
             encEmoji = '🔥';
             encBadge = '⭐ ยอดเยี่ยม';
-            encBadgeClass = '';
           } else if (currentUserRank <= 10) {
             const nextRank = currentUserRank - 1;
             const nextScore = studentData[nextRank - 1]?.count || userScore;
@@ -3944,41 +3587,23 @@
               `💪 คุณอยู่ที่อันดับ <strong>#${currentUserRank}</strong>! ขาดอีก <strong>${diff} ครั้ง</strong> ก็จะแซงอันดับ ${nextRank}! สู้ๆ! 🚀`;
             encEmoji = '💪';
             encBadge = '🎯 ใกล้ถึงแล้ว';
-            encBadgeClass = '';
-          } else if (currentUserRank <= 20) {
-            const targetScore = studentData[9]?.count || userScore + 5;
-            const diff = targetScore - userScore + 1;
-            encMsg =
-              `🌟 คุณทำได้ดีแล้ว! อันดับ <strong>#${currentUserRank}</strong>! เป้าหมายต่อไปคือ <strong>Top 10</strong>! ต้องการอีก ${diff} ครั้ง! 💪`;
-            encEmoji = '🌟';
-            encBadge = '🎯 Top 10';
-            encBadgeClass = '';
           } else {
-            const topScore = studentData[0]?.count || userScore + 10;
-            const diff = topScore - userScore + 1;
             encMsg =
               `🌱 ทุกก้าวมีความหมาย! อันดับ <strong>#${currentUserRank}</strong> ไม่ต้องรีบ เดินหน้าต่อไป! กิจกรรมคือความรู้! 📚`;
             encEmoji = '🌱';
             encBadge = '🌱 เริ่มต้น';
-            encBadgeClass = '';
           }
         } else {
-          // ไม่มีข้อมูลหรือยังไม่ได้เข้าร่วม
           encMsg = `💪 <strong>เริ่มต้นวันนี้!</strong> ทุกกิจกรรมคือโอกาสใหม่ ลงทะเบียนเข้าร่วมแล้วคุณจะเห็นชื่อของคุณในนี้! 🚀`;
           encEmoji = '🚀';
           encBadge = '🌟 เริ่มต้นวันนี้';
-          encBadgeClass = '';
         }
-
         encContainer.style.display = 'flex';
         document.getElementById('encEmoji').textContent = encEmoji;
         document.getElementById('encText').innerHTML = encMsg;
-        const badgeEl = document.getElementById('encBadge');
-        badgeEl.textContent = encBadge;
-        badgeEl.className = `enc-badge ${encBadgeClass}`;
+        document.getElementById('encBadge').textContent = encBadge;
 
-        // ===== 3. ACTIVITY LEADERBOARD =====
-        // คำนวณจาก allRegistrations (ทุกคน)
+        // Activity Leaderboard
         let regsToCount = [];
         if (isAdmin) {
           regsToCount = allRegistrations;
@@ -4010,7 +3635,7 @@
         const actContainer = document.getElementById('activityLeaderboardContainer');
         if (sortedActs.length === 0) {
           actContainer.innerHTML =
-            `<div class="empty-state" style="padding:20px 0;"><i class="fas fa-inbox" style="font-size:2rem;opacity:0.3;"></i><h3 style="margin-top:6px;">ยังไม่มีข้อมูลกิจกรรม</h3></div>`;
+            `<div style="text-align:center;padding:20px 0;color:var(--text-muted);"><i class="fas fa-inbox" style="font-size:2rem;opacity:0.3;"></i><h3 style="margin-top:6px;">ยังไม่มีข้อมูลกิจกรรม</h3></div>`;
           return;
         }
 
@@ -4035,17 +3660,10 @@
         actHtml += `</div>`;
         actContainer.innerHTML = actHtml;
 
-        // อนิเมชั่น progress bar หลังจาก render
-        setTimeout(() => {
-          document.querySelectorAll('.lb-activity-item .act-bar .fill').forEach(el => {
-            // ใช้ CSS transition ทำงานอยู่แล้ว
-          });
-        }, 100);
-
       } catch (e) {
         showToast('❌ โหลดลีดเดอร์บอร์ดไม่สำเร็จ: ' + e.message, 'error');
         document.getElementById('studentLeaderboardContainer').innerHTML =
-          `<div class="empty-state" style="padding:20px 0;"><i class="fas fa-exclamation-circle" style="font-size:2rem;opacity:0.3;"></i><h3 style="margin-top:6px;">เกิดข้อผิดพลาด</h3><p style="color:var(--text-muted);">${e.message}</p></div>`;
+          `<div style="text-align:center;padding:20px 0;color:var(--text-muted);"><i class="fas fa-exclamation-circle" style="font-size:2rem;opacity:0.3;"></i><h3 style="margin-top:6px;">เกิดข้อผิดพลาด</h3><p>${e.message}</p></div>`;
       }
     }
 
@@ -4055,226 +3673,46 @@
     function openStatModal(type) {
       const title = $('statModalTitle');
       const body = $('statModalBody');
-
       let html = '';
-
       if (type === 'students') {
         title.textContent = '👥 รายชื่อนักศึกษาทั้งหมด';
-        html = `
-            <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              <span style="font-size:14px;color:var(--text-secondary);">รวม ${allStudents.length} คน</span>
-            </div>
-            <div class="table-wrap" style="max-height:400px;">
-              <table>
-                <thead><tr><th>#</th><th>รหัส</th><th>ชื่อ</th><th>เบอร์โทร</th><th>โทร</th><th>สาขา</th></tr></thead>
-                <tbody>
-                  ${allStudents.map((s, i) => `
-                    <tr>
-                      <td>${i+1}</td>
-                      <td><strong>${s.student_id}</strong></td>
-                      <td>${s.full_name}</td>
-                      <td>${s.phone || '-'}</td>
-                      <td>${s.phone ? `<a href="tel:${s.phone}" class="btn btn-call btn-sm"><i class="fas fa-phone"></i></a>` : '-'}</td>
-                      <td>${s.major || '-'}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+        html =
+          `
+            <div style="margin-bottom:12px;">รวม ${allStudents.length} คน</div>
+            <div class="table-wrap"><table><thead><tr><th>#</th><th>รหัส</th><th>ชื่อ</th><th>เบอร์</th><th>สาขา</th></tr></thead><tbody>
+              ${allStudents.map((s,i) => `<tr><td>${i+1}</td><td>${s.student_id}</td><td>${s.full_name}</td><td>${s.phone||'-'}</td><td>${s.major||'-'}</td></tr>`).join('')}
+            </tbody></table></div>
           `;
       } else if (type === 'activities') {
         title.textContent = '📅 รายการกิจกรรมทั้งหมด';
-        html = `
-            <div style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-              <span style="font-size:14px;color:var(--text-secondary);">รวม ${visibleActivities.length} กิจกรรม</span>
-            </div>
-            <div class="table-wrap" style="max-height:400px;">
-              <table>
-                <thead><tr><th>#</th><th>ชื่อกิจกรรม</th><th>วันที่</th><th>เวลา</th><th>สถานะ</th></tr></thead>
-                <tbody>
-                  ${visibleActivities.map((a, i) => `
-                    <tr>
-                      <td>${i+1}</td>
-                      <td><strong>${a.title}</strong></td>
-                      <td>${a.datetime || '-'}</td>
-                      <td>${a.start_time ? formatTime(a.start_time) : '-'}</td>
-                      <td><span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span></td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+        html =
+          `
+            <div style="margin-bottom:12px;">รวม ${visibleActivities.length} กิจกรรม</div>
+            <div class="table-wrap"><table><thead><tr><th>#</th><th>ชื่อ</th><th>วันที่</th><th>สถานะ</th></tr></thead><tbody>
+              ${visibleActivities.map((a,i) => `<tr><td>${i+1}</td><td>${a.title}</td><td>${formatDate(a.datetime)}</td><td><span class="badge-status ${a.status}">${a.status === 'upcoming'?'กำลังจะมา':a.status==='ongoing'?'กำลังจัด':'ปิดแล้ว'}</span></td></tr>`).join('')}
+            </tbody></table></div>
           `;
       } else if (type === 'registrations') {
         title.textContent = '📋 การลงทะเบียนทั้งหมด';
         const checkedIn = allRegistrations.filter(r => r.attendance_status === 'checked-in').length;
         const waiting = allRegistrations.filter(r => r.attendance_status === 'registered').length;
         const absent = allRegistrations.filter(r => r.attendance_status === 'absent').length;
-        html = `
-            <div class="modal-stats">
-              <div class="modal-stat-item"><div class="num">${allRegistrations.length}</div><div class="label">ทั้งหมด</div></div>
-              <div class="modal-stat-item" style="border-color:var(--success);"><div class="num" style="color:var(--success);">${checkedIn}</div><div class="label">✅ เข้าร่วม</div></div>
-              <div class="modal-stat-item" style="border-color:var(--warning);"><div class="num" style="color:var(--warning);">${waiting}</div><div class="label">⏳ รอ</div></div>
-              <div class="modal-stat-item" style="border-color:var(--danger);"><div class="num" style="color:var(--danger);">${absent}</div><div class="label">❌ ขาด</div></div>
-            </div>
-            <div class="table-wrap" style="max-height:300px;">
-              <table>
-                <thead><tr><th>ID</th><th>นักศึกษา</th><th>กิจกรรม</th><th>สถานะ</th></tr></thead>
-                <tbody>
-                  ${allRegistrations.slice(0, 30).map(r => {
-                    const s = allStudents.find(st => st.student_id === r.student_id);
-                    const a = allActivities.find(ac => ac.act_id === r.act_id);
-                    const statusMap = {'registered':'🟡 รอ','checked-in':'🟢 เข้าแล้ว','absent':'🔴 ขาด'};
-                    return `<tr>
-                      <td>${r.reg_id}</td>
-                      <td>${s ? s.full_name : r.student_id}</td>
-                      <td>${a ? a.title : r.act_id}</td>
-                      <td>${statusMap[r.attendance_status] || r.attendance_status}</td>
-                    </tr>`;
-                  }).join('')}
-                </tbody>
-              </table>
-            </div>
+        html =
+          `
+            <div class="modal-stats"><div class="modal-stat-item"><div class="num">${allRegistrations.length}</div><div class="label">ทั้งหมด</div></div>
+            <div class="modal-stat-item" style="border-color:var(--success);"><div class="num" style="color:var(--success);">${checkedIn}</div><div class="label">✅ เข้าร่วม</div></div>
+            <div class="modal-stat-item" style="border-color:var(--warning);"><div class="num" style="color:var(--warning);">${waiting}</div><div class="label">⏳ รอ</div></div>
+            <div class="modal-stat-item" style="border-color:var(--danger);"><div class="num" style="color:var(--danger);">${absent}</div><div class="label">❌ ขาด</div></div></div>
           `;
       } else if (type === 'upcoming') {
         title.textContent = '⏳ กิจกรรมที่กำลังจะมา';
         const upcoming = visibleActivities.filter(a => a.status === 'upcoming');
-        html = `
-            ${upcoming.length === 0 ? '<p style="text-align:center;color:var(--text-muted);padding:20px 0;">🎉 ไม่มีกิจกรรมที่กำลังจะมา</p>' : `
-            <div class="grid" style="grid-template-columns:1fr 1fr;">
-              ${upcoming.map(a => `
-                <div class="activity-card">
-                  <div class="title">${a.title}</div>
-                  <div class="meta"><i class="fas fa-calendar-day"></i> ${a.datetime || 'ไม่ระบุ'}</div>
-                  <div class="meta"><i class="fas fa-map-marker-alt"></i> ${a.location || '-'}</div>
-                  <span class="badge-status upcoming">กำลังจะมา</span>
-                </div>
-              `).join('')}
-            </div>`}
-          `;
-      } else if (type === 'eval-summary' && isAdmin) {
-        title.textContent = '⭐ สรุปการประเมิน';
-        const evals = allRegistrations.filter(r => r.evaluation_score && r.evaluation_score > 0);
-        const total = evals.length;
-        const avg = total > 0 ? (evals.reduce((s, r) => s + r.evaluation_score, 0) / total) : 0;
-        const dist = { 1: 0, 3: 0, 4: 0, 5: 0 };
-        evals.forEach(r => { if (dist[r.evaluation_score] !== undefined) dist[r.evaluation_score]++; });
-        const labels = { 1: '🟡 ปรับปรุง', 3: '🟢 พอใช้', 4: '🔵 ดี', 5: '🟣 ดีมาก' };
-        let distHtml = Object.entries(dist).filter(([k]) => k > 0).map(([k, v]) =>
-          `<div style="display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid rgba(0,0,0,0.03);">
-            <span>${labels[k] || k}</span>
-            <span style="font-weight:700;">${v} (${total > 0 ? Math.round((v/total)*100) : 0}%)</span>
-          </div>`
-        ).join('');
-        html = `
-            <div class="modal-stats">
-              <div class="modal-stat-item"><div class="num">${total}</div><div class="label">จำนวนประเมิน</div></div>
-              <div class="modal-stat-item" style="border-color:var(--accent);"><div class="num" style="color:var(--accent);">${avg.toFixed(1)}</div><div class="label">คะแนนเฉลี่ย</div></div>
-              <div class="modal-stat-item"><div class="num">${evals.filter(r => r.evaluation_score >= 4).length}</div><div class="label">ดีมาก+ (4-5)</div></div>
-              <div class="modal-stat-item"><div class="num">${evals.filter(r => r.evaluation_score <= 2).length}</div><div class="label">ปรับปรุง (1)</div></div>
-            </div>
-            <div style="background:var(--bg-body);border-radius:8px;padding:12px;">
-              <div style="font-weight:600;margin-bottom:6px;">📊 แจกแจงคะแนน</div>
-              ${distHtml}
-            </div>
-          `;
-      } else if (type === 'eval-avg' && isAdmin) {
-        title.textContent = '📊 คะแนนเฉลี่ยต่อกิจกรรม';
-        const actScores = {};
-        allRegistrations.filter(r => r.evaluation_score && r.evaluation_score > 0).forEach(r => {
-          if (!actScores[r.act_id]) actScores[r.act_id] = { total: 0, count: 0 };
-          actScores[r.act_id].total += r.evaluation_score;
-          actScores[r.act_id].count++;
-        });
-        let actHtml = Object.entries(actScores).map(([actId, data]) => {
-          const a = allActivities.find(ac => ac.act_id === actId);
-          const avg = (data.total / data.count).toFixed(1);
-          const stars = '⭐'.repeat(Math.round(parseFloat(avg)));
-          return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(0,0,0,0.03);">
-            <span>${a ? a.title : actId}</span>
-            <span style="font-weight:700;">${avg} ${stars}</span>
-          </div>`;
-        }).join('');
-        html = `
-            <div style="text-align:center;padding:8px;background:rgba(59,130,246,0.06);border-radius:8px;margin-bottom:12px;">
-              <span style="font-size:14px;color:var(--text-secondary);">คะแนนเฉลี่ยของแต่ละกิจกรรม</span>
-            </div>
-            <div style="background:var(--bg-body);border-radius:8px;padding:12px;">
-              ${actHtml || '<p style="text-align:center;color:var(--text-muted);">ยังไม่มีข้อมูล</p>'}
-            </div>
-          `;
-      } else if (type === 'eval-dist' && isAdmin) {
-        title.textContent = '📊 แจกแจงคะแนนประเมิน (วงกลม)';
-        const evals = allRegistrations.filter(r => r.evaluation_score && r.evaluation_score > 0);
-        const dist = { 1: 0, 3: 0, 4: 0, 5: 0 };
-        evals.forEach(r => { if (dist[r.evaluation_score] !== undefined) dist[r.evaluation_score]++; });
-        const labels = { 1: 'ปรับปรุง', 3: 'พอใช้', 4: 'ดี', 5: 'ดีมาก' };
-        const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'];
-        let pieHtml = Object.entries(dist).filter(([k]) => k > 0).map(([k, v]) => {
-          const pct = evals.length > 0 ? Math.round((v / evals.length) * 100) : 0;
-          const idx = [1, 3, 4, 5].indexOf(parseInt(k));
-          return `<div style="display:flex;align-items:center;gap:8px;">
-            <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${colors[idx >= 0 ? idx : 0]};"></span>
-            <span style="flex:1;">${labels[k]}</span>
-            <span style="font-weight:700;">${v} (${pct}%)</span>
-          </div>`;
-        }).join('');
-        html = `
-            <div style="text-align:center;padding:8px;background:rgba(139,92,246,0.06);border-radius:8px;margin-bottom:12px;">
-              <span style="font-size:14px;color:var(--text-secondary);">จำนวน ${evals.length} รายการ</span>
-            </div>
-            <div style="background:var(--bg-body);border-radius:8px;padding:12px;display:grid;grid-template-columns:1fr;gap:6px;">
-              ${pieHtml || '<p style="text-align:center;color:var(--text-muted);">ยังไม่มีข้อมูล</p>'}
-            </div>
-          `;
+        html = upcoming.length === 0 ? '<p style="text-align:center;color:var(--text-muted);padding:20px 0;">🎉 ไม่มีกิจกรรมที่กำลังจะมา</p>' :
+          `<div class="grid">${upcoming.map(a => `<div class="activity-card"><div class="title">${a.title}</div><div class="meta">${formatDate(a.datetime)}</div><span class="badge-status upcoming">กำลังจะมา</span></div>`).join('')}</div>`;
       }
-
       $('statModalBody').innerHTML = html;
       $('statModal').classList.add('show');
       $('statModal').style.display = 'flex';
-    }
-
-    function notifyHeadOfHouse(halaqah) {
-      const notEval = allRegistrations.filter(r => {
-        const s = allStudents.find(st => st.student_id === r.student_id);
-        return s?.halaqah === halaqah && r.attendance_status === 'checked-in' && (!r.evaluation_score || r
-          .evaluation_score === 0);
-      });
-      const names = notEval.map(r => {
-        const s = allStudents.find(st => st.student_id === r.student_id);
-        return s?.full_name || r.student_id;
-      }).join(', ');
-      const msg =
-        `📢 แจ้งหัวหน้าบ้าน ${halaqah}\n\nสมาชิกที่ยังไม่ประเมินกิจกรรม: ${notEval.length} คน\n${names}\n\nกรุณาติดตามให้ประเมินด้วยครับ`;
-      showToast(`📢 แจ้งหัวหน้าบ้าน ${halaqah} เรียบร้อย`, 'success');
-      openModal('📢 แจ้งหัวหน้าบ้าน', `
-          <div style="text-align:center;padding:12px;">
-            <div style="font-size:48px;margin-bottom:12px;">📢</div>
-            <div style="font-size:16px;font-weight:600;">แจ้งหัวหน้าบ้าน ${halaqah}</div>
-            <div style="margin:12px 0;padding:12px;background:var(--bg-body);border-radius:8px;text-align:left;font-size:13px;">
-              ${msg.replace(/\n/g, '<br>')}
-            </div>
-            <button class="btn btn-success" onclick="closeModal('tempModal')">✅ ตกลง</button>
-          </div>
-        `);
-    }
-
-    function openModal(title, html) {
-      const old = document.getElementById('tempModal');
-      if (old) old.remove();
-      const overlay = document.createElement('div');
-      overlay.className = 'modal-overlay show';
-      overlay.id = 'tempModal';
-      overlay.innerHTML = `
-          <div class="modal-box">
-            <div class="modal-header">
-              <h3>${title}</h3>
-              <button class="close" onclick="closeModal('tempModal')">&times;</button>
-            </div>
-            <div>${html}</div>
-          </div>
-        `;
-      document.body.appendChild(overlay);
     }
 
     // ================================================================
@@ -4287,9 +3725,7 @@
           allStudents = res.data || [];
           renderAdminStudentTable();
         }
-      } catch (e) {
-        showToast('❌ ' + e.message, 'error');
-      }
+      } catch (e) { showToast('❌ ' + e.message, 'error'); }
     }
 
     function renderAdminStudentTable() {
@@ -4310,19 +3746,14 @@
             <td>
               <button class="btn btn-primary btn-sm" onclick="openEditStudent('${s.student_id}')"><i class="fas fa-edit"></i></button>
               <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.student_id}')"><i class="fas fa-trash"></i></button>
-              <button class="btn btn-amber btn-sm" onclick="resetStudentPass('${s.student_id}')"><i class="fas fa-key"></i></button>
             </td>
           </tr>
         `).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
     }
 
-    function filterAdminStudents() {
-      renderAdminStudentTable();
-    }
+    function filterAdminStudents() { renderAdminStudentTable(); }
 
-    function openAddStudent() {
-      openRegisterMember();
-    }
+    function openAddStudent() { openRegisterMember(); }
 
     function openEditStudent(id) {
       const student = allStudents.find(s => s.student_id === id);
@@ -4350,12 +3781,10 @@
       const status = $('editStatus').value;
       const major = $('editMajor').value.trim();
       const resultDiv = $('editStudentResult');
-
       if (!student_id || !full_name) {
         resultDiv.innerHTML = '<span style="color:var(--danger);">กรุณากรอกชื่อและรหัส</span>';
         return;
       }
-
       try {
         await apiCall(`/api/students/${student_id}`, {
           method: 'PUT',
@@ -4364,11 +3793,9 @@
         resultDiv.innerHTML = '<span style="color:var(--success);">✅ อัปเดตข้อมูลสำเร็จ!</span>';
         showToast(`✅ อัปเดต ${student_id} สำเร็จ`, 'success');
         CACHE.invalidatePattern('/api/students');
-        setTimeout(() => {
-          closeModal('editStudentModal');
+        setTimeout(() => { closeModal('editStudentModal');
           loadAdminStudents();
-          loadAllData();
-        }, 1000);
+          loadAllData(); }, 1000);
       } catch (e) {
         resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
         showToast('❌ ' + e.message, 'error');
@@ -4386,20 +3813,6 @@
       } catch (e) { showToast('❌ ' + e.message, 'error'); }
     }
 
-    async function resetStudentPass(id) {
-      const newPass = prompt(`ตั้งรหัสผ่านใหม่สำหรับ ${id}:`);
-      if (newPass && newPass.length >= 4) {
-        try {
-          await apiCall(`/api/students/${id}/password`, {
-            method: 'PUT',
-            body: JSON.stringify({ password: newPass })
-          });
-          showToast(`✅ เปลี่ยนรหัสผ่าน ${id} สำเร็จ`, 'success');
-          CACHE.invalidatePattern('/api/students');
-        } catch (e) { showToast('❌ ' + e.message, 'error'); }
-      }
-    }
-
     // ================================================================
     //  ADMIN: ACTIVITIES
     // ================================================================
@@ -4414,12 +3827,12 @@
               <tr>
                 <td>${a.act_id}</td>
                 <td>${a.title}</td>
-                <td>${a.datetime || '-'}</td>
-                <td>${a.start_time ? formatTime(a.start_time) : '-'}</td>
+                <td>${formatDate(a.datetime)}</td>
+                <td>${formatTime(a.start_time)}</td>
                 <td>${a.location || '-'}</td>
                 <td>${a.max_slots || 0}</td>
-                <td><span class="badge-status ${a.status}">${a.status === 'upcoming' ? 'กำลังจะมา' : a.status === 'ongoing' ? 'กำลังจัด' : 'ปิดแล้ว'}</span></td>
-                <td>${a.type === 'private' ? '🔒 ส่วนตัว' : '🌐 สาธารณะ'}</td>
+                <td><span class="badge-status ${a.status}">${a.status==='upcoming'?'กำลังจะมา':a.status==='ongoing'?'กำลังจัด':'ปิดแล้ว'}</span></td>
+                <td>${a.type==='private'?'🔒 ส่วนตัว':'🌐 สาธารณะ'}</td>
                 <td>
                   <button class="btn btn-primary btn-sm" onclick="editActivity('${a.act_id}')"><i class="fas fa-edit"></i></button>
                   <button class="btn btn-danger btn-sm" onclick="deleteActivity('${a.act_id}')"><i class="fas fa-trash"></i></button>
@@ -4427,9 +3840,7 @@
               </tr>
             `).join('') || `<tr><td colspan="9" class="empty-row">ไม่มีข้อมูล</td></tr>`;
         }
-      } catch (e) {
-        showToast('❌ ' + e.message, 'error');
-      }
+      } catch (e) { showToast('❌ ' + e.message, 'error'); }
     }
 
     function openAddActivity() {
@@ -4496,11 +3907,9 @@
         showToast(`✅ ${isEdit ? 'แก้ไข' : 'เพิ่ม'}กิจกรรมสำเร็จ`, 'success');
         CACHE.invalidatePattern('/api/activities');
         CACHE.invalidatePattern('/api/registrations');
-        setTimeout(() => {
-          closeModal('activityModal');
+        setTimeout(() => { closeModal('activityModal');
           loadAdminActivities();
-          loadAllData();
-        }, 1000);
+          loadAllData(); }, 1000);
       } catch (e) {
         resultDiv.innerHTML = `<span style="color:var(--danger);">❌ ${e.message}</span>`;
         showToast('❌ ' + e.message, 'error');
@@ -4537,7 +3946,7 @@
                   <td>${r.reg_id}</td>
                   <td>${student ? student.full_name : r.student_id}</td>
                   <td>${activity ? activity.title : r.act_id}</td>
-                  <td>${r.registered_at || '-'}</td>
+                  <td>${formatDate(r.registered_at)}</td>
                   <td><span class="badge-status ${r.attendance_status === 'checked-in' ? 'checked' : r.attendance_status === 'registered' ? 'waiting' : 'absent'}">${statusMap[r.attendance_status] || r.attendance_status}</span></td>
                   <td>${r.evaluation_score || '-'}</td>
                   <td>
@@ -4548,9 +3957,7 @@
               `;
           }).join('') || `<tr><td colspan="7" class="empty-row">ไม่มีข้อมูล</td></tr>`;
         }
-      } catch (e) {
-        showToast('❌ ' + e.message, 'error');
-      }
+      } catch (e) { showToast('❌ ' + e.message, 'error'); }
     }
 
     async function markCheckin(reg_id) {
@@ -4575,113 +3982,6 @@
         loadAdminRegistrations();
         loadAllData();
       } catch (e) { showToast('❌ ' + e.message, 'error'); }
-    }
-
-    // ================================================================
-    //  ADMIN: EVALUATIONS
-    // ================================================================
-    async function loadAdminEvaluations() {
-      try {
-        const evals = allRegistrations.filter(r => r.evaluation_score && r.evaluation_score > 0);
-        $('evalTotal').textContent = evals.length;
-        const avg = evals.length > 0 ? (evals.reduce((s, r) => s + r.evaluation_score, 0) / evals.length) : 0;
-        $('evalAvg').textContent = avg > 0 ? avg.toFixed(1) : '-';
-        const dist = { 1: 0, 3: 0, 4: 0, 5: 0 };
-        evals.forEach(r => { if (dist[r.evaluation_score] !== undefined) dist[r.evaluation_score]++; });
-        const distStr = Object.entries(dist).filter(([k]) => k > 0).map(([k, v]) =>
-          `${k}⭐=${v}`
-        ).join(' | ');
-        $('evalDist').textContent = distStr || '-';
-        $('evalListCount').textContent = evals.length;
-
-        const byActivity = {};
-        evals.forEach(r => {
-          if (!byActivity[r.act_id]) byActivity[r.act_id] = [];
-          byActivity[r.act_id].push(r);
-        });
-
-        const container = $('evalByActivityContainer');
-        if (Object.keys(byActivity).length === 0) {
-          container.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:20px 0;">ยังไม่มีข้อมูลการประเมิน</p>';
-        } else {
-          let html = '';
-          Object.entries(byActivity).forEach(([actId, items]) => {
-            const activity = allActivities.find(a => a.act_id === actId);
-            const actName = activity ? activity.title : actId;
-            const total = items.length;
-            const avgScore = items.reduce((s, r) => s + r.evaluation_score, 0) / total;
-            const scoreLabel = avgScore >= 4.5 ? '🟣 ดีมาก' : avgScore >= 3.5 ? '🔵 ดี' : avgScore >= 2.5 ?
-              '🟢 พอใช้' : '🟡 ปรับปรุง';
-            html += `
-                <div class="eval-activity-card">
-                  <div class="eval-act-header">
-                    <span class="act-title">${actName}</span>
-                    <span class="act-avg">⭐ ${avgScore.toFixed(1)} (${total} รายการ) ${scoreLabel}</span>
-                  </div>
-                  <div class="eval-list">
-                    ${items.map(r => {
-                      const student = allStudents.find(s => s.student_id === r.student_id);
-                      const name = student ? student.full_name : r.student_id;
-                      const scoreClass = r.evaluation_score >= 4 ? 'good' : r.evaluation_score >= 3 ? 'mid' : 'low';
-                      const comment = r.evaluation_comment ? ` 💬 ${r.evaluation_comment}` : '';
-                      return `
-                        <div class="eval-row">
-                          <span class="student-name">${name}</span>
-                          <span class="score ${scoreClass}">${r.evaluation_score}/5${comment}</span>
-                        </div>
-                      `;
-                    }).join('')}
-                  </div>
-                </div>
-              `;
-          });
-          container.innerHTML = html;
-        }
-
-        renderEvalChart(evals);
-      } catch (e) {
-        showToast('❌ ' + e.message, 'error');
-      }
-    }
-
-    function renderEvalChart(evals) {
-      if (evalChartInstance) { evalChartInstance.destroy();
-        evalChartInstance = null; }
-      const canvas = document.getElementById('evalChart');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const dist = { 1: 0, 3: 0, 4: 0, 5: 0 };
-      evals.forEach(r => { if (dist[r.evaluation_score] !== undefined) dist[r.evaluation_score]++; });
-      const labels = ['ปรับปรุง', 'พอใช้', 'ดี', 'ดีมาก'];
-      const data = [dist[1], dist[3], dist[4], dist[5]];
-      const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'];
-      const isDarkMode = isDark;
-      const textColor = isDarkMode ? '#b0b0cc' : '#4a4a6a';
-      const gridColor = isDarkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-
-      evalChartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'จำนวน',
-            data: data,
-            backgroundColor: colors,
-            borderColor: '#fff',
-            borderWidth: 1,
-            borderRadius: 4,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
-            x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
-          }
-        }
-      });
     }
 
     // ================================================================
@@ -4742,11 +4042,8 @@
         resultDiv.innerHTML = `<span style="color:var(--success);">✅ ลงทะเบียนสำเร็จ! รหัส: ${student_id}</span>`;
         showToast(`✅ ลงทะเบียน ${student_id} สำเร็จ`, 'success');
         CACHE.invalidatePattern('/api/students');
-        setTimeout(() => {
-          closeModal('registerModal');
-          loadAllData();
-          if (isAdmin) loadAdminStudents();
-        }, 1500);
+        setTimeout(() => { closeModal('registerModal');
+          loadAllData(); if (isAdmin) loadAdminStudents(); }, 1500);
       } catch (e) {
         if (e.message.includes('already exists')) {
           resultDiv.innerHTML = `<span style="color:var(--danger);">❌ รหัส ${student_id} มีอยู่แล้ว</span>`;
@@ -4759,7 +4056,7 @@
     }
 
     // ================================================================
-    //  NAVIGATION
+    //  NAVIGATION, THEME
     // ================================================================
     function switchTab(page) {
       document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
@@ -4775,13 +4072,11 @@
         leaderboard: { title: 'ลีดเดอร์บอร์ด', sub: 'อันดับการเข้าร่วมกิจกรรม' },
         'admin-students': { title: 'จัดการนักศึกษา', sub: 'เพิ่ม/แก้ไข/ลบ นักศึกษา' },
         'admin-activities': { title: 'จัดการกิจกรรม', sub: 'เพิ่ม/แก้ไข/ลบ กิจกรรม' },
-        'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' },
-        'admin-evaluations': { title: 'จัดการประเมิน', sub: 'แยกตามกิจกรรมและกราฟ' }
+        'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' }
       };
       const info = titles[page] || { title: 'หน้า', sub: '' };
       document.getElementById('pageTitle').textContent = info.title;
       document.getElementById('pageSubtitle').textContent = info.sub;
-
       if (window.innerWidth <= 992 && isSidebarOpen) toggleSidebar();
     }
 
@@ -4793,15 +4088,11 @@
       document.getElementById('sidebarOverlay').classList.toggle('show', isSidebarOpen);
     }
 
-    // ================================================================
-    //  THEME
-    // ================================================================
     function toggleTheme() {
       isDark = !isDark;
       document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
       $('themeIcon').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
-      if (isAdmin) { loadAdminEvaluations(); }
     }
 
     (function initTheme() {
@@ -4824,17 +4115,14 @@
           el.classList.remove('show');
           el.style.display = 'none';
         });
-        const temp = document.getElementById('tempModal');
-        if (temp) temp.remove();
       }
     });
 
-    console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — Premium พร้อมลีดเดอร์บอร์ดสุดสวย');
-    console.log('🏆 ลีดเดอร์บอร์ด: Podium แบบ 3D, กำลังใจส่วนตัว, Progress Bar');
-    console.log('⚡ API ถูกแคชไว้เพื่อความเร็วสูงสุด');
+    console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — พร้อมใช้งาน (Premium UI)');
     console.log('👑 Admin: admin / admin123');
     console.log('👤 Student: sh01 / 1234');
     console.log('⌨️ Ctrl+R = รีเฟรช (ล้าง Cache และโหลดใหม่)');
+    console.log('📅 รองรับวันที่: 23/8/2569 → 23 ส.ค. 2569');
   </script>
 </body>
 </html>
