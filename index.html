@@ -107,7 +107,7 @@
     }
 
     /* ============================================================
-       LOADING OVERLAY (เพิ่มเข้ามาใหม่)
+       LOADING OVERLAY
        ============================================================ */
     #loadingOverlay {
       position: fixed;
@@ -2191,7 +2191,7 @@
 </head>
 <body>
 
-  <!-- ===== LOADING OVERLAY (เพิ่มใหม่) ===== -->
+  <!-- ===== LOADING OVERLAY ===== -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
     <div class="loading-text">⏳ กำลังโหลดข้อมูล...</div>
@@ -2257,6 +2257,11 @@
       <button class="nav-item" data-page="leaderboard" onclick="switchTab('leaderboard')">
         <i class="fas fa-trophy"></i> <span>ลีดเดอร์บอร์ด</span>
       </button>
+      <!-- ===== เพิ่มปุ่มฟุตบอล (เริ่ม) ===== -->
+      <button class="nav-item" data-page="football" onclick="switchTab('football')">
+        <i class="fas fa-futbol"></i> <span>⚽ ฟุตบอล</span>
+      </button>
+      <!-- ===== เพิ่มปุ่มฟุตบอล (จบ) ===== -->
       <!-- Admin -->
       <button class="nav-item" data-page="admin-students" onclick="switchTab('admin-students')" id="adminNav" style="display:none;">
         <i class="fas fa-user-graduate"></i> <span>จัดการนักศึกษา</span>
@@ -2439,6 +2444,92 @@
       </div>
     </div>
 
+    <!-- ===== PAGE: FOOTBALL (เพิ่มใหม่) ===== -->
+    <div id="page-football" class="page-section">
+      <!-- Top Controls -->
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+        <h3 style="font-size:20px;font-weight:700;"><i class="fas fa-futbol" style="color:var(--accent);"></i> ⚽ ฟุตบอลประจำสัปดาห์</h3>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="footballWeekSelect" onchange="loadFootball()" style="padding:6px 12px;border-radius:var(--radius-sm);border:1px solid rgba(0,0,0,0.06);background:var(--bg-body);color:var(--text-primary);font-size:13px;">
+            <option value="all">📅 ทุกสัปดาห์</option>
+            <option value="1">สัปดาห์ที่ 1</option>
+            <option value="2">สัปดาห์ที่ 2</option>
+            <option value="3">สัปดาห์ที่ 3</option>
+          </select>
+          <button class="btn-refresh" onclick="loadFootball()" style="padding:6px 14px;">
+            <i class="fas fa-sync"></i> <span>โหลด</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Summary -->
+      <div class="stats-grid" id="footballStats" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-icon blue"><i class="fas fa-calendar"></i></div></div>
+          <div class="num" id="fbTotalMatches">-</div>
+          <div class="label">การแข่งขันทั้งหมด</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div></div>
+          <div class="num" id="fbFinishedMatches">-</div>
+          <div class="label">จบแล้ว</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-icon amber"><i class="fas fa-clock"></i></div></div>
+          <div class="num" id="fbUpcomingMatches">-</div>
+          <div class="label">กำลังจะมา</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-top"><div class="stat-icon purple"><i class="fas fa-trophy"></i></div></div>
+          <div class="num" id="fbTopTeam">-</div>
+          <div class="label">ทีมนำ (คะแนน)</div>
+        </div>
+      </div>
+
+      <!-- Matches -->
+      <div class="card-panel">
+        <div class="card-header">
+          <h3><i class="fas fa-list"></i> โปรแกรมการแข่งขัน <span class="badge" id="fbMatchBadge">0</span></h3>
+        </div>
+        <div id="footballMatches" class="grid" style="grid-template-columns:1fr;"></div>
+      </div>
+
+      <!-- Standings -->
+      <div class="card-panel">
+        <div class="card-header">
+          <h3><i class="fas fa-trophy"></i> 🏆 ตารางคะแนนลีก <span class="badge" id="fbStandingsBadge">0</span></h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ทีม</th>
+                <th>แข่ง</th>
+                <th>ชนะ</th>
+                <th>เสมอ</th>
+                <th>แพ้</th>
+                <th>ได้-เสีย</th>
+                <th>คะแนน</th>
+              </tr>
+            </thead>
+            <tbody id="footballStandingsBody">
+              <tr><td colspan="8" class="empty-row">กำลังโหลด...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Top Scorers -->
+      <div class="card-panel">
+        <div class="card-header">
+          <h3><i class="fas fa-star"></i> ⚽ ดาวซัลโว (สัปดาห์นี้) <span class="badge" id="fbScorerBadge">0</span></h3>
+        </div>
+        <div id="footballScorers" class="grid" style="grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));"></div>
+      </div>
+    </div>
+    <!-- ===== END PAGE: FOOTBALL ===== -->
+
     <!-- ADMIN: STUDENTS -->
     <div id="page-admin-students" class="page-section">
       <div class="card-panel">
@@ -2602,7 +2693,8 @@
     // ================================================================
     const CACHE = {
       TTL: { '/api/students': 30000, '/api/activities': 30000, '/api/registrations': 30000,
-        '/api/leaderboard/students': 60000, '/api/profile': 30000, '/api/login': 0, default: 30000, admin: 15000 },
+        '/api/leaderboard/students': 60000, '/api/profile': 30000, '/api/login': 0, '/api/football': 30000,
+        default: 30000, admin: 15000 },
       get(key) {
         try {
           const raw = localStorage.getItem('cache_' + key);
@@ -2641,7 +2733,7 @@
     }
 
     // ================================================================
-    //  API (แก้ไข: เติม ?t= ทุกครั้งเพื่อ bypass cache)
+    //  API
     // ================================================================
     async function apiCall(endpoint, options = {}, retries = 2) {
       const isMutation = options.method && ['POST', 'PUT', 'DELETE', 'PATCH'].includes(options.method.toUpperCase());
@@ -2716,7 +2808,7 @@
     }
 
     // ================================================================
-    //  DATE HELPERS (รองรับ 23/8/2569 และ 23-8-2569)
+    //  DATE HELPERS
     // ================================================================
     function normalizeDate(dateStr) {
       if (!dateStr) return '';
@@ -2780,6 +2872,7 @@
     let isLoading = false;
     let registeredActivities = new Set();
     let visibleActivities = [];
+    let footballData = null;
 
     // ================================================================
     //  HELPERS
@@ -2913,7 +3006,7 @@
     })();
 
     // ================================================================
-    //  LOAD ALL DATA (พร้อม Loading Animation)
+    //  LOAD ALL DATA
     // ================================================================
     async function loadAllData() {
       if (isLoading) return;
@@ -2991,7 +3084,7 @@
     }
 
     // ================================================================
-    //  REFRESH DATA (ล้าง Cache และโหลดใหม่)
+    //  REFRESH DATA
     // ================================================================
     function refreshData() {
       CACHE.invalidate();
@@ -3716,6 +3809,97 @@
     }
 
     // ================================================================
+    //  FOOTBALL MODULE (NEW)
+    // ================================================================
+    async function loadFootball() {
+      const week = document.getElementById('footballWeekSelect').value;
+      showLoading();
+      try {
+        const res = await apiCall(`/api/football?week=${week}`);
+        if (res && res.success !== false) {
+          footballData = res;
+          renderFootball(res);
+        } else {
+          showToast('❌ ' + (res?.error || 'โหลดข้อมูลฟุตบอลไม่สำเร็จ'), 'error');
+        }
+      } catch (e) {
+        showToast('❌ ' + e.message, 'error');
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderFootball(data) {
+      // Stats
+      const summary = data.weekSummary || {};
+      document.getElementById('fbTotalMatches').textContent = summary.total_matches || 0;
+      document.getElementById('fbFinishedMatches').textContent = summary.finished || 0;
+      document.getElementById('fbUpcomingMatches').textContent = summary.upcoming || 0;
+      document.getElementById('fbTopTeam').textContent = summary.top_team ? `${summary.top_team} (${summary.top_team_points} คะแนน)` : '-';
+      document.getElementById('fbMatchBadge').textContent = data.matches.length;
+
+      // Matches
+      const matchesContainer = document.getElementById('footballMatches');
+      matchesContainer.innerHTML = data.matches.map(m => {
+        const isFinished = m.status === 'finished';
+        const scoreDisplay = isFinished ? `${m.home_score} - ${m.away_score}` : 'vs';
+        const statusIcon = isFinished ? (m.home_score > m.away_score ? '🟢' : m.home_score < m.away_score ? '🔴' : '🟡') : '⏳';
+        const statusText = isFinished ? 'จบแล้ว' : 'รอแข่งขัน';
+        const scorersDisplay = m.home_scorers ? `<div style="font-size:11px;color:var(--text-muted);">⚽ ${m.home_scorers}</div>` : '';
+        const awayScorersDisplay = m.away_scorers ? `<div style="font-size:11px;color:var(--text-muted);">⚽ ${m.away_scorers}</div>` : '';
+        return `
+          <div class="activity-card" style="border-left-color: ${isFinished ? (m.home_score > m.away_score ? 'var(--success)' : m.home_score < m.away_score ? 'var(--danger)' : 'var(--warning)') : 'var(--primary)'};">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+              <span style="font-size:13px;color:var(--text-muted);"><i class="fas fa-calendar-day"></i> ${formatDate(m.date)} ${m.time ? '⏰ '+m.time : ''}</span>
+              <span style="font-size:12px;color:var(--text-muted);">สัปดาห์ที่ ${m.week}</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;">
+              <div style="flex:1;text-align:center;font-weight:700;font-size:16px;">${m.home_team}</div>
+              <div style="font-size:24px;font-weight:800;color:var(--primary);">${scoreDisplay}</div>
+              <div style="flex:1;text-align:center;font-weight:700;font-size:16px;">${m.away_team}</div>
+            </div>
+            ${scorersDisplay}
+            ${awayScorersDisplay}
+            <div style="display:flex;justify-content:space-between;margin-top:8px;">
+              <span class="badge-status ${isFinished ? 'closed' : 'upcoming'}">${statusIcon} ${statusText}</span>
+            </div>
+          </div>
+        `;
+      }).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ไม่มีข้อมูลการแข่งขันในสัปดาห์นี้</p>';
+
+      // Standings
+      const standings = data.standings || [];
+      document.getElementById('fbStandingsBadge').textContent = standings.length;
+      const tbody = document.getElementById('footballStandingsBody');
+      tbody.innerHTML = standings.map((s, idx) => `
+        <tr>
+          <td style="font-weight:800;color:${idx === 0 ? 'var(--accent)' : 'var(--text-primary)'};">${idx + 1}</td>
+          <td style="font-weight:600;">${s.team}</td>
+          <td>${s.played}</td>
+          <td style="color:var(--success);">${s.won}</td>
+          <td style="color:var(--warning);">${s.drawn}</td>
+          <td style="color:var(--danger);">${s.lost}</td>
+          <td>${s.gf} - ${s.ga}</td>
+          <td style="font-weight:800;font-size:18px;color:var(--primary);">${s.points}</td>
+        </tr>
+      `).join('') || '<tr><td colspan="8" class="empty-row">ยังไม่มีข้อมูลตารางคะแนน</td></tr>';
+
+      // Scorers
+      const scorers = data.scorers || [];
+      document.getElementById('fbScorerBadge').textContent = scorers.length;
+      const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+      const scorerContainer = document.getElementById('footballScorers');
+      scorerContainer.innerHTML = scorers.slice(0, 10).map((s, idx) => `
+        <div class="card-panel" style="text-align:center;padding:12px;margin:0;">
+          <div style="font-size:32px;">${medals[idx] || '⚽'}</div>
+          <div style="font-size:18px;font-weight:700;">${s.name}</div>
+          <div style="font-size:13px;color:var(--text-muted);">${s.team || '-'}</div>
+          <div style="font-size:24px;font-weight:800;color:var(--accent);">${s.goals} ประตู</div>
+        </div>
+      `).join('') || '<p style="color:var(--text-muted);text-align:center;padding:20px 0;">ยังไม่มีข้อมูลผู้ทำประตู</p>';
+    }
+
+    // ================================================================
     //  ADMIN: STUDENTS
     // ================================================================
     async function loadAdminStudents() {
@@ -4070,6 +4254,7 @@
         activities: { title: 'กิจกรรม', sub: 'รายการกิจกรรมและลงทะเบียน' },
         profile: { title: 'โปรไฟล์', sub: 'ข้อมูลส่วนตัวและประวัติการเข้าร่วม' },
         leaderboard: { title: 'ลีดเดอร์บอร์ด', sub: 'อันดับการเข้าร่วมกิจกรรม' },
+        football: { title: '⚽ ฟุตบอล', sub: 'โปรแกรมการแข่งขันและตารางคะแนน' },
         'admin-students': { title: 'จัดการนักศึกษา', sub: 'เพิ่ม/แก้ไข/ลบ นักศึกษา' },
         'admin-activities': { title: 'จัดการกิจกรรม', sub: 'เพิ่ม/แก้ไข/ลบ กิจกรรม' },
         'admin-registrations': { title: 'จัดการการลงทะเบียน', sub: 'เช็คอิน/ลบ การลงทะเบียน' }
@@ -4077,6 +4262,16 @@
       const info = titles[page] || { title: 'หน้า', sub: '' };
       document.getElementById('pageTitle').textContent = info.title;
       document.getElementById('pageSubtitle').textContent = info.sub;
+
+      if (page === 'dashboard') { /* already loaded */ }
+      else if (page === 'activities') { filterActivities(); }
+      else if (page === 'profile') { renderProfile(); }
+      else if (page === 'leaderboard') { renderLeaderboards(); }
+      else if (page === 'football') { loadFootball(); }
+      else if (page === 'admin-students') { loadAdminStudents(); }
+      else if (page === 'admin-activities') { loadAdminActivities(); }
+      else if (page === 'admin-registrations') { loadAdminRegistrations(); }
+
       if (window.innerWidth <= 992 && isSidebarOpen) toggleSidebar();
     }
 
@@ -4115,14 +4310,20 @@
           el.classList.remove('show');
           el.style.display = 'none';
         });
+        closeRegisterModal('registerModal');
+        closeRegisterModal('activityModal');
+        closeRegisterModal('editStudentModal');
+        closeRegisterModal('profileSettingsModal');
+        closeModal('statModal');
       }
     });
 
-    console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา — พร้อมใช้งาน (Premium UI)');
+    console.log('🎓 ระบบจัดการกิจกรรมนักศึกษา + ⚽ ฟุตบอล — พร้อมใช้งาน (Premium UI)');
     console.log('👑 Admin: admin / admin123');
     console.log('👤 Student: sh01 / 1234');
     console.log('⌨️ Ctrl+R = รีเฟรช (ล้าง Cache และโหลดใหม่)');
     console.log('📅 รองรับวันที่: 23/8/2569 → 23 ส.ค. 2569');
+    console.log('⚽ ฟุตบอล: ไปที่เมนู "ฟุตบอล" เพื่อดูโปรแกรมและตารางคะแนน');
   </script>
 </body>
 </html>
